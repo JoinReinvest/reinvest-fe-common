@@ -1,0 +1,42 @@
+{
+  "name": "reinvest-app-common",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
+  "scripts": {
+    "lint": "yarn eslint",
+    "lint:fix": "yarn lint --fix",
+    "generate": "graphql-codegen",
+    "check-types": "tsc --pretty"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.2.1",
+    "@tanstack/eslint-plugin-query": "^4.24.11"
+  },
+  "dependencies": {
+    "@hookooekoo/configs-tsconfig": "^0.0.14",
+    "@hookooekoo/eslint-config": "^0.1.8",
+    "@tanstack/react-query": "^4.24.10",
+    "@types/node": "18.14.5",
+    "graphql-request": "^5.2.0",
+    "typescript": "4.9.5",
+    "zod": "3.20.6"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:@tanstack/eslint-plugin-query/recommended"
+    ],
+    "plugins": [
+      "@tanstack/query"
+    ],
+    "rules": {
+      "@tanstack/query/exhaustive-deps": 0,
+      "@tanstack/query/prefer-query-object-syntax": "error"
+    }
+  },
+  "prettier": "@hookooekoo/eslint-config/prettier.json"
+}
