@@ -2,11 +2,6 @@
   "name": "reinvest-app-common",
   "version": "0.0.2",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist/*"
-  ],
   "engines": {
     "node": ">=18.0.0",
     "yarn": ">=1.22.0",
