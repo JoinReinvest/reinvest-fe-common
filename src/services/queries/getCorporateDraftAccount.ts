@@ -1,0 +1,31 @@
+import { useQuery } from '@tanstack/react-query';
+import { gql } from 'graphql-request';
+import { Query } from 'types/graphql';
+
+import { UseApiQueryWithParams } from './interfaces';
+
+type Hook = UseApiQueryWithParams<'getCorporateDraftAccount', { accountId: string }>;
+
+const getCorporateDraftAccountQuery = gql`
+  query getCorporateDraftAccount($accountId: ID) {
+    getCorporateDraftAccount(accountId: $accountId) {
+      id
+    }
+  }
+`;
+
+export const useGetCorporateDraftAccount: Hook = (getApiClient, { accountId }) =>
+  useQuery<Query['getCorporateDraftAccount']>({
+    queryKey: ['getCorporateDraftAccount', accountId],
+    queryFn: async () => {
+      const api = await getApiClient();
+
+      if (!api) {
+        return null;
+      }
+
+      const { getCorporateDraftAccount } = await api.request<Query>(getCorporateDraftAccountQuery, { accountId });
+
+      return getCorporateDraftAccount;
+    },
+  });
