@@ -33,7 +33,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "plugin:@tanstack/eslint-plugin-query/recommended"
+      "plugin:@tanstack/eslint-plugin-query/recommended",
+      "@hookooekoo/eslint-config/next"
     ],
     "plugins": [
       "@tanstack/query"
