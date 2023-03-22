@@ -1,20 +1,19 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
-import { env } from './src/env'
 
 const config: CodegenConfig = {
   schema: [
     {
-      [env.apiUrl]: {
+      [`${process.env.API_URL}`]: {
         headers: {
-          Authorization: `Bearer ${env.token}`,
+          Authorization: `Bearer ${process.env.TOKEN}`,
         },
       },
     },
   ],
-  documents: ['src/graphql/**/*.{ts,tsx}'],
+  documents: ['src/**/*.{ts,tsx}'],
   ignoreNoDocuments: true,
   generates: {
-    'src/graphql/models.ts': {
+    'src/types/graphql.ts': {
       plugins: ['typescript'],
     },
   },

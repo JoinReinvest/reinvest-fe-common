@@ -2,12 +2,18 @@
   "name": "reinvest-app-common",
   "version": "0.0.2",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
   "engines": {
     "node": ">=18.0.0",
     "yarn": ">=1.22.0",
     "npm": "please-use-yarn"
   },
   "scripts": {
+    "build": "tsup",
     "lint": "yarn eslint",
     "lint:fix": "yarn lint --fix",
     "generate": "graphql-codegen",
@@ -37,5 +43,10 @@
       "@tanstack/query/prefer-query-object-syntax": "error"
     }
   },
-  "prettier": "@hookooekoo/eslint-config/prettier.json"
+  "prettier": "@hookooekoo/eslint-config/prettier.json",
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "react": "^18.2.0",
+    "tsup": "^6.7.0"
+  }
 }
