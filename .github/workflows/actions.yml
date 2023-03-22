@@ -6,15 +6,15 @@ on:
 jobs:
   build-check-deploy:
     runs-on: ubuntu-latest
-               - uses: actions/checkout@v3
-               - uses: actions/setup-node@v3
-                 with:
-                   node-version: '18'
-               - name: Authenticate with private NPM package
-                 run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-               - name: "Install dependencies"
-                 run: yarn install
-               - name: "Linter"
-                 run: yarn lint
-               - name: "Check types"
-                 run: yarn check-types
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Authenticate with private NPM package
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: "Install dependencies"
+        run: yarn install
+      - name: "Linter"
+        run: yarn lint
+      - name: "Check types"
+        run: yarn check-types
