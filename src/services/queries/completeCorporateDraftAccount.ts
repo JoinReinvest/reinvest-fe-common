@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { Mutation } from 'types/graphql';
+import { Mutation } from '../../types/graphql';
 
 import { UseApiMutationWithParams } from './interfaces';
 
