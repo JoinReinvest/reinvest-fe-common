@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { Mutation, Query } from "types/graphql";
+import { Mutation, Query } from "../../types/graphql";
 
 export type GetApiClient = () => Promise<GraphQLClient | undefined>;
 

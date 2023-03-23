@@ -1,6 +1,6 @@
-import { BYTES_IN_MEGABYTE } from 'constants/conversions';
-import { mapToMimeType, PartialMimeTypeKeys } from 'constants/mime-types';
-import { STATE_CODES } from 'constants/states';
+import { BYTES_IN_MEGABYTE } from './constants/conversions';
+import { mapToMimeType, PartialMimeTypeKeys } from './constants/mime-types';
+import { STATE_CODES } from './constants/states';
 import dayjs from 'dayjs';
 import zod from 'zod';
 
