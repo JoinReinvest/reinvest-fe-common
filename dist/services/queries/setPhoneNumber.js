@@ -1,0 +1,5 @@
+"use strict";var a=Object.defineProperty;var P=Object.getOwnPropertyDescriptor;var c=Object.getOwnPropertyNames;var y=Object.prototype.hasOwnProperty;var M=(e,t)=>{for(var o in t)a(e,o,{get:t[o],enumerable:!0})},f=(e,t,o,n)=>{if(t&&typeof t=="object"||typeof t=="function")for(let r of c(t))!y.call(e,r)&&r!==o&&a(e,r,{get:()=>t[r],enumerable:!(n=P(t,r))||n.enumerable});return e};var g=e=>f(a({},"__esModule",{value:!0}),e);var s=(e,t,o)=>new Promise((n,r)=>{var b=u=>{try{i(o.next(u))}catch(m){r(m)}},N=u=>{try{i(o.throw(u))}catch(m){r(m)}},i=u=>u.done?n(u.value):Promise.resolve(u.value).then(b,N);i((o=o.apply(e,t)).next())});var l={};M(l,{useSetPhoneNumber:()=>C});module.exports=g(l);var p=require("@tanstack/react-query"),h=require("graphql-request");var d=h.gql`
+  mutation setPhoneNumber($countryCode: String, phoneNumber: String) {
+    setPhoneNumber(countryCode: $countryCode, phoneNumber: $phoneNumber)
+  }
+`,C=(e,{countryCode:t,phoneNumber:o})=>(0,p.useMutation)({mutationFn:()=>s(void 0,null,function*(){let n=yield e();if(!n)return null;let{setPhoneNumber:r}=yield n.request(d,{countryCode:t,phoneNumber:o});return r})});0&&(module.exports={useSetPhoneNumber});

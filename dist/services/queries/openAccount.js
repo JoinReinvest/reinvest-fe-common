@@ -1,0 +1,5 @@
+"use strict";var e=Object.defineProperty;var d=Object.getOwnPropertyDescriptor;var M=Object.getOwnPropertyNames;var I=Object.prototype.hasOwnProperty;var P=(n,t)=>{for(var o in t)e(n,o,{get:t[o],enumerable:!0})},g=(n,t,o,c)=>{if(t&&typeof t=="object"||typeof t=="function")for(let a of M(t))!I.call(n,a)&&a!==o&&e(n,a,{get:()=>t[a],enumerable:!(c=d(t,a))||c.enumerable});return n};var l=n=>g(e({},"__esModule",{value:!0}),n);var p=(n,t,o)=>new Promise((c,a)=>{var A=r=>{try{u(o.next(r))}catch(i){a(i)}},f=r=>{try{u(o.throw(r))}catch(i){a(i)}},u=r=>r.done?c(r.value):Promise.resolve(r.value).then(A,f);u((o=o.apply(n,t)).next())});var k={};P(k,{useOpenAccount:()=>h});module.exports=l(k);var s=require("@tanstack/react-query"),m=require("graphql-request");var y=m.gql`
+  mutation openAccount($draftAccountId: String) {
+    openAccount(draftAccountId: $draftAccountId)
+  }
+`,h=(n,{draftAccountId:t})=>(0,s.useMutation)({mutationFn:()=>p(void 0,null,function*(){let o=yield n();if(!o)return null;let{openAccount:c}=yield o.request(y,{draftAccountId:t});return c})});0&&(module.exports={useOpenAccount});
