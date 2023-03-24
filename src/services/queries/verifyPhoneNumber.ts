@@ -13,9 +13,9 @@ const verifyPhoneNumberMutation = gql`
   }
 `;
 
-export const useVerifyPhoneNumber: Hook = (getApiClient, { countryCode, phoneNumber, authCode }) =>
+export const useVerifyPhoneNumber: Hook = getApiClient =>
   useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ countryCode, phoneNumber, authCode }) => {
       const api = await getApiClient();
 
       if (!api) {

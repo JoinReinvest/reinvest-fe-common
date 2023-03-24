@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { defaultContext, useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { Query } from '../../types/graphql';
 
@@ -38,4 +38,5 @@ export const useGetUserProfile: Hook = (getApiClient) =>
 
       return getProfile;
     },
+    context: defaultContext
   });
