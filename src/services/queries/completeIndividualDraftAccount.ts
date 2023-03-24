@@ -40,9 +40,9 @@ const completeIndividualDraftAccountMutation = gql`
   }
 `;
 
-export const useCompleteIndividualDraftAccount: Hook = (getApiClient, { accountId, input }) =>
+export const useCompleteIndividualDraftAccount: Hook = getApiClient =>
   useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ accountId, input }) => {
       const api = await getApiClient();
 
       if (!api) {

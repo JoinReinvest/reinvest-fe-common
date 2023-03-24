@@ -27,9 +27,9 @@ const completeProfileDetailsMutation = gql`
   }
 `;
 
-export const useCompleteProfileDetails: Hook = (getApiClient, { input }) =>
+export const useCompleteProfileDetails: Hook = getApiClient =>
   useMutation({
-    mutationFn: async () => {
+    mutationFn: async (input) => {
       const api = await getApiClient();
 
       if (!api) {

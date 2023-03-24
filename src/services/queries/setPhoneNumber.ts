@@ -13,16 +13,16 @@ const setPhoneNumberMutation = gql`
   }
 `;
 
-export const useSetPhoneNumber: Hook = (getApiClient, { countryCode, phoneNumber }) =>
+export const useSetPhoneNumber: Hook = (getApiClient) =>
   useMutation({
-    mutationFn: async () => {
+    mutationFn: async (input) => {
       const api = await getApiClient();
 
       if (!api) {
         return null;
       }
 
-      const { setPhoneNumber } = await api.request<Mutation>(setPhoneNumberMutation, { countryCode, phoneNumber });
+      const { setPhoneNumber } = await api.request<Mutation>(setPhoneNumberMutation, { ...input });
 
       return setPhoneNumber;
     },

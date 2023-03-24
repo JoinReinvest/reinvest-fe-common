@@ -15,9 +15,9 @@ const completeTrustDraftAccountMutation = gql`
   }
 `;
 
-export const useCompleteTrustDraftAccount: Hook = (getApiClient, { accountId }) =>
+export const useCompleteTrustDraftAccount: Hook = getApiClient =>
   useMutation({
-    mutationFn: async () => {
+    mutationFn: async ({ accountId }) => {
       const api = await getApiClient();
 
       if (!api) {
