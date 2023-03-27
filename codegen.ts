@@ -13,7 +13,7 @@ const config: CodegenConfig = {
   documents: ['src/**/*.{ts,tsx}'],
   ignoreNoDocuments: true,
   generates: {
-    'src/types/graphql.ts': {
+    'src/graphql.ts': {
       plugins: ['typescript'],
     },
   },

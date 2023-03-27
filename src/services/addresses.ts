@@ -1,5 +1,5 @@
-import { ExtendedSelectOption } from '../types/select-option';
-import { Address } from '../types/graphql';
+import { ExtendedSelectOption } from '../select-option';
+import { Address } from '../graphql';
 
 export type AddressAsOption = ExtendedSelectOption<Address>;
 

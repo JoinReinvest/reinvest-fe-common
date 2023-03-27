@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { Maybe, Query, TrustDraftAccount } from '../../types/graphql';
+import { Maybe, Query, TrustDraftAccount } from '../../graphql';
 import { UseApiQueryWithParams } from './interfaces';
 
 type Parameters = { accountId: string };

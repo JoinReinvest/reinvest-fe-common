@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { Mutation } from '../../types/graphql';
+import { Mutation } from '../../graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
 type Parameters = { countryCode: string; phoneNumber: string, authCode: string };
