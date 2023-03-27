@@ -8,7 +8,7 @@ type Parameters = { countryCode: string; phoneNumber: string, authCode: string }
 type Hook = UseApiMutationWithParams<'verifyPhoneNumber', Parameters>;
 
 const verifyPhoneNumberMutation = gql`
-  mutation verifyPhoneNumber($countryCode: String, phoneNumber: String, authCode: String) {
+  mutation verifyPhoneNumber($countryCode: String, $phoneNumber: String, $authCode: String) {
     verifyPhoneNumber(countryCode: $countryCode, phoneNumber: $phoneNumber, authCode: $authCode)
   }
 `;
