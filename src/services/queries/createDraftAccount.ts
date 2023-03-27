@@ -15,9 +15,9 @@ const createDraftAccountMutatuion = gql`
   }
 `;
 
-export const useCreateDraftAccount: Hook = (getApiClient) =>
+export const useCreateDraftAccount: Hook = getApiClient =>
   useMutation({
-    mutationFn: async (type) => {
+    mutationFn: async ({ type }) => {
       const api = await getApiClient();
 
       if (!api) {

@@ -14,6 +14,7 @@ export const ProfileDetailsFragment = gql`
     lastName
     dateOfBirth
     ssn
+    experience
     domicile {
       ...DomicileFragment
     }
