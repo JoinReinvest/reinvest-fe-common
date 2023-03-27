@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { GenericFieldInput, Mutation, TemplateName } from '../../graphql';
+import { GenericFieldInput, Mutation, TemplateName } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
 type Hook = UseApiMutationWithParams<'signDocumentFromTemplate', Parameters>;

@@ -1,6 +1,6 @@
 import { defaultContext, useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { Query } from '../../graphql';
+import { Query } from '../../types/graphql';
 
 import { ProfileDetailsFragment } from './fragments/profileDetails';
 import { UseApiQuery } from './interfaces';

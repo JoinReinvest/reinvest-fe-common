@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { IndividualAccountInput, Mutation } from '../../graphql';
+import { IndividualAccountInput, Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
 import { AvatarFragment } from './fragments/avatar';

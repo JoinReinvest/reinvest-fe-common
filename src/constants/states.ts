@@ -1,4 +1,4 @@
-import { SelectOptions } from '../select-option';
+import { SelectOptions } from '../types/select-option';
 
 export const STATES = [
   {

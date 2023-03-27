@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { UseApiQueryWithParams } from './interfaces'
-import { Query, QueryGetIndividualAccountArgs } from '../../graphql';
+import { Query, QueryGetIndividualAccountArgs } from '../../types/graphql';
 
 import { AvatarFragment } from './fragments/avatar';
 import { EmployerFragment } from './fragments/employer';

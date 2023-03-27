@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { Query } from '../../graphql';
+import { Query } from '../../types/graphql';
 import { UseApiQuery } from './interfaces';
 
 type Hook = UseApiQuery<'getTemplate'>;
