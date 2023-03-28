@@ -9,7 +9,7 @@ type Hook = UseApiMutationWithParams<'setPhoneNumber', Parameters>;
 
 const setPhoneNumberMutation = gql`
   mutation setPhoneNumber($countryCode: String, $phoneNumber: String) {
-    setPhoneNumber(countryCode: $countryCode, $phoneNumber: $phoneNumber)
+    setPhoneNumber(countryCode: $countryCode, phoneNumber: $phoneNumber)
   }
 `;
 

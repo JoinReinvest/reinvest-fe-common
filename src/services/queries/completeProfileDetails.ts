@@ -36,7 +36,7 @@ export const useCompleteProfileDetails: Hook = getApiClient =>
         return null;
       }
 
-      const { completeProfileDetails } = await api.request<Mutation>(completeProfileDetailsMutation, { input });
+      const { completeProfileDetails } = await api.request<Mutation>(completeProfileDetailsMutation, { ...input });
 
       return completeProfileDetails;
     },
