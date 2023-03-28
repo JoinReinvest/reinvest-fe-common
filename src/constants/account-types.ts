@@ -1,7 +1,7 @@
 import { AccountType, CorporateCompanyType, TrustCompanyType } from 'types/graphql';
-import { SelectOption } from 'types/select-option';
+import { SelectCardOption } from 'types/select-card-option';
 
-export const ACCOUNT_TYPES_AS_OPTIONS: SelectOption[] = [
+export const ACCOUNT_TYPES_AS_OPTIONS: SelectCardOption[] = [
   {
     title: 'For Individuals',
     description:
@@ -24,7 +24,7 @@ export const ACCOUNT_TYPES_AS_OPTIONS: SelectOption[] = [
 
 export const ACCOUNT_TYPES_VALUES = [AccountType.Individual, AccountType.Corporate, AccountType.Trust] as const;
 
-export const CORPORATION_TYPES_AS_OPTIONS: SelectOption[] = [
+export const CORPORATION_TYPES_AS_OPTIONS: SelectCardOption[] = [
   { title: 'Corporation', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CorporateCompanyType.Corporation },
   { title: 'Partnership', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CorporateCompanyType.Partnership },
   { title: 'LLC', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CorporateCompanyType.Llc },
@@ -32,7 +32,7 @@ export const CORPORATION_TYPES_AS_OPTIONS: SelectOption[] = [
 
 export const CORPORATION_TYPES_VALUES = [CorporateCompanyType.Corporation, CorporateCompanyType.Partnership, CorporateCompanyType.Llc] as const;
 
-export const TRUST_TYPES_AS_OPTIONS: SelectOption[] = [
+export const TRUST_TYPES_AS_OPTIONS: SelectCardOption[] = [
   {
     title: 'Revocable',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',

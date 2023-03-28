@@ -1,7 +1,6 @@
 export interface SelectOption {
-  title: string;
+  label: string;
   value: string;
-  description?: string;
 }
 
 export type SelectOptions = SelectOption[];

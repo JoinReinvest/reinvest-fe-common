@@ -1,7 +1,7 @@
 import { Experience } from 'types/graphql';
-import { SelectOptions } from 'types/select-option';
+import { SelectCardOption } from 'types/select-card-option';
 
-export const EXPERIENCES_AS_VALUES: SelectOptions = [
+export const EXPERIENCES_AS_VALUES: SelectCardOption[] = [
   { title: 'No Experience', value: Experience.NoExperience },
   { title: 'Some Experience', value: Experience.SomeExperience },
   { title: 'Very Experienced', value: Experience.VeryExperienced },

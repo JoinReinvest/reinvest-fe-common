@@ -1,7 +1,7 @@
 import { EmploymentStatus } from "types/graphql";
-import { SelectOptions } from "types/select-option";
+import { SelectCardOption } from "types/select-card-option";
 
-export const EMPLOYMENT_STATUSES: SelectOptions = [
+export const EMPLOYMENT_STATUSES: SelectCardOption[] = [
   {
     title: 'Employed',
     value: EmploymentStatus.Employed,

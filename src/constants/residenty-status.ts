@@ -1,7 +1,7 @@
 import { DomicileType } from 'types/graphql';
-import { SelectOptions } from 'types/select-option';
+import { SelectCardOption } from 'types/select-card-option';
 
-export const RESIDENCY_STATUS_OPTIONS: SelectOptions = [
+export const RESIDENCY_STATUS_OPTIONS: SelectCardOption[] = [
   {
     value: DomicileType.Citizen,
     title: 'US Citizen',

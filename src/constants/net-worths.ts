@@ -18,5 +18,5 @@ export const NET_WORTHS = [
 export const NET_WORTHS_AS_OPTIONS: SelectOptions = NET_WORTHS.map(worth => {
   const value = worth.split(' ').join('');
 
-  return { title: worth, value };
+  return { label: worth, value };
 });

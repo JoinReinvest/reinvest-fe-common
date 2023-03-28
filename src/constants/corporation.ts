@@ -5,7 +5,7 @@ export const CORPORATION_ANNUAL_REVENUES = ['< $XX, XXX', '$XX - XX,XXX', '$XX,X
 export type CorporationAnnualRevenue = (typeof CORPORATION_ANNUAL_REVENUES)[number];
 
 export const CORPORATION_ANNUAL_REVENUE_AS_OPTIONS: SelectOptions = CORPORATION_ANNUAL_REVENUES.map(value => ({
-  title: value,
+  label: value,
   value,
 }));
 
@@ -14,6 +14,6 @@ export const CORPORATION_NUMBER_OF_EMPLOYEES = ['<XX', 'XX - XXX', 'XXX - XXXX',
 export type CorporationNumberOfEmployees = (typeof CORPORATION_NUMBER_OF_EMPLOYEES)[number];
 
 export const CORPORATION_NUMBER_OF_EMPLOYEES_AS_OPTIONS: SelectOptions = CORPORATION_NUMBER_OF_EMPLOYEES.map(value => ({
-  title: value,
+  label: value,
   value,
 }));
