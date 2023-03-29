@@ -1,4 +1,4 @@
-import { SelectOptions } from "types/select-option";
+import { SelectOptions } from "../types/select-option";
 
 export const VISAS = ['F-1', 'H-1B', 'L-1', 'O-1', 'G-4'];
 
