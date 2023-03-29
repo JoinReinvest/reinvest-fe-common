@@ -1,4 +1,4 @@
-import { SelectOptions } from "types/select-option";
+import { SelectOptions } from "../types/select-option";
 
 export const COUNTRIES: SelectOptions = [
   { label: 'Afghanistan', value: 'AF' },

@@ -1,4 +1,4 @@
-import { SelectOptions } from 'types/select-option';
+import { SelectOptions } from '../types/select-option';
 
 export const INDUESTRIES_AS_OPTIONS: SelectOptions = [
   {
@@ -82,6 +82,8 @@ export const INDUESTRIES_AS_OPTIONS: SelectOptions = [
     value: 'government',
   },
 ];
+
+export type Industry = (typeof INDUESTRIES_AS_OPTIONS)[number]['value'];
 
 export const INDUSTRIES_VALUES = [
   'accommodation-and-food-services',

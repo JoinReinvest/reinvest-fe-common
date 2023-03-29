@@ -1,5 +1,5 @@
-import { AccountType, CorporateCompanyType, TrustCompanyType } from 'types/graphql';
-import { SelectCardOption } from 'types/select-card-option';
+import { AccountType, CorporateCompanyType, TrustCompanyType } from '../types/graphql';
+import { SelectCardOption } from '../types/select-card-option';
 
 export const ACCOUNT_TYPES_AS_OPTIONS: SelectCardOption[] = [
   {

@@ -1,5 +1,5 @@
-import { EmploymentStatus } from "types/graphql";
-import { SelectCardOption } from "types/select-card-option";
+import { EmploymentStatus } from "../types/graphql";
+import { SelectCardOption } from "../types/select-card-option";
 
 export const EMPLOYMENT_STATUSES: SelectCardOption[] = [
   {

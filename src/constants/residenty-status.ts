@@ -1,19 +1,22 @@
-import { DomicileType } from 'types/graphql';
-import { SelectCardOption } from 'types/select-card-option';
+import { DomicileType } from '../types/graphql';
+import { SelectOptions } from '../types/select-option';
+import { SelectCardOption } from '../types/select-card-option';
 
-export const RESIDENCY_STATUS_OPTIONS: SelectCardOption[] = [
+export const RESIDENCY_STATUS_OPTIONS: SelectOptions = [
   {
     value: DomicileType.Citizen,
-    title: 'US Citizen',
+    label: 'US Citizen',
   },
   {
     value: DomicileType.GreenCard,
-    title: 'Green Card',
+    label: 'Green Card',
   },
   {
     value: DomicileType.Visa,
-    title: 'Visa',
+    label: 'Visa',
   },
 ];
 
 export const RESIDENCY_STATUS_VALUES = [DomicileType.Citizen, DomicileType.GreenCard, DomicileType.Visa] as const;
+
+export const RESIDENCY_STATUS_AS_RADIO_GROUP_OPTIONS: SelectCardOption[] = RESIDENCY_STATUS_OPTIONS.map(({label, value}) => ({title: label, value}))
