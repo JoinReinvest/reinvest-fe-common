@@ -1,8 +1,10 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { Mutation } from '../../types/graphql';
-import { UseApiMutation } from './interfaces';
+import { UseApiMutationWithParams } from './interfaces';
 
+type Parameters = { };
+type Hook = UseApiMutationWithParams<'createAvatarFileLink', Parameters>;
 
 const createAvatarFileLinkMutation = gql`
   mutation createAvatarFileLink {
@@ -13,7 +15,7 @@ const createAvatarFileLinkMutation = gql`
   }
 `;
 
-export const useCreateAvatarFileLink: UseApiMutation<'createAvatarFileLink'> = (getApiClient): UseMutationResult<Mutation['createAvatarFileLink']> =>
+export const useCreateAvatarFileLink: Hook = (getApiClient) =>
   useMutation({
     mutationFn: async () => {
       const api = await getApiClient();

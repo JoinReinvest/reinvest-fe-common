@@ -1,4 +1,4 @@
-import { SelectOptions } from "types/select-option";
+import { SelectOptions } from "../types/select-option";
 
 export const CORPORATION_ANNUAL_REVENUES = ['< $XX, XXX', '$XX - XX,XXX', '$XX,XXX - $XM', '$XM - $XMM', '$XMM+'] as const;
 

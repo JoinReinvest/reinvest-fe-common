@@ -1,4 +1,4 @@
-import { SelectOptions } from "types/select-option";
+import { SelectOptions } from "../types/select-option";
 
 export const NET_WORTHS = [
   '$25,000 - $50,000',
