@@ -89,7 +89,6 @@ export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRe
     context.addIssue({
       code: 'invalid_date',
       message: 'You must be at least 18 years old to use this service.',
-      path: ['dateOfBirth'],
     });
   }
 });
