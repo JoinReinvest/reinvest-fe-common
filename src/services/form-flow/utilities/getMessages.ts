@@ -1,7 +1,7 @@
 import { ErrorResponse } from '../../queries/interfaces';
 import { MessageMapper, messageMapper } from '../../../constants/messageMapper';
 
-export const getMessage = (error: ErrorResponse) => {
+export const getMessages = (error: ErrorResponse) => {
   const { response } = error;
   const { errors } = response;
 
