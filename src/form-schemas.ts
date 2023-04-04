@@ -49,6 +49,7 @@ export const formValidationRules = {
 
 export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number) => {
   const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
+  const unsupportedFileTypeMessage = getAcceptedFilesMessage(accepts);
 
   return zod
     .custom<File>()
@@ -59,11 +60,12 @@ export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMega
       const fileType = file?.type;
 
       return acceptedTypes.includes(fileType);
-    }, 'File type not supported');
+    }, unsupportedFileTypeMessage);
 };
 
 export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number) => {
   const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
+  const unsupportedFileTypeMessage = getAcceptedFilesMessage(accepts);
 
   return zod
     .custom<File>()
@@ -73,7 +75,26 @@ export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitI
       const acceptedTypes = mapToMimeType(accepts);
 
       return files.every(file => acceptedTypes.includes(file.type));
-    }, 'File type not supported');
+    }, unsupportedFileTypeMessage);
+};
+
+const getAcceptedFilesMessage = (accepts: string[]) => {
+  const formattedAcceptedFiles = accepts.map(extension => `.${extension}`);
+  const hasMoreThanOneAcceptedFile = formattedAcceptedFiles.length > 1;
+  const hasMoreThanTwoAcceptedFiles = formattedAcceptedFiles.length > 2;
+
+  if (hasMoreThanTwoAcceptedFiles) {
+    const lastAcceptedFile = formattedAcceptedFiles.pop();
+    const acceptedFiles = formattedAcceptedFiles.join(', ');
+    return `Only ${acceptedFiles}, and ${lastAcceptedFile} formats are accepted`;
+  }
+
+  if (hasMoreThanOneAcceptedFile) {
+    const acceptedFiles = formattedAcceptedFiles.join(' and ');
+    return `Only ${acceptedFiles} formats are accepted`;
+  }
+
+  return `Only ${formattedAcceptedFiles[0]} format is accepted`;
 };
 
 export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRefine((value, context) => {
