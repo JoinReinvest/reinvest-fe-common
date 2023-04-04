@@ -17,7 +17,7 @@ export const getMessages = (error: ErrorResponse) => {
         return 'SSN is not unique';
       }
 
-      return 'Internal error';
+      return 'Something went wrong, please refresh the page'
     });
   });
 
