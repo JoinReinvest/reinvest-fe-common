@@ -9,7 +9,7 @@ export const getMessages = (error: ErrorResponse) => {
     const extension = error.extensions;
 
     if (!extension.details) {
-      return error.message;
+      return 'Something went wrong, please refresh the page'
     }
 
     return extension.details.map(detail => {
