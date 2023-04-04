@@ -1,5 +1,5 @@
 import { ErrorResponse } from '../../queries/interfaces';
-import { MessageMapper, messageMapper } from '../../../constants/messageMapper';
+import { ERROR_CODES } from 'constants/error-codes';
 
 export const getMessages = (error: ErrorResponse) => {
   const { response } = error;
@@ -13,9 +13,13 @@ export const getMessages = (error: ErrorResponse) => {
     }
 
     return extension.details.map(detail => {
-      return `${detail.field} ${messageMapper[detail.type as keyof MessageMapper]}`;
+      if(detail.field === 'ssn' && detail.type === ERROR_CODES.NOT_UNIQUE) {
+        return 'SSN is not unique';
+      }
+
+      return 'Internal error';
     });
   });
 
-  return messages.flat();
+  return [...new Set(messages.flat())];
 };
