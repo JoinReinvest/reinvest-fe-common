@@ -1,5 +1,5 @@
 import { ErrorResponse } from '../../queries/interfaces';
-import { ERROR_CODES } from 'constants/error-codes';
+import { ERROR_CODES } from '../../../constants/error-codes';
 
 export const getMessages = (error: ErrorResponse) => {
   const { response } = error;
