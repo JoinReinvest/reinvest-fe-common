@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from './constants/date-formats';
 import { BYTES_IN_MEGABYTE } from './constants/conversions';
 import { mapToMimeType, PartialMimeTypeKeys } from './constants/mime-types';
 import { STATE_CODES } from './constants/states';
@@ -30,7 +31,7 @@ export const formValidationRules = {
   middleName: zod.string().optional(),
   // The API expects the authentication code to be unformatted (ex: 251-529 -> 251529)
   referralCode: zod.string().regex(/^[a-zA-Z0-9]{6}$/, { message: 'Invalid referral code' }),
-  date: zod.string({ required_error: requiredError }).regex(/^(\d{2})-(\d{2})-(\d{4})$/),
+  date: zod.string({ required_error: requiredError }).regex(/^(\d{2})\/(\d{2})\/(\d{4})$/),
   phoneNumber: zod.string().regex(/^[0-9]{9,10}$/, { message: 'Invalid phone number' }),
   // The API expectes the authentication code to be unformatted (ex: 123-456 -> 123456)
   authenticationCode: zod.string({ required_error: requiredError }).regex(/^[a-zA-Z0-9]{6}$/, { message: 'Invalid authentication code' }),
@@ -100,7 +101,7 @@ const getAcceptedFilesMessage = (accepts: string[]) => {
 export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRefine((value, context) => {
   const dates = {
     today: dayjs(),
-    dateOfBirth: dayjs(value),
+    dateOfBirth: dayjs(value, DATE_FORMAT),
   };
 
   const dateAgo = dates.today.subtract(18, 'year');
