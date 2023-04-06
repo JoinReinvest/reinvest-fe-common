@@ -25,4 +25,5 @@ export const useGetPhoneCompleted: Hook = (getApiClient) =>
 
       return phoneCompleted;
     },
+    enabled: false,
   });
