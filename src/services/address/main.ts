@@ -21,10 +21,9 @@ export class AddressService {
         types: 'address'
       }
     });
-    console.log('api key', this.API_KEY)
-    console.log('data', data)
+
     const predictions = data?.predictions || [];
-    console.log('predictions', predictions)
+
     return this.parsePredictions(predictions);
   };
 
