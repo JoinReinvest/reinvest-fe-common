@@ -64,13 +64,15 @@ export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMega
     }, unsupportedFileTypeMessage);
 };
 
-export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number) => {
+export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number, minNumberOfFiles = 2, maxNumberOfFiles = 2) => {
   const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
   const unsupportedFileTypeMessage = getAcceptedFilesMessage(accepts);
 
   return zod
     .custom<File>()
     .array()
+    .min(minNumberOfFiles, `You must upload at least ${minNumberOfFiles} files`)
+    .max(maxNumberOfFiles, `You can only upload ${maxNumberOfFiles} files at a time`)
     .refine(files => files.every(file => file.size <= sizeLimitInBytes), `File size must be smaller than ${sizeLimitInMegaBytes}MB`)
     .refine(files => {
       const acceptedTypes = mapToMimeType(accepts);
