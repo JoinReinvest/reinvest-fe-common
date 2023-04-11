@@ -1,6 +1,7 @@
 import { SelectOptions } from "../types/select-option";
 
 export const NET_WORTHS = [
+  'Under $25,000',
   '$25,000 - $50,000',
   '$50,000 - $75,000',
   '$75,000 - $100,000',
