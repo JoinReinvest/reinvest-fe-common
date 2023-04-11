@@ -8,7 +8,7 @@ type Parameters = { draftAccountId: string };
 type Hook = UseApiMutationWithParams<'removeDraftAccount', Parameters>;
 
 const removeDraftAccountMutation = gql`
-  mutation removeDraftAccount($draftAccountId: String) {
+  mutation removeDraftAccount($draftAccountId: ID) {
     removeDraftAccount(draftAccountId: $draftAccountId)
   }
 `;
