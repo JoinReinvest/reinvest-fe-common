@@ -7,13 +7,13 @@ import { UseApiMutationWithParams } from './interfaces';
 type Parameters = { draftAccountId: string };
 type Hook = UseApiMutationWithParams<'removeDraftAccount', Parameters>;
 
-const removeDraftAccountMutatuion = gql`
+const removeDraftAccountMutation = gql`
   mutation removeDraftAccount($draftAccountId: String) {
     removeDraftAccount(draftAccountId: $draftAccountId)
   }
 `;
 
-export const useOpenAccount: Hook = (getApiClient) =>
+export const useRemoveDraftAccount: Hook = (getApiClient) =>
   useMutation({
     mutationFn: async (input) => {
       const api = await getApiClient();
@@ -22,7 +22,7 @@ export const useOpenAccount: Hook = (getApiClient) =>
         return null;
       }
 
-      const { removeDraftAccount } = await api.request<Mutation>(removeDraftAccountMutatuion, { ...input });
+      const { removeDraftAccount } = await api.request<Mutation>(removeDraftAccountMutation, { ...input });
 
       return removeDraftAccount;
     },
