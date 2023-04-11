@@ -1,0 +1,29 @@
+import { useMutation } from '@tanstack/react-query';
+import { gql } from 'graphql-request';
+
+import { Mutation } from '../../types/graphql';
+import { UseApiMutationWithParams } from './interfaces';
+
+type Parameters = { draftAccountId: string };
+type Hook = UseApiMutationWithParams<'removeDraftAccount', Parameters>;
+
+const removeDraftAccountMutatuion = gql`
+  mutation removeDraftAccount($draftAccountId: String) {
+    removeDraftAccount(draftAccountId: $draftAccountId)
+  }
+`;
+
+export const useOpenAccount: Hook = (getApiClient) =>
+  useMutation({
+    mutationFn: async (input) => {
+      const api = await getApiClient();
+
+      if (!api) {
+        return null;
+      }
+
+      const { removeDraftAccount } = await api.request<Mutation>(removeDraftAccountMutatuion, { ...input });
+
+      return removeDraftAccount;
+    },
+  });
