@@ -35,7 +35,7 @@ export const formValidationRules = {
   phoneNumber: zod.string().regex(/^[0-9]{9,10}$/, { message: 'Invalid phone number' }),
   // The API expectes the authentication code to be unformatted (ex: 123-456 -> 123456)
   authenticationCode: zod.string({ required_error: requiredError }).regex(/^[a-zA-Z0-9]{6}$/, { message: 'Invalid authentication code' }),
-  socialSecurityNumber: zod.string().regex(/^((?!666|000|9\d{2})\d{3}-(?!00)\d{2}-(?!0{4})\d{4})|(\*{3}-\*{2}-(?!0{4})\d{4})$/, { message: 'Invalid Social Security Number' }),
+  socialSecurityNumber: zod.string().regex(/^((?!666|000|9\d{2})\d{3}-(?!00)\d{2}-(?!0{4})\d{4})|(\*{3}-\*{2}-\*{2}(?!0{2})\d{2})$/, { message: 'Invalid Social Security Number' }),
   ein: zod.string().regex(/^[0-9]{3}-[0-9]{6}/, { message: 'Invalid EIN' }),
 
   address: zod.object({
