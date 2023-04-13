@@ -1,32 +1,30 @@
 import { gql } from 'graphql-request';
-
 import { AddressFragment } from './address';
 import { DomicileFragment } from './domicile';
-import { StatementFragment } from './statement';
+import { DocumentFileLinkIdFragment } from './documentFileLinkId';
 import { PersonNameTypeFragment } from './personNameType';
 
-export const ProfileDetailsFragment = gql`
+export const StakeholderFragment = gql`
   ${AddressFragment}
   ${DomicileFragment}
-  ${StatementFragment}
+  ${DocumentFileLinkIdFragment}
   ${PersonNameTypeFragment}
-  fragment ProfileDetailsFragment on ProfileDetails {
-    ...PersonNameTypeFragment
+  fragment StakeholderFragment on Stakeholder {
+    id
+    label
+    name {
+      ...PersonNameTypeFragment
+    }
     dateOfBirth
     ssn
-    experience
-    domicile {
-      ...DomicileFragment
-    }
     address {
       ...AddressFragment
     }
-    idScan {
-      id
-      fileName
+    domicile {
+      ...DomicileFragment
     }
-    statements {
-      ...StatementFragment
+    idScan {
+      ...DocumentFileLinkIdFragment
     }
   }
 `;
