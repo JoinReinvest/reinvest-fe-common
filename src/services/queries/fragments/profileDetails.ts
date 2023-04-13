@@ -23,6 +23,7 @@ export const ProfileDetailsFragment = gql`
     }
     idScan {
       id
+      fileName
     }
     statements {
       ...StatementFragment
