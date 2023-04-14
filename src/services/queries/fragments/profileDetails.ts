@@ -3,15 +3,15 @@ import { gql } from 'graphql-request';
 import { AddressFragment } from './address';
 import { DomicileFragment } from './domicile';
 import { StatementFragment } from './statement';
-import { PersonNameTypeFragment } from './personNameType';
 
 export const ProfileDetailsFragment = gql`
   ${AddressFragment}
   ${DomicileFragment}
   ${StatementFragment}
-  ${PersonNameTypeFragment}
   fragment ProfileDetailsFragment on ProfileDetails {
-    ...PersonNameTypeFragment
+    firstName
+    middleName
+    lastName
     dateOfBirth
     ssn
     experience
