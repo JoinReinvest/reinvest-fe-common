@@ -1,4 +1,4 @@
-import { AccountType, CorporateCompanyType, TrustCompanyType } from '../types/graphql';
+import { AccountType, CompanyTypeEnum } from '../types/graphql';
 import { SelectCardOption } from '../types/select-card-option';
 
 export const ACCOUNT_TYPES_AS_OPTIONS: SelectCardOption[] = [
@@ -25,24 +25,24 @@ export const ACCOUNT_TYPES_AS_OPTIONS: SelectCardOption[] = [
 export const ACCOUNT_TYPES_VALUES = [AccountType.Individual, AccountType.Corporate, AccountType.Trust] as const;
 
 export const CORPORATION_TYPES_AS_OPTIONS: SelectCardOption[] = [
-  { title: 'Corporation', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CorporateCompanyType.Corporation },
-  { title: 'Partnership', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CorporateCompanyType.Partnership },
-  { title: 'LLC', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CorporateCompanyType.Llc },
+  { title: 'Corporation', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CompanyTypeEnum.Corporation },
+  { title: 'Partnership', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CompanyTypeEnum.Partnership },
+  { title: 'LLC', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', value: CompanyTypeEnum.Llc },
 ];
 
-export const CORPORATION_TYPES_VALUES = [CorporateCompanyType.Corporation, CorporateCompanyType.Partnership, CorporateCompanyType.Llc] as const;
+export const CORPORATION_TYPES_VALUES = [CompanyTypeEnum.Corporation, CompanyTypeEnum.Partnership, CompanyTypeEnum.Llc] as const;
 
 export const TRUST_TYPES_AS_OPTIONS: SelectCardOption[] = [
   {
     title: 'Revocable',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    value: TrustCompanyType.Revocable,
+    value: CompanyTypeEnum.Revocable,
   },
   {
     title: 'Irrevocable',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    value: TrustCompanyType.Irrevocable,
+    value: CompanyTypeEnum.Irrevocable,
   },
 ];
 
-export const TRUST_TYPES_VALUES = [TrustCompanyType.Revocable, TrustCompanyType.Irrevocable] as const;
+export const TRUST_TYPES_VALUES = [CompanyTypeEnum.Revocable, CompanyTypeEnum.Irrevocable] as const;

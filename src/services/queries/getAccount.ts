@@ -1,25 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { UseApiQueryWithParams } from './interfaces'
-import { Query, QueryGetIndividualAccountArgs } from '../../types/graphql';
+import { UseApiQuery } from './interfaces';
+import { Query } from '../../types/graphql';
 
 import { AvatarFragment } from './fragments/avatar';
 import { EmployerFragment } from './fragments/employer';
 import { NetRangeFragment } from './fragments/netRange';
 
-type Hook = UseApiQueryWithParams<'getIndividualAccount', QueryGetIndividualAccountArgs>;
+type Hook = UseApiQuery<'getIndividualAccount'>;
 
 const getAccountQuery = gql`
   ${AvatarFragment}
   ${EmployerFragment}
   ${NetRangeFragment}
-  query getIndividualAccount($accountId: String) {
-    getIndividualAccount(accountId: $accountId) {
+  query getIndividualAccount {
+    getIndividualAccount {
       id
       avatar {
         ...AvatarFragment
       }
       positionTotal
+      label
       details {
         employmentStatus {
           status
@@ -37,9 +38,9 @@ const getAccountQuery = gql`
     }
   }
 `;
-export const useGetAccount: Hook = (getApiClient, { accountId }) =>
+export const useGetAccount: Hook = (getApiClient) =>
   useQuery<Query['getIndividualAccount']>({
-    queryKey: ['getAccount', accountId],
+    queryKey: ['getAccount'],
     queryFn: async () => {
       const api = await getApiClient();
 
@@ -47,7 +48,7 @@ export const useGetAccount: Hook = (getApiClient, { accountId }) =>
         return null;
       }
 
-      const { getIndividualAccount } = await api.request<Query>(getAccountQuery, { accountId });
+      const { getIndividualAccount } = await api.request<Query>(getAccountQuery);
 
       return getIndividualAccount;
     },
