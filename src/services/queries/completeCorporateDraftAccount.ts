@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { Mutation } from '../../types/graphql';
+import { CorporateDraftAccountInput, Mutation } from '../../types/graphql';
 
 import { UseApiMutationWithParams } from './interfaces';
 import { AvatarFragment } from './fragments/avatar';
 import { CompanyDraftAccountDetailsFragment } from './fragments/companyDraftAccountDetails';
 
-type Parameters = { accountId: string };
+type Parameters = { accountId: string, input: CorporateDraftAccountInput };
 type Hook = UseApiMutationWithParams<'completeCorporateDraftAccount', Parameters>
 
 const completeCorporateDraftAccountMutation = gql`
