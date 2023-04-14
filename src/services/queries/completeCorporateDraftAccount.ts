@@ -13,7 +13,7 @@ const completeCorporateDraftAccountMutation = gql`
   ${AvatarFragment}
   ${CompanyDraftAccountDetailsFragment}
   mutation completeCorporateDraftAccount($accountId: ID, $input: CorporateDraftAccountInput) {
-    completeCorporateDraftAccount(accountId: $accountId) {
+    completeCorporateDraftAccount(accountId: $accountId, input: $input) {
       id
       state
       avatar {

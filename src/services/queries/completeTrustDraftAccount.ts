@@ -12,8 +12,8 @@ type Hook = UseApiMutationWithParams<'completeTrustDraftAccount', Parameters>;
 const completeTrustDraftAccountMutation = gql`
   ${AvatarFragment}
   ${CompanyDraftAccountDetailsFragment}
-  mutation completeTrustDraftAccount($accountId: ID) {
-    completeTrustDraftAccount(accountId: $accountId) {
+  mutation completeTrustDraftAccount($accountId: ID, $input: TrustDraftAccountInput) {
+    completeTrustDraftAccount(accountId: $accountId, input: $input) {
       id
       state
       avatar {
