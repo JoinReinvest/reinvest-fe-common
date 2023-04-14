@@ -29,14 +29,14 @@ const completeCorporateDraftAccountMutation = gql`
 
 export const useCompleteCorporateDraftAccount: Hook = getApiClient =>
   useMutation({
-    mutationFn: async ({ accountId }) => {
+    mutationFn: async ({ accountId, input }) => {
       const api = await getApiClient();
 
       if (!api) {
         return null;
       }
 
-      const { completeCorporateDraftAccount } = await api.request<Mutation>(completeCorporateDraftAccountMutation, { accountId });
+      const { completeCorporateDraftAccount } = await api.request<Mutation>(completeCorporateDraftAccountMutation, { accountId, input });
 
       return completeCorporateDraftAccount;
     },
