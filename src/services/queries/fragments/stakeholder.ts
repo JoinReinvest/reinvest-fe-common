@@ -15,7 +15,9 @@ export const StakeholderFragment = gql`
     name {
       ...PersonNameTypeFragment
     }
-    dateOfBirth
+    dateOfBirth {
+      dateOfBirth
+    }
     ssn
     address {
       ...AddressFragment
