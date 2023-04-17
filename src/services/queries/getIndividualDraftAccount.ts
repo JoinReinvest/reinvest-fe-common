@@ -1,20 +1,43 @@
-import { useQuery } from '@tanstack/react-query';
+import {useQuery, UseQueryOptions} from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { Query } from '../../types/graphql';
 
 import { UseApiQueryWithParams } from './interfaces';
 
-type Hook = UseApiQueryWithParams<'getIndividualDraftAccount', { accountId: string }>;
+type Hook = UseApiQueryWithParams<'getIndividualDraftAccount', { accountId: string, config: UseQueryOptions}> ;
 
 const getIndividualDraftAccountQuery = gql`
   query getIndividualDraftAccount($accountId: ID) {
     getIndividualDraftAccount(accountId: $accountId) {
+    id
+    state
+    avatar {
       id
+      url
+      initials
+    }
+    isCompleted
+    details {
+      employmentStatus {
+        status
+      }
+      employer {
+        nameOfEmployer
+        title
+        industry
+      }
+      netWorth {
+        range
+      }
+      netIncome {
+        range
+      }
+    }
     }
   }
 `;
 
-export const useGetIndividualDraftAccount: Hook = (getApiClient, { accountId }) =>
+export const useGetIndividualDraftAccount: Hook = (getApiClient, { accountId, ...config }) =>
   useQuery<Query['getIndividualDraftAccount']>({
     queryKey: ['getIndividualDraftAccount', accountId],
     queryFn: async () => {
@@ -28,4 +51,6 @@ export const useGetIndividualDraftAccount: Hook = (getApiClient, { accountId }) 
 
       return getIndividualDraftAccount;
     },
+    ...config
   });
+
