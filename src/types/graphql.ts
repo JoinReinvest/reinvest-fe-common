@@ -164,6 +164,7 @@ export type CorporateDraftAccount = {
 export type CorporateDraftAccountInput = {
   address?: InputMaybe<AddressInput>;
   annualRevenue?: InputMaybe<AnnualRevenueInput>;
+  /** IMPORTANT: it removes previously uploaded avatar from s3 for this draft account */
   avatar?: InputMaybe<AvatarFileLinkInput>;
   companyDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
   companyName?: InputMaybe<CompanyNameInput>;
@@ -171,7 +172,9 @@ export type CorporateDraftAccountInput = {
   ein?: InputMaybe<EinInput>;
   industry?: InputMaybe<IndustryInput>;
   numberOfEmployees?: InputMaybe<NumberOfEmployeesInput>;
+  /** IMPORTANT: it removes these documents from s3 */
   removeDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
+  /** IMPORTANT: it removes previously uploaded id scan documents from s3 for this stakeholder */
   removeStakeholders?: InputMaybe<Array<InputMaybe<StakeholderIdInput>>>;
   stakeholders?: InputMaybe<Array<InputMaybe<StakeholderInput>>>;
 };
@@ -326,7 +329,6 @@ export type GetAvatarLink = {
 /** Link id + url to read the document */
 export type GetDocumentLink = {
   __typename?: 'GetDocumentLink';
-  fileName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -354,6 +356,7 @@ export type IndividualAccountDetails = {
 };
 
 export type IndividualAccountInput = {
+  /** IMPORTANT: it removes previously uploaded avatar from s3 for this draft account */
   avatar?: InputMaybe<AvatarFileLinkInput>;
   employer?: InputMaybe<EmployerInput>;
   employmentStatus?: InputMaybe<EmploymentStatusInput>;
@@ -430,7 +433,10 @@ export type Mutation = {
    * Currently supported: Individual Account
    */
   openAccount?: Maybe<Scalars['Boolean']>;
-  /** Remove draft account */
+  /**
+   * Remove draft account
+   * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
+   */
   removeDraftAccount?: Maybe<Scalars['Boolean']>;
   /**
    * Add phone number. The system will send the verification code to the provided phone number via sms.
@@ -548,6 +554,14 @@ export type PoliticianStatementInput = {
   description: Scalars['String'];
 };
 
+export type PrivacyPolicyInput = {
+  statement: PrivacyPolicyStatement;
+};
+
+export enum PrivacyPolicyStatement {
+  IHaveReadAndAgreeToTheReinvestPrivacyPolicy = 'I_HAVE_READ_AND_AGREE_TO_THE_REINVEST_PRIVACY_POLICY'
+}
+
 /**
  * An investor profile information.
  * Returns data about investor details, accounts and notifications
@@ -587,6 +601,7 @@ export type ProfileDetailsInput = {
   /**
    * ID scan can be provided in more then one document, ie. 2 scans of both sides of the ID.
    * Required "id" provided in the @FileLink type from the @createDocumentsFileLinks mutation
+   * IMPORTANT: it removes previously uploaded id scan documents from s3 if the previous document ids are not listed in the request
    */
   idScan?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
   investingExperience?: InputMaybe<ExperienceInput>;
@@ -596,7 +611,13 @@ export type ProfileDetailsInput = {
   removeStatements?: InputMaybe<Array<InputMaybe<StatementInput>>>;
   /** A valid SSN number */
   ssn?: InputMaybe<SsnInput>;
-  /** FINRA, Politician, Trading company stakeholder, accredited investor statements */
+  /**
+   * FINRA, Politician, Trading company stakeholder, accredited investor, terms and conditions, privacy policy statements
+   * REQUIRED statements to complete the profile:
+   * - accredited investor
+   * - terms and conditions
+   * - privacy policy
+   */
   statements?: InputMaybe<Array<InputMaybe<StatementInput>>>;
   /** Send this field if you want to finish the onboarding. In case of success verification, onboarding will be considered as completed */
   verifyAndFinish?: InputMaybe<Scalars['Boolean']>;
@@ -623,6 +644,8 @@ export type Query = {
   getCorporateAccount?: Maybe<CorporateAccount>;
   /** Get draft corporate account details */
   getCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
+  /** Returns document link by id */
+  getDocument?: Maybe<GetDocumentLink>;
   /**
    * Returns individual account information
    * [PARTIAL_MOCK] Position total is still mocked!!
@@ -661,6 +684,11 @@ export type QueryGetCorporateAccountArgs = {
 
 export type QueryGetCorporateDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryGetDocumentArgs = {
+  documentId: Scalars['String'];
 };
 
 
@@ -713,6 +741,7 @@ export type StakeholderInput = {
   address: AddressInput;
   dateOfBirth: DateOfBirthInput;
   domicile: DomicileInput;
+  /** IMPORTANT: it removes previously uploaded id scan documents from s3 if the previous document ids are not listed in the request */
   idScan: Array<InputMaybe<DocumentFileLinkInput>>;
   name: PersonName;
   ssn: SsnInput;
@@ -729,13 +758,18 @@ export type Statement = {
  * - being a FINRA member
  * - politician
  * - public trading company stakeholder
+ * - accredited investor
+ * - terms and conditions
+ * - privacy policy
  * Choose type and add details depending on the chosen type
  */
 export type StatementInput = {
   forAccreditedInvestor?: InputMaybe<AccreditedInvestorInput>;
   forFINRA?: InputMaybe<FinraStatementInput>;
   forPolitician?: InputMaybe<PoliticianStatementInput>;
+  forPrivacyPolicy?: InputMaybe<PrivacyPolicyInput>;
   forStakeholder?: InputMaybe<TradingCompanyStakeholderInput>;
+  forTermsAndConditions?: InputMaybe<TermsAndConditionsInput>;
   type: StatementType;
 };
 
@@ -743,6 +777,8 @@ export enum StatementType {
   AccreditedInvestor = 'AccreditedInvestor',
   FinraMember = 'FINRAMember',
   Politician = 'Politician',
+  PrivacyPolicy = 'PrivacyPolicy',
+  TermsAndConditions = 'TermsAndConditions',
   TradingCompanyStakeholder = 'TradingCompanyStakeholder'
 }
 
@@ -756,6 +792,14 @@ export type Template = {
 export enum TemplateName {
   AutoReinvestmentAgreement = 'AUTO_REINVESTMENT_AGREEMENT',
   SubscriptionAgreement = 'SUBSCRIPTION_AGREEMENT'
+}
+
+export type TermsAndConditionsInput = {
+  statement: TermsAndConditionsStatement;
+};
+
+export enum TermsAndConditionsStatement {
+  IHaveReadAndAgreeToTheReinvestTermsAndConditions = 'I_HAVE_READ_AND_AGREE_TO_THE_REINVEST_TERMS_AND_CONDITIONS'
 }
 
 export type TradingCompanyStakeholderInput = {
@@ -810,6 +854,7 @@ export type TrustDraftAccount = {
 export type TrustDraftAccountInput = {
   address?: InputMaybe<AddressInput>;
   annualRevenue?: InputMaybe<AnnualRevenueInput>;
+  /** IMPORTANT: it removes previously uploaded avatar from s3 for this draft account */
   avatar?: InputMaybe<AvatarFileLinkInput>;
   companyDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
   companyName?: InputMaybe<CompanyNameInput>;
@@ -817,7 +862,9 @@ export type TrustDraftAccountInput = {
   ein?: InputMaybe<EinInput>;
   industry?: InputMaybe<IndustryInput>;
   numberOfEmployees?: InputMaybe<NumberOfEmployeesInput>;
+  /** IMPORTANT: it removes these documents from s3 */
   removeDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
+  /** IMPORTANT: it removes previously uploaded id scan documents from s3 for this stakeholder */
   removeStakeholders?: InputMaybe<Array<InputMaybe<StakeholderIdInput>>>;
   stakeholders?: InputMaybe<Array<InputMaybe<StakeholderInput>>>;
 };
