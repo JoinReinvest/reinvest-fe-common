@@ -1,7 +1,5 @@
-import { DATE_FORMAT } from './constants/date-formats';
-import { BYTES_IN_MEGABYTE } from './constants/conversions';
-import { mapToMimeType, PartialMimeTypeKeys } from './constants/mime-types';
-import { STATE_CODES } from './constants/states';
+import { DATE_FORMAT } from '../constants/date-formats';
+import { STATE_CODES } from '../constants/states';
 import dayjs from 'dayjs';
 import zod from 'zod';
 
@@ -46,58 +44,6 @@ export const formValidationRules = {
     // eslint-disable-next-line security/detect-unsafe-regex
     zip: zod.string().regex(/^\d{5}(?:-\d{4})?$/, { message: 'Invalid zip code' }),
   }),
-};
-
-export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number) => {
-  const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
-  const unsupportedFileTypeMessage = getAcceptedFilesMessage(accepts);
-
-  return zod
-    .custom<File>()
-    .refine(file => !!file, 'The field is required')
-    .refine(file => file?.size <= sizeLimitInBytes, `File size must be smaller than ${sizeLimitInMegaBytes}MB`)
-    .refine(file => {
-      const acceptedTypes = mapToMimeType(accepts);
-      const fileType = file?.type;
-
-      return acceptedTypes.includes(fileType);
-    }, unsupportedFileTypeMessage);
-};
-
-export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number, minNumberOfFiles = 2, maxNumberOfFiles = 2) => {
-  const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
-  const unsupportedFileTypeMessage = getAcceptedFilesMessage(accepts);
-
-  return zod
-    .custom<File>()
-    .array()
-    .min(minNumberOfFiles, `You must upload at least ${minNumberOfFiles} files`)
-    .max(maxNumberOfFiles, `You can only upload ${maxNumberOfFiles} files at a time`)
-    .refine(files => files.every(file => file.size <= sizeLimitInBytes), `File size must be smaller than ${sizeLimitInMegaBytes}MB`)
-    .refine(files => {
-      const acceptedTypes = mapToMimeType(accepts);
-
-      return files.every(file => acceptedTypes.includes(file.type));
-    }, unsupportedFileTypeMessage);
-};
-
-const getAcceptedFilesMessage = (accepts: string[]) => {
-  const formattedAcceptedFiles = accepts.map(extension => `.${extension}`);
-  const hasMoreThanOneAcceptedFile = formattedAcceptedFiles.length > 1;
-  const hasMoreThanTwoAcceptedFiles = formattedAcceptedFiles.length > 2;
-
-  if (hasMoreThanTwoAcceptedFiles) {
-    const lastAcceptedFile = formattedAcceptedFiles.pop();
-    const acceptedFiles = formattedAcceptedFiles.join(', ');
-    return `Only ${acceptedFiles}, and ${lastAcceptedFile} formats are accepted`;
-  }
-
-  if (hasMoreThanOneAcceptedFile) {
-    const acceptedFiles = formattedAcceptedFiles.join(' and ');
-    return `Only ${acceptedFiles} formats are accepted`;
-  }
-
-  return `Only ${formattedAcceptedFiles[0]} format is accepted`;
 };
 
 export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRefine((value, context) => {
