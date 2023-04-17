@@ -2,14 +2,25 @@ import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { Maybe, Query, TrustDraftAccount } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
+import { AvatarFragment } from './fragments/avatar';
+import { CompanyDraftAccountDetailsFragment } from './fragments/companyDraftAccountDetails';
 
 type Parameters = { accountId: string };
 type Hook = UseApiQueryWithParams<'getTrustDraftAccount', Parameters>;
 
 const getTrustDraftAccountQuery = gql`
+  ${AvatarFragment}
+  ${CompanyDraftAccountDetailsFragment}
   query getTrustDraftAccount($accountId: ID) {
     getTrustDraftAccount(accountId: $accountId) {
       id
+    state
+    avatar {
+      ...AvatarFragment
+    }
+    isCompleted
+    details {
+      ...CompanyDraftAccountDetailsFragment
     }
   }
 `;
@@ -28,4 +39,5 @@ export const useGetTrustDraftAccount: Hook = (getApiClient, { accountId }) =>
 
       return getTrustDraftAccount;
     },
+    enabled: false
   });
