@@ -721,11 +721,25 @@ export type SignatureId = {
   signatureId?: Maybe<Scalars['String']>;
 };
 
+export type SimplifiedDomicile = {
+  __typename?: 'SimplifiedDomicile';
+  type?: Maybe<SimplifiedDomicileType>;
+};
+
+export type SimplifiedDomicileInput = {
+  type: SimplifiedDomicileType;
+};
+
+export enum SimplifiedDomicileType {
+  Citizen = 'CITIZEN',
+  Resident = 'RESIDENT'
+}
+
 export type Stakeholder = {
   __typename?: 'Stakeholder';
   address?: Maybe<Address>;
   dateOfBirth?: Maybe<DateOfBirth>;
-  domicile?: Maybe<Domicile>;
+  domicile?: Maybe<SimplifiedDomicile>;
   id?: Maybe<Scalars['ID']>;
   idScan?: Maybe<Array<Maybe<DocumentFileLinkId>>>;
   label?: Maybe<Scalars['String']>;
@@ -740,7 +754,7 @@ export type StakeholderIdInput = {
 export type StakeholderInput = {
   address: AddressInput;
   dateOfBirth: DateOfBirthInput;
-  domicile: DomicileInput;
+  domicile: SimplifiedDomicileInput;
   /** IMPORTANT: it removes previously uploaded id scan documents from s3 if the previous document ids are not listed in the request */
   idScan: Array<InputMaybe<DocumentFileLinkInput>>;
   name: PersonName;
