@@ -19,7 +19,9 @@ export const RESIDENCY_STATUS_OPTIONS: SelectOptions = [
 
 export const RESIDENCY_STATUS_VALUES = [DomicileType.Citizen, DomicileType.GreenCard, DomicileType.Visa] as const;
 
-export const RESIDENCY_STATUS_AS_RADIO_GROUP_OPTIONS: SelectCardOption[] = RESIDENCY_STATUS_OPTIONS.map(({label, value}) => ({title: label, value}))
+export const RESIDENCY_STATUS_LABELS = ['US Citizen', 'Green Card', 'Visa'] as const;
+
+export const RESIDENCY_STATUS_AS_RADIO_GROUP_OPTIONS: SelectCardOption[] = RESIDENCY_STATUS_OPTIONS.map(({ label, value }) => ({ title: label, value }));
 
 export const STAKEHOLDER_RESIDENCY_STATUS_OPTIONS: SelectOptions = [
   {
