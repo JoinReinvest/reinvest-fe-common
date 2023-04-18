@@ -1,10 +1,10 @@
 import { gql } from 'graphql-request';
-import { DomicileFragment } from './domicile';
 import { PersonNameTypeFragment } from './personNameType';
+import { SimplifiedDomicileFragment } from './simplifiedDomicile';
 
 export const StakeholderFragment = gql`
-  ${DomicileFragment}
   ${PersonNameTypeFragment}
+  ${SimplifiedDomicileFragment}
   fragment StakeholderFragment on Stakeholder {
     id
     label
@@ -19,7 +19,7 @@ export const StakeholderFragment = gql`
       ...AddressFragment
     }
     domicile {
-      ...DomicileFragment
+      ...SimplifiedDomicileFragment
     }
     idScan {
       ...DocumentFileLinkIdFragment
