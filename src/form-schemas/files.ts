@@ -30,26 +30,26 @@ export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitI
 };
 
 class FileValidations {
-  static requiredValidation = ({ file }: DocumentFile) => {
-    return !file ? true : !!file;
+  static requiredValidation = (document: DocumentFile) => {
+    return !!document?.file;
   }
 
   static manyAcceptedTypesValidation = (files: DocumentFile[], accepts: PartialMimeTypeKeys) => {
     return files.every(file => this.acceptedTypesValidation(file, accepts));
   }
 
-  static acceptedTypesValidation = ({ file }: DocumentFile, accepts: PartialMimeTypeKeys) => {
+  static acceptedTypesValidation = (document: DocumentFile, accepts: PartialMimeTypeKeys) => {
     const acceptedTypes = mapToMimeType(accepts);
 
-    return !!file ? acceptedTypes.includes(file.type) : true;
+    return !!document?.file ? acceptedTypes.includes(document.file.type) : true;
   };
 
   static manySizeValidation = (files: DocumentFile[], sizeLimitInBytes: number) => {
     return files.every(file => this.sizeValidation(file, sizeLimitInBytes));
   }
 
-  static sizeValidation = ({ file }: DocumentFile, sizeLimitInBytes: number) => {
-    return !!file ? file.size <= sizeLimitInBytes : true;
+  static sizeValidation = (document: DocumentFile, sizeLimitInBytes: number) => {
+    return !!document?.file ? document.file.size <= sizeLimitInBytes : true;
   };
 
   static sizeMessage = (sizeLimitInMegaBytes: number) => `File size must be smaller than ${sizeLimitInMegaBytes}MB`;
