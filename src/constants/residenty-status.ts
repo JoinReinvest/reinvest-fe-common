@@ -34,4 +34,6 @@ export const STAKEHOLDER_RESIDENCY_STATUS_OPTIONS: SelectOptions = [
   },
 ];
 
+export const STAKEHOLDER_RESIDENCY_STATUS_LABELS = ['US Citizen', 'US Resident'] as const;
+
 export const STAKEHOLDER_RESIDENCY_STATUS_VALUES = [SimplifiedDomicileType.Citizen, SimplifiedDomicileType.Resident] as const;
