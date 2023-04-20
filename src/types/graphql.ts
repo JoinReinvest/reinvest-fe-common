@@ -758,7 +758,7 @@ export type StakeholderInput = {
   /** IMPORTANT: it removes previously uploaded id scan documents from s3 if the previous document ids are not listed in the request */
   idScan: Array<InputMaybe<DocumentFileLinkInput>>;
   name: PersonName;
-  ssn: SsnInput;
+  ssn?: SsnInput;
 };
 
 export type Statement = {
