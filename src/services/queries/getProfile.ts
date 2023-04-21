@@ -40,5 +40,5 @@ export const useGetUserProfile: Hook = (getApiClient) =>
       return getProfile;
     },
     context: defaultContext,
-    enabled: true,
+    enabled: false,
   });
