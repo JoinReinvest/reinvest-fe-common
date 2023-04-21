@@ -20,5 +20,13 @@ export const useFields = <FormFields>({ initialStoreFields, onStoreUpdate }: Par
     }
   };
 
-  return { getFields, updateFields };
+  const resetFields = async () => {
+    fields.current = initialStoreFields;
+
+    if (onStoreUpdate) {
+      await onStoreUpdate(initialStoreFields);
+    }
+  };
+
+  return { getFields, updateFields, resetFields };
 };
