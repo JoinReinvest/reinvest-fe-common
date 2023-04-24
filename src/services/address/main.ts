@@ -116,7 +116,10 @@ export class AddressService {
             break;
 
           case "administrative_area_level_1": {
-            address.state = component.short_name;
+            const isStateDC = component.short_name === 'DC';
+            const stateCode = isStateDC ? 'WA' : component.short_name;
+
+            address.state = stateCode;
             break;
           }
 
