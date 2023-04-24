@@ -40,10 +40,12 @@ export interface ContextState<FormFields> {
   CurrentStepView: FC;
   getStoreFields: () => FormFields | null;
   meta: ContextStateMeta;
+  moveToFirstStep: () => void;
   moveToNextValidStep: () => void;
   moveToPreviousValidStep: () => void;
   progressPercentage: number;
   updateStoreFields: (fields: Partial<FormFields>) => Promise<void>;
+  resetStoreFields: () => Promise<void>;
 }
 
 export interface ContextProviderProps<FormFields> extends PropsWithChildren {
