@@ -18,12 +18,12 @@ export function generateProvider<FormFields>({ context, steps }: Parameters<Form
   return ({ initialStoreFields, onStoreUpdate, isResumable = false, children }: ContextProviderProps<FormFields>) => {
     const flowStore = new FlowStore(steps);
 
-    const { getFields, updateFields } = useFields({
+    const { getFields, updateFields, resetFields } = useFields({
       initialStoreFields,
       onStoreUpdate,
     });
 
-    const { currentStep, meta, CurrentStepView, moveToNextValidStep, moveToPreviousValidStep } = useCurrentStep({
+    const { currentStep, meta, CurrentStepView, moveToFirstStep, moveToNextValidStep, moveToPreviousValidStep } = useCurrentStep({
       flowStore,
       getFields,
       updateFields,
@@ -41,7 +41,9 @@ export function generateProvider<FormFields>({ context, steps }: Parameters<Form
         value={{
           getStoreFields: getFields,
           updateStoreFields: updateFields,
+          resetStoreFields: resetFields,
           CurrentStepView,
+          moveToFirstStep,
           moveToPreviousValidStep,
           moveToNextValidStep,
           progressPercentage,
