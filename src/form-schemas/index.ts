@@ -38,7 +38,7 @@ export const formValidationRules = {
 
   address: zod.object({
     addressLine1: standardRequiredString,
-    addressLine2: zod.string().nullable(),
+    addressLine2: zod.string().nullable().optional(),
     city: standardRequiredString,
     state: zod.enum(STATE_CODES),
     // eslint-disable-next-line security/detect-unsafe-regex
