@@ -1,14 +1,15 @@
 import { defaultContext, useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
-import { Query } from '../../types/graphql';
-
-import { ProfileDetailsFragment } from './fragments/profileDetails';
 import { UseApiQuery } from './interfaces';
+import { Query } from '../../types/graphql';
+import { ProfileDetailsFragment } from './fragments/profileDetails';
+import { AccountsFragment } from './fragments/accounts';
 
 type Hook = UseApiQuery<'getProfile'>;
 
-export const getProfileQuery = gql`
+const getProfileQuery = gql`
   ${ProfileDetailsFragment}
+  ${AccountsFragment}
   query getProfile {
     getProfile {
       externalId
@@ -18,7 +19,7 @@ export const getProfileQuery = gql`
         ...ProfileDetailsFragment
       }
       accounts {
-        id
+        ...AccountsFragment
       }
     }
   }

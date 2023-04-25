@@ -8,6 +8,8 @@ export function generateContext<FormFields>() {
     CurrentStepView: () => <></>,
     /* eslint-disable @typescript-eslint/no-empty-function */
     updateStoreFields: async () => {},
+    resetStoreFields: async () => {},
+    moveToFirstStep: () => {},
     moveToPreviousValidStep: () => {},
     moveToNextValidStep: () => {},
     /* eslint-enable @typescript-eslint/no-empty-function */

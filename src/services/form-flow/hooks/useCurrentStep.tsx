@@ -5,7 +5,7 @@ import { FlowStore } from '../processors/flow-store';
 import { useCurrentStepMeta } from './useCurrentStepMeta';
 import { useFields } from './useFields';
 
-type UseFieldsWithStorageParams<FormFields> = ReturnType<typeof useFields<FormFields>>;
+type UseFieldsWithStorageParams<FormFields> = Pick<ReturnType<typeof useFields<FormFields>>, 'getFields' | 'updateFields'>;
 
 interface Params<FormFields> extends UseFieldsWithStorageParams<FormFields> {
   flowStore: FlowStore<FormFields>;
@@ -43,6 +43,12 @@ export function useCurrentStep<FormFields>({ flowStore, getFields, updateFields,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const moveToFirstStep = () => {
+    const firstStep = flowStore.getHead();
+
+    setCurrentStep(firstStep);
+  };
+
   const moveToNextValidStep = () => {
     const nextStep = flowStore.getNextValidStep(currentStep, getFields());
 
@@ -65,6 +71,7 @@ export function useCurrentStep<FormFields>({ flowStore, getFields, updateFields,
     currentStep,
     meta,
     CurrentStepView,
+    moveToFirstStep,
     moveToNextValidStep,
     moveToPreviousValidStep,
     moveToStepByIdentifier,
