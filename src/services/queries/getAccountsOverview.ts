@@ -13,6 +13,7 @@ const getAccountOverviewQuery = gql`
     getAccountsOverview {
       id
       type
+      label
       avatar {
         ...AvatarFragment
       }
