@@ -1,3 +1,6 @@
 export const DATE_FORMAT = 'MM/DD/YYYY';
 export const API_DATE_FORMAT = 'YYYY-MM-DD';
 export const INVESTMENT_DATE_FORMAT = 'MMMM D, YYYY';
+export const RECURRENT_INVESTMENT_DATE_FORMAT = 'dddd, MMM D';
+export const INVESTMENT_DATE_FREQUENCY_SHORT_FORMAT = 'Do';
+export const INVESTMENT_DATE_FREQUENCY_LONG_FORMAT = 'dddd';
