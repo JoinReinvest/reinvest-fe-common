@@ -10,6 +10,7 @@ import {
   INVESTMENT_DATE_FREQUENCY_LONG_FORMAT,
   INVESTMENT_DATE_FREQUENCY_SHORT_FORMAT,
   RECURRENT_INVESTMENT_DATE_FORMAT,
+  DATE_PICKER_FORMAT
 } from '../constants/date-formats';
 
 dayjs.extend(pluginIsToday);
@@ -47,6 +48,10 @@ export const formatDateForRecurrentInvestmentDisplay = (date: Date) => {
 export function formatInvestmentDateFrequency(date: Date, isShortFormat: boolean) {
   return dayjs(date).format(isShortFormat ? INVESTMENT_DATE_FREQUENCY_SHORT_FORMAT : INVESTMENT_DATE_FREQUENCY_LONG_FORMAT);
 }
+
+export function formatDateForDatePicker (date: Date) {
+  return dayjs(date).format(DATE_PICKER_FORMAT);
+};
 
 export function getWeekOfMonth(date: Dayjs) {
   const startOfMonth = date.startOf('month');
