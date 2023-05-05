@@ -1,4 +1,4 @@
-import { DATE_FORMAT } from '../constants/date-formats';
+import { DateFormats } from '../constants/date-formats';
 import { STATE_CODES } from '../constants/states';
 import dayjs from 'dayjs';
 import zod from 'zod';
@@ -49,7 +49,7 @@ export const formValidationRules = {
 export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRefine((value, context) => {
   const dates = {
     today: dayjs(),
-    dateOfBirth: dayjs(value, DATE_FORMAT),
+    dateOfBirth: dayjs(value, DateFormats.DEFAULT),
   };
 
   const dateAgo = dates.today.subtract(18, 'year');
