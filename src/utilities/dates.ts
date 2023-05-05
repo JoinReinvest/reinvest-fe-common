@@ -4,7 +4,7 @@ import pluginIsToday from 'dayjs/plugin/isToday';
 import pluginWeekOfYear from 'dayjs/plugin/weekOfYear';
 
 import {
-  API_DATE_FORMAT,
+  API_DATE_FORMAT, CHART_DATE_FORMAT,
   DATE_FORMAT,
   INVESTMENT_DATE_FORMAT,
   INVESTMENT_DATE_FREQUENCY_LONG_FORMAT,
@@ -35,6 +35,10 @@ export const formatDateForInvestmentDisplay = (date: Date) => {
 export const isToday = (date: Date) => {
   return dayjs(date).isToday();
 };
+
+export const formatDateForChart = (date: Date | string) => {
+  return dayjs(date).format(CHART_DATE_FORMAT);
+}
 
 export const formatDateForRecurrentInvestmentDisplay = (date: Date) => {
   return dayjs(date).format(RECURRENT_INVESTMENT_DATE_FORMAT);
