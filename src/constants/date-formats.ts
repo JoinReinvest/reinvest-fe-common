@@ -4,3 +4,5 @@ export const INVESTMENT_DATE_FORMAT = 'MMMM D, YYYY';
 export const RECURRENT_INVESTMENT_DATE_FORMAT = 'dddd, MMM D';
 export const INVESTMENT_DATE_FREQUENCY_SHORT_FORMAT = 'Do';
 export const INVESTMENT_DATE_FREQUENCY_LONG_FORMAT = 'dddd';
+
+export const CHART_DATE_FORMAT = 'ddd, MMM D';
