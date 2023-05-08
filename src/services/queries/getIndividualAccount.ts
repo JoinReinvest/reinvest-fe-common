@@ -3,18 +3,36 @@ import { gql } from "graphql-request";
 import { Query } from "../../types/graphql";
 import { UseApiQuery } from "./interfaces";
 import { AvatarFragment } from './fragments/avatar';
+import { EmployerFragment } from './fragments/employer';
+import { NetRangeFragment } from './fragments/netRange';
 
 type Hook = UseApiQuery<'getIndividualAccount'>;
 
 export const getIndividualAccountQuery = gql`
   ${AvatarFragment}
-
+  ${EmployerFragment}
+  ${NetRangeFragment}
   query getIndividualAccount {
     getIndividualAccount {
       id
-      label
       avatar {
         ...AvatarFragment
+      }
+      positionTotal
+      label
+      details {
+        employmentStatus {
+          status
+        }
+        employer {
+          ...EmployerFragment
+        }
+        netWorth {
+          ...NetRangeFragment
+        }
+        netIncome {
+          ...NetRangeFragment
+        }
       }
     }
   }
