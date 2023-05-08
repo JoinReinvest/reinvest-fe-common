@@ -11,10 +11,9 @@ interface Parameters {
 }
 
 const signDocumentFromTemplateMutation = gql`
-  mutation signDocumentFromTemplate($templateId: TemplateName, $fields: [GenericFieldInput], signature: String) {
+  mutation signDocumentFromTemplate($templateId: TemplateName!, $fields: [GenericFieldInput]!, signature: String!) {
     signDocumentFromTemplate(templateId: $templateId, fields: $fields, signature: $signature) {
-      url
-      id
+      signatureId
     }
   }
 `;

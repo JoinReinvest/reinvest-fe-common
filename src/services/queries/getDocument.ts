@@ -14,7 +14,7 @@ const getDocumentQuery = gql`
   }
 `;
 
-export const useGetTemplate: Hook = (getApiClient) =>
+export const useGetDocument: Hook = (getApiClient) =>
   useQuery<Query['getDocument']>({
     queryKey: ['getDocument'],
     queryFn: async () => {

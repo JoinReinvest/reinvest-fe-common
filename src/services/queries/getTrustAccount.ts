@@ -29,7 +29,7 @@ export const getTrustAccountQuery = gql`
   }
 `;
 
-export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getTrustAccount"]>({
+export const useGetTrustAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getTrustAccount"]>({
   queryKey: ["getTrustAccount"],
   queryFn: async () => {
     const api = await getApiClient();
