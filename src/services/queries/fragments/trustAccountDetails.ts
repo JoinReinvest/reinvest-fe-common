@@ -8,7 +8,7 @@ import { CompanyTypeFragment } from './companyType';
 import { DocumentFileLinkIdFragment } from './documentFileLinkId';
 import { StakeholderFragment } from './stakeholder';
 
-export const CorporateAccountDetailsFragment = gql`
+export const TrustAccountDetailsFragment = gql`
   ${CompanyNameFragment}
   ${AddressFragment}
   ${AnnualRevenueFragment}
@@ -17,7 +17,7 @@ export const CorporateAccountDetailsFragment = gql`
   ${CompanyTypeFragment}
   ${DocumentFileLinkIdFragment}
   ${StakeholderFragment}
-  fragment CorporateAccountDetailsFragment on CorporateAccountDetails {
+  fragment TrustAccountDetailsFragment on TrustAccountDetails {
     companyName {
       ...CompanyNameFragment
     }

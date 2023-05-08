@@ -5,17 +5,17 @@ import { UseApiQueryWithParams } from './interfaces';
 import { AvatarFragment } from './fragments/avatar';
 import { EmployerFragment } from './fragments/employer';
 import { NetRangeFragment } from './fragments/netRange';
-import { CorporateAccountDetailsFragment } from './fragments/corporateAccountDetails';
+import { TrustAccountDetailsFragment } from './fragments/trustAccountDetails';
 
-type Hook = UseApiQueryWithParams<'getCorporateAccount', { accountId: string, config: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getTrustAccount', { accountId: string, config: UseQueryOptions}>;
 
-export const getCorporateAccountQuery = gql`
+export const getTrustAccountQuery = gql`
   ${AvatarFragment}
   ${EmployerFragment}
   ${NetRangeFragment}
-  ${CorporateAccountDetailsFragment}
-  query getCorporateAccount {
-    getCorporateAccount {
+  ${TrustAccountDetailsFragment}
+  query getTrustAccount($accountId: String) {
+    getTrustAccount(accountId: $accountId) {
       id
       avatar {
         ...AvatarFragment
@@ -23,14 +23,14 @@ export const getCorporateAccountQuery = gql`
       positionTotal
       label
       details {
-        ...CorporateAccountDetailsFragment
+        ...TrustAccountDetailsFragment
       }
     }
   }
 `;
 
-export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getCorporateAccount"]>({
-  queryKey: ["getCorporateAccount"],
+export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getTrustAccount"]>({
+  queryKey: ["getTrustAccount"],
   queryFn: async () => {
     const api = await getApiClient();
 
@@ -38,9 +38,9 @@ export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...confi
       return null;
     }
 
-    const { getCorporateAccount } = await api.request<Query>(getCorporateAccountQuery);
+    const { getTrustAccount } = await api.request<Query>(getTrustAccountQuery);
 
-    return getCorporateAccount;
+    return getTrustAccount;
   },
   ...config
 });

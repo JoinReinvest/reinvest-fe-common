@@ -14,8 +14,8 @@ export const getCorporateAccountQuery = gql`
   ${EmployerFragment}
   ${NetRangeFragment}
   ${CorporateAccountDetailsFragment}
-  query getCorporateAccount {
-    getCorporateAccount {
+  query getCorporateAccount($accountId: String) {
+    getCorporateAccount(accountId: $accountId) {
       id
       avatar {
         ...AvatarFragment
