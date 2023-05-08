@@ -8,7 +8,7 @@ type Parameters = { input: UpdateProfileForVerificationInput };
 type Hook = UseApiMutationWithParams<'updateProfileForVerification', Parameters>;
 
 const updateProfileForVerificationMutation = gql`
-  mutation updateProfileForVerification($input: updateProfileForVerification) {
+  mutation updateProfileForVerification($input: UpdateProfileForVerificationInput!) {
     updateProfileForVerification(input: $input)
   }
 `;
