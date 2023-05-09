@@ -3,54 +3,33 @@ import pluginAdvancedFormat from 'dayjs/plugin/advancedFormat';
 import pluginIsToday from 'dayjs/plugin/isToday';
 import pluginWeekOfYear from 'dayjs/plugin/weekOfYear';
 
-import {
-  API_DATE_FORMAT, CHART_DATE_FORMAT,
-  DATE_FORMAT,
-  INVESTMENT_DATE_FORMAT,
-  INVESTMENT_DATE_FREQUENCY_LONG_FORMAT,
-  INVESTMENT_DATE_FREQUENCY_SHORT_FORMAT,
-  RECURRENT_INVESTMENT_DATE_FORMAT,
-  DATE_PICKER_FORMAT
-} from '../constants/date-formats';
+import { DateFormats, DateFormatKeys } from '../constants/date-formats';
 
 dayjs.extend(pluginIsToday);
 dayjs.extend(pluginAdvancedFormat);
 dayjs.extend(pluginWeekOfYear);
 
-export const formatDateForApi = (date: Date | string) => {
-  return dayjs(date, DATE_FORMAT).format(API_DATE_FORMAT);
-};
+type FormatDateOptions = { currentFormat?: DateFormatKeys };
+export function formatDate(date: string | Date, format: DateFormatKeys, options: Required<FormatDateOptions>): string;
+export function formatDate(date: Date, format: DateFormatKeys, options?: FormatDateOptions): string;
+export function formatDate(date: Date | string, format: DateFormatKeys, options?: FormatDateOptions): string {
+  const expectedFormat = DateFormats[format];
 
-export const formatDateFromApi = (date: Date | string) => {
-  return dayjs(date, API_DATE_FORMAT).format(DATE_FORMAT);
+  if (typeof date === 'string' && options?.currentFormat) {
+    const currentFormat = DateFormats[options.currentFormat];
+
+    return dayjs(date, currentFormat).format(expectedFormat);
+  };
+
+  return dayjs(date).format(expectedFormat);
 };
 
 export const isDateFromApi = (date: Date | string): boolean => {
-  return dayjs(date, API_DATE_FORMAT, true).isValid();
-};
-
-export const formatDateForInvestmentDisplay = (date: Date) => {
-  return dayjs(date).format(INVESTMENT_DATE_FORMAT);
+  return dayjs(date, DateFormats.API, true).isValid();
 };
 
 export const isToday = (date: Date) => {
   return dayjs(date).isToday();
-};
-
-export const formatDateForChart = (date: Date | string) => {
-  return dayjs(date).format(CHART_DATE_FORMAT);
-}
-
-export const formatDateForRecurrentInvestmentDisplay = (date: Date) => {
-  return dayjs(date).format(RECURRENT_INVESTMENT_DATE_FORMAT);
-};
-
-export function formatInvestmentDateFrequency(date: Date, isShortFormat: boolean) {
-  return dayjs(date).format(isShortFormat ? INVESTMENT_DATE_FREQUENCY_SHORT_FORMAT : INVESTMENT_DATE_FREQUENCY_LONG_FORMAT);
-}
-
-export function formatDateForDatePicker (date: Date) {
-  return dayjs(date).format(DATE_PICKER_FORMAT);
 };
 
 export function getWeekOfMonth(date: Dayjs) {
