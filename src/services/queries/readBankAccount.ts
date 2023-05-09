@@ -8,7 +8,7 @@ type Hook = UseApiQueryWithParams<'readBankAccount', { accountId: string, config
 
 export const readBankAccountQuery = gql`
   ${BankAccountFragment}
-  query readBankAccount($accountId: String) {
+  query readBankAccount($accountId: String!) {
     readBankAccount(accountId: $accountId) {
       ...BankAccountFragment
     }
