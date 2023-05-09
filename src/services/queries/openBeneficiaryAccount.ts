@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { Mutation } from '../../types/graphql';
+import { CreateBeneficiaryInput, Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 import { AvatarFragment } from './fragments/avatar';
 import { BeneficiaryDetailsFragment } from './fragments/beneficiaryDetails';
 
-type Parameters = { draftAccountId: string };
+type Parameters = { individualAccountId: string, input: CreateBeneficiaryInput };
 type Hook = UseApiMutationWithParams<'openBeneficiaryAccount', Parameters>;
 
 const openBeneficiaryAccountMutation = gql`
