@@ -16,7 +16,7 @@ export const readBankAccountQuery = gql`
 `;
 
 export const useReadBankAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["readBankAccount"]>({
-  queryKey: ["readBankAccount"],
+  queryKey: ["readBankAccount", accountId],
   queryFn: async () => {
     const api = await getApiClient();
 
@@ -24,7 +24,7 @@ export const useReadBankAccount: Hook = (getApiClient, { accountId, ...config })
       return null;
     }
 
-    const { readBankAccount } = await api.request<Query>(readBankAccountQuery);
+    const { readBankAccount } = await api.request<Query>(readBankAccountQuery, { accountId });
 
     return readBankAccount;
   },
