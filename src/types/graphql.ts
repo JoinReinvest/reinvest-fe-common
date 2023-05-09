@@ -89,6 +89,42 @@ export type AvatarFileLinkInput = {
   id: Scalars['String'];
 };
 
+export type BankAccount = {
+  __typename?: 'BankAccount';
+  accountNumber?: Maybe<Scalars['String']>;
+  accountType?: Maybe<Scalars['String']>;
+};
+
+export type BankAccountLink = {
+  __typename?: 'BankAccountLink';
+  link?: Maybe<Scalars['String']>;
+};
+
+export type BeneficiaryAccount = {
+  __typename?: 'BeneficiaryAccount';
+  avatar?: Maybe<GetAvatarLink>;
+  details?: Maybe<BeneficiaryDetails>;
+  id?: Maybe<Scalars['ID']>;
+  label?: Maybe<Scalars['String']>;
+  positionTotal?: Maybe<Scalars['String']>;
+};
+
+export type BeneficiaryDetails = {
+  __typename?: 'BeneficiaryDetails';
+  name?: Maybe<BeneficiaryName>;
+};
+
+export type BeneficiaryName = {
+  __typename?: 'BeneficiaryName';
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+};
+
+export type BeneficiaryNameInput = {
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+};
+
 export type CompanyDraftAccountDetails = {
   __typename?: 'CompanyDraftAccountDetails';
   address?: Maybe<Address>;
@@ -186,6 +222,11 @@ export type CorporateDraftAccountInput = {
   /** IMPORTANT: it removes previously uploaded id scan documents from s3 for this stakeholder */
   removeStakeholders?: InputMaybe<Array<InputMaybe<StakeholderIdInput>>>;
   stakeholders?: InputMaybe<Array<InputMaybe<StakeholderInput>>>;
+};
+
+export type CreateBeneficiaryInput = {
+  avatar?: InputMaybe<AvatarFileLinkInput>;
+  name: BeneficiaryNameInput;
 };
 
 export type DateOfBirth = {
@@ -322,6 +363,24 @@ export type FinraStatementInput = {
   name: Scalars['String'];
 };
 
+/**  Plaid response */
+export type FulfillBankAccountInput = {
+  /**  plaidAccountDetails.account_name */
+  accountName?: InputMaybe<Scalars['String']>;
+  /**  plaidAccountDetails.account_number */
+  accountNumber: Scalars['String'];
+  /**  plaidAccountDetails.account_type */
+  accountType: Scalars['String'];
+  /**  plaidAccountDetails.institutionId */
+  institutionId?: InputMaybe<Scalars['String']>;
+  /**  plaidAccountDetails.institution_name */
+  institutionName?: InputMaybe<Scalars['String']>;
+  /**  plaidAccountDetails.refNum */
+  refNumber: Scalars['String'];
+  /**  plaidAccountDetails.routing_number */
+  routingNumber: Scalars['String'];
+};
+
 export type GenericFieldInput = {
   name: Scalars['String'];
   value: Scalars['String'];
@@ -426,6 +485,12 @@ export type Mutation = {
    */
   createAvatarFileLink?: Maybe<PutFileLink>;
   /**
+   * It creates new link to the investor bank account. It works only if the account does not have any bank account linked yet.
+   * Every time when the system create new link it cost $1.80 (on prod). Do not call it if it is not necessary.
+   * The bank account will not be activated until the investor fulfills the bank account.
+   */
+  createBankAccount?: Maybe<BankAccountLink>;
+  /**
    * Create file links for documents.
    * In the response, it returns the "id" and "url".
    * Use "url" for PUT request to upload the file directly to AWS S3. The url has expiration date!
@@ -438,10 +503,17 @@ export type Mutation = {
    */
   createDraftAccount?: Maybe<DraftAccount>;
   /**
+   * Provide the response from Plaid here.
+   * The bank account will not be activated until the investor fulfills the bank account.
+   */
+  fulfillBankAccount?: Maybe<Scalars['Boolean']>;
+  /**
    * Open REINVEST Account based on draft.
    * Currently supported: Individual Account
    */
   openAccount?: Maybe<Scalars['Boolean']>;
+  /** Open beneficiary account */
+  openBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
   /**
    * Remove draft account
    * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
@@ -457,6 +529,12 @@ export type Mutation = {
   setPhoneNumber?: Maybe<Scalars['Boolean']>;
   /** [WIP] */
   signDocumentFromTemplate?: Maybe<SignatureId>;
+  /**
+   * It updates the link to the investor bank account. It works only if the account has bank account linked already.
+   * Every time when the system create new link it cost $1.80 (on prod). Do not call it if it is not necessary.
+   * The bank account will not be activated until the investor fulfills the bank account.
+   */
+  updateBankAccount?: Maybe<BankAccountLink>;
   /** [WIP] It does not work yet. */
   updateCompanyForVerification?: Maybe<Scalars['Boolean']>;
   /** [WIP] It does not work yet. */
@@ -519,6 +597,11 @@ export type MutationCompleteTrustDraftAccountArgs = {
 };
 
 
+export type MutationCreateBankAccountArgs = {
+  accountId: Scalars['String'];
+};
+
+
 export type MutationCreateDocumentsFileLinksArgs = {
   numberOfLinks: Scalars['numberOfLinks_Int_NotNull_min_1_max_10'];
 };
@@ -529,8 +612,20 @@ export type MutationCreateDraftAccountArgs = {
 };
 
 
+export type MutationFulfillBankAccountArgs = {
+  accountId: Scalars['String'];
+  input: FulfillBankAccountInput;
+};
+
+
 export type MutationOpenAccountArgs = {
   draftAccountId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationOpenBeneficiaryAccountArgs = {
+  individualAccountId: Scalars['String'];
+  input: CreateBeneficiaryInput;
 };
 
 
@@ -550,6 +645,11 @@ export type MutationSignDocumentFromTemplateArgs = {
   fields: Array<InputMaybe<GenericFieldInput>>;
   signature: Scalars['String'];
   templateId: TemplateName;
+};
+
+
+export type MutationUpdateBankAccountArgs = {
+  accountId: Scalars['String'];
 };
 
 
@@ -701,6 +801,11 @@ export type Query = {
    */
   getAccountsOverview?: Maybe<Array<Maybe<AccountOverview>>>;
   /**
+   * Returns beneficiary account information
+   * [PARTIAL_MOCK] Position total is still mocked!!
+   */
+  getBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
+  /**
    * Returns corporate account information
    * [PARTIAL_MOCK] Position total is still mocked!!
    */
@@ -735,8 +840,15 @@ export type Query = {
   listAccountTypesUserCanOpen?: Maybe<Array<Maybe<AccountType>>>;
   /** [MOCK] Returns information if user already assigned and verified phone number */
   phoneCompleted?: Maybe<Scalars['Boolean']>;
+  /** Returns basic bank account information. */
+  readBankAccount?: Maybe<BankAccount>;
   /** Returns invitation link with a valid referral code (incentive token) */
   userInvitationLink?: Maybe<UserInvitationLink>;
+};
+
+
+export type QueryGetBeneficiaryAccountArgs = {
+  accountId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -772,6 +884,11 @@ export type QueryGetTrustAccountArgs = {
 
 export type QueryGetTrustDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryReadBankAccountArgs = {
+  accountId: Scalars['String'];
 };
 
 export type SsnInput = {
