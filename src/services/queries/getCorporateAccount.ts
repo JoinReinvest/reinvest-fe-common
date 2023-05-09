@@ -30,7 +30,7 @@ export const getCorporateAccountQuery = gql`
 `;
 
 export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getCorporateAccount"]>({
-  queryKey: ["getCorporateAccount"],
+  queryKey: ["getCorporateAccount", accountId],
   queryFn: async () => {
     const api = await getApiClient();
 
@@ -38,7 +38,7 @@ export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...confi
       return null;
     }
 
-    const { getCorporateAccount } = await api.request<Query>(getCorporateAccountQuery);
+    const { getCorporateAccount } = await api.request<Query>(getCorporateAccountQuery, { accountId });
 
     return getCorporateAccount;
   },
