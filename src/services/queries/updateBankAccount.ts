@@ -5,19 +5,19 @@ import { Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 import { BankAccountLinkFragment } from './fragments/bankAccountLink';
 
-type Parameters = { accountId: string };
-type Hook = UseApiMutationWithParams<'createBankAccount', Parameters>;
+type Parameters = { accountId: string};
+type Hook = UseApiMutationWithParams<'updateBankAccount', Parameters>;
 
-const createBankAccountMutation = gql`
+const updateBankAccountMutation = gql`
   ${BankAccountLinkFragment}
-  mutation createBankAccount($accountId: String!) {
-    createBankAccount(accountId: $accountId) {
+  mutation updateBankAccount($accountId: String!) {
+    updateBankAccount(accountId: $accountId) {
       ...BankAccountLinkFragment
     }
   }
 `;
 
-export const useCreateBankAccount: Hook = (getApiClient) =>
+export const useUpdateBankAccount: Hook = (getApiClient) =>
   useMutation({
     mutationFn: async (input) => {
       const api = await getApiClient();
@@ -26,8 +26,8 @@ export const useCreateBankAccount: Hook = (getApiClient) =>
         return null;
       }
 
-      const { createBankAccount } = await api.request<Mutation>(createBankAccountMutation, { ...input });
+      const { updateBankAccount } = await api.request<Mutation>(updateBankAccountMutation, { ...input });
 
-      return createBankAccount;
+      return updateBankAccount;
     },
   });
