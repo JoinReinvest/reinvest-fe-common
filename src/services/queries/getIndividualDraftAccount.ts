@@ -3,18 +3,18 @@ import { gql } from 'graphql-request';
 import { Query } from '../../types/graphql';
 
 import { UseApiQueryWithParams } from './interfaces';
+import { AvatarFragment } from './fragments/avatar';
 
 type Hook = UseApiQueryWithParams<'getIndividualDraftAccount', { accountId: string, config: UseQueryOptions}> ;
 
 const getIndividualDraftAccountQuery = gql`
+  ${AvatarFragment}
   query getIndividualDraftAccount($accountId: ID) {
     getIndividualDraftAccount(accountId: $accountId) {
     id
     state
     avatar {
-      id
-      url
-      initials
+      ...AvatarFragment
     }
     isCompleted
     details {
