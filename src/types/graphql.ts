@@ -13,11 +13,17 @@ export type Scalars = {
   EmailAddress: any;
   FileName: any;
   ISODate: any;
+  ISODateTime: any;
+  Money: any;
   firstName_String_NotNull_minLength_1: any;
-  inCents_Int_NotNull_min_0: any;
   lastName_String_NotNull_minLength_1: any;
   numberOfLinks_Int_NotNull_min_1_max_10: any;
   ssn_String_NotNull_pattern_093092094: any;
+};
+
+export type AccountConfiguration = {
+  __typename?: 'AccountConfiguration';
+  automaticDividendReinvestmentAgreement: AutomaticDividendReinvestmentAgreement;
 };
 
 export type AccountOverview = {
@@ -81,6 +87,12 @@ export type AnnualRevenue = {
 
 export type AnnualRevenueInput = {
   range: Scalars['String'];
+};
+
+export type AutomaticDividendReinvestmentAgreement = {
+  __typename?: 'AutomaticDividendReinvestmentAgreement';
+  date?: Maybe<Scalars['ISODateTime']>;
+  signed: Scalars['Boolean'];
 };
 
 /** Avatar link id input */
@@ -253,17 +265,6 @@ export type DocumentFileLinkInput = {
   id: Scalars['String'];
 };
 
-export type Dollar = {
-  __typename?: 'Dollar';
-  display?: Maybe<Scalars['String']>;
-  inCents?: Maybe<Scalars['Int']>;
-};
-
-export type DollarInput = {
-  formatted?: InputMaybe<Scalars['String']>;
-  inCents: Scalars['inCents_Int_NotNull_min_0'];
-};
-
 export type Domicile = {
   __typename?: 'Domicile';
   birthCountry?: Maybe<Scalars['String']>;
@@ -314,6 +315,30 @@ export type Ein = {
 export type EinInput = {
   ein: Scalars['String'];
 };
+
+export type EvsChart = {
+  __typename?: 'EVSChart';
+  changeFactor: Scalars['String'];
+  dataPoints?: Maybe<Array<Maybe<EvsChartPoint>>>;
+  endAt: Scalars['ISODate'];
+  resolution?: Maybe<EvsChartResolution>;
+  startAt: Scalars['ISODate'];
+};
+
+export type EvsChartPoint = {
+  __typename?: 'EVSChartPoint';
+  date: Scalars['ISODate'];
+  usd: Scalars['Float'];
+};
+
+export enum EvsChartResolution {
+  Day = 'DAY',
+  FiveYears = 'FIVE_YEARS',
+  Max = 'MAX',
+  Month = 'MONTH',
+  Week = 'WEEK',
+  Year = 'YEAR'
+}
 
 export type EmailInput = {
   email: Scalars['EmailAddress'];
@@ -458,12 +483,39 @@ export type IndustryInput = {
   value: Scalars['String'];
 };
 
+export enum InvestmentStatus {
+  Failed = 'FAILED',
+  Finished = 'FINISHED',
+  Funded = 'FUNDED',
+  InProgress = 'IN_PROGRESS',
+  WaitingForFeesApproval = 'WAITING_FOR_FEES_APPROVAL',
+  WaitingForInvestmentStart = 'WAITING_FOR_INVESTMENT_START',
+  WaitingForSubscriptionAgreement = 'WAITING_FOR_SUBSCRIPTION_AGREEMENT'
+}
+
+export type InvestmentSummary = {
+  __typename?: 'InvestmentSummary';
+  amount: Usd;
+  createdAt: Scalars['ISODateTime'];
+  id: Scalars['ID'];
+  investmentFees?: Maybe<Usd>;
+  status: InvestmentStatus;
+  subscriptionAgreementId?: Maybe<Scalars['ID']>;
+  tradeId: Scalars['ID'];
+};
+
 export type LegalNameInput = {
   name: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /**
+   * [MOCK] Approves the fees for the specific investment.
+   * In case if extra fee is required for recurring investment and the investment was started automatically by the system, then
+   * use this method to approve the fees (it will ask for that on verification step triggered from the notification).
+   */
+  approveFees: Scalars['Boolean'];
   /** Complete corporate draft account */
   completeCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
   /** Complete individual draft account */
@@ -503,10 +555,36 @@ export type Mutation = {
    */
   createDraftAccount?: Maybe<DraftAccount>;
   /**
+   * [MOCK] It creates new investment and returns its ID.
+   * It requires bank account to be linked to the account.
+   * In other case it throws an error.
+   */
+  createInvestment: Scalars['ID'];
+  /**
+   * [MOCK] It creates new investment and returns its ID.
+   * It requires bank account to be linked to the account.
+   * In other case it throws an error.
+   */
+  createRecurringInvestment: RecurringInvestment;
+  /**
+   * [MOCK] It creates new subscription agreement for the specific recurring investment
+   * It returns the content of the agreement that must be rendered on the client side.
+   * Client must sign the agreement and call signRecurringInvestmentSubscriptionAgreement mutation.
+   */
+  createRecurringSubscriptionAgreement: SubscriptionAgreement;
+  /**
+   * [MOCK] It creates new subscription agreement for the specific investment
+   * It returns the content of the agreement that must be rendered on the client side.
+   * Client must sign the agreement and call signSubscriptionAgreement mutation.
+   */
+  createSubscriptionAgreement: SubscriptionAgreement;
+  /**
    * Provide the response from Plaid here.
    * The bank account will not be activated until the investor fulfills the bank account.
    */
   fulfillBankAccount?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] It STARTS the recurring investment, CANCEL previous recurring investment if exists and schedule the first investment. */
+  initiateRecurringInvestment: Scalars['Boolean'];
   /**
    * Open REINVEST Account based on draft.
    * Currently supported: Individual Account
@@ -519,6 +597,8 @@ export type Mutation = {
    * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
    */
   removeDraftAccount?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] Set automatic dividend reinvestment agreement */
+  setAutomaticDividendReinvestmentAgreement: Scalars['Boolean'];
   /**
    * Add phone number. The system will send the verification code to the provided phone number via sms.
    * Token will be valid for 10 minutes and can be used only once.
@@ -529,6 +609,16 @@ export type Mutation = {
   setPhoneNumber?: Maybe<Scalars['Boolean']>;
   /** [WIP] */
   signDocumentFromTemplate?: Maybe<SignatureId>;
+  /** [MOCK] It signs the recurring investment subscription agreement. */
+  signRecurringInvestmentSubscriptionAgreement: Scalars['Boolean'];
+  /** [MOCK] It signs the subscription agreement. */
+  signSubscriptionAgreement: Scalars['Boolean'];
+  /**
+   * [MOCK] It starts the investment.
+   * It requires subscription agreement to be signed and fees to be approved.
+   * The fees can be approved also by this method (if approveFees is true).
+   */
+  startInvestment: Scalars['Boolean'];
   /**
    * It updates the link to the investor bank account. It works only if the account has bank account linked already.
    * Every time when the system create new link it cost $1.80 (on prod). Do not call it if it is not necessary.
@@ -574,6 +664,11 @@ export type Mutation = {
 };
 
 
+export type MutationApproveFeesArgs = {
+  investmentId: Scalars['ID'];
+};
+
+
 export type MutationCompleteCorporateDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
   input?: InputMaybe<CorporateDraftAccountInput>;
@@ -612,9 +707,37 @@ export type MutationCreateDraftAccountArgs = {
 };
 
 
+export type MutationCreateInvestmentArgs = {
+  accountId: Scalars['ID'];
+  amount?: InputMaybe<UsdInput>;
+};
+
+
+export type MutationCreateRecurringInvestmentArgs = {
+  accountId: Scalars['ID'];
+  amount: UsdInput;
+  schedule: RecurringInvestmentScheduleInput;
+};
+
+
+export type MutationCreateRecurringSubscriptionAgreementArgs = {
+  accountId: Scalars['ID'];
+};
+
+
+export type MutationCreateSubscriptionAgreementArgs = {
+  investmentId: Scalars['ID'];
+};
+
+
 export type MutationFulfillBankAccountArgs = {
   accountId: Scalars['String'];
   input: FulfillBankAccountInput;
+};
+
+
+export type MutationInitiateRecurringInvestmentArgs = {
+  accountId: Scalars['ID'];
 };
 
 
@@ -634,6 +757,12 @@ export type MutationRemoveDraftAccountArgs = {
 };
 
 
+export type MutationSetAutomaticDividendReinvestmentAgreementArgs = {
+  accountId: Scalars['ID'];
+  automaticDividendReinvestmentAgreement: Scalars['Boolean'];
+};
+
+
 export type MutationSetPhoneNumberArgs = {
   countryCode?: InputMaybe<Scalars['String']>;
   isSmsAllowed?: InputMaybe<Scalars['Boolean']>;
@@ -645,6 +774,22 @@ export type MutationSignDocumentFromTemplateArgs = {
   fields: Array<InputMaybe<GenericFieldInput>>;
   signature: Scalars['String'];
   templateId: TemplateName;
+};
+
+
+export type MutationSignRecurringInvestmentSubscriptionAgreementArgs = {
+  accountId: Scalars['ID'];
+};
+
+
+export type MutationSignSubscriptionAgreementArgs = {
+  subscriptionAgreementId: Scalars['ID'];
+};
+
+
+export type MutationStartInvestmentArgs = {
+  approveFees?: InputMaybe<Scalars['Boolean']>;
+  investmentId: Scalars['ID'];
 };
 
 
@@ -795,11 +940,15 @@ export type PutFileLink = {
 
 export type Query = {
   __typename?: 'Query';
+  /** [MOCK] Return account configuration */
+  getAccountConfiguration: AccountConfiguration;
   /**
    * Return all accounts overview
    * [PARTIAL_MOCK] Position total is still mocked!!
    */
   getAccountsOverview?: Maybe<Array<Maybe<AccountOverview>>>;
+  /** [MOCK] It returns the current recurring investment summary. */
+  getActiveRecurringInvestment?: Maybe<RecurringInvestment>;
   /**
    * Returns beneficiary account information
    * [PARTIAL_MOCK] Position total is still mocked!!
@@ -814,6 +963,10 @@ export type Query = {
   getCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
   /** Returns document link by id */
   getDocument?: Maybe<GetDocumentLink>;
+  /** [MOCK] It returns the created draft recurring investment summary. */
+  getDraftRecurringInvestment?: Maybe<RecurringInvestment>;
+  /** [MOCK] Get EVS chart data for an account by resolution */
+  getEVSChart?: Maybe<EvsChart>;
   /**
    * Returns individual account information
    * [PARTIAL_MOCK] Position total is still mocked!!
@@ -821,8 +974,17 @@ export type Query = {
   getIndividualAccount?: Maybe<IndividualAccount>;
   /** Get details of individual draft account */
   getIndividualDraftAccount?: Maybe<IndividualDraftAccount>;
+  /**
+   * [MOCK] It returns the investment summary.
+   * Use this method to get info about the investment fees.
+   */
+  getInvestmentSummary: InvestmentSummary;
   /** Get user profile */
   getProfile?: Maybe<Profile>;
+  /** [MOCK] Returns the simulation of the recurring investment schedule. */
+  getScheduleSimulation: Array<Scalars['ISODate']>;
+  /** [MOCK] It returns the subscription agreement. */
+  getSubscriptionAgreement: SubscriptionAgreement;
   /** [WIP] */
   getTemplate?: Maybe<Template>;
   /**
@@ -847,6 +1009,16 @@ export type Query = {
 };
 
 
+export type QueryGetAccountConfigurationArgs = {
+  accountId: Scalars['ID'];
+};
+
+
+export type QueryGetActiveRecurringInvestmentArgs = {
+  accountId: Scalars['ID'];
+};
+
+
 export type QueryGetBeneficiaryAccountArgs = {
   accountId?: InputMaybe<Scalars['String']>;
 };
@@ -867,8 +1039,34 @@ export type QueryGetDocumentArgs = {
 };
 
 
+export type QueryGetDraftRecurringInvestmentArgs = {
+  accountId: Scalars['ID'];
+};
+
+
+export type QueryGetEvsChartArgs = {
+  accountId: Scalars['String'];
+  resolution: EvsChartResolution;
+};
+
+
 export type QueryGetIndividualDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryGetInvestmentSummaryArgs = {
+  investmentId: Scalars['ID'];
+};
+
+
+export type QueryGetScheduleSimulationArgs = {
+  schedule: RecurringInvestmentScheduleInput;
+};
+
+
+export type QueryGetSubscriptionAgreementArgs = {
+  subscriptionAgreementId: Scalars['ID'];
 };
 
 
@@ -890,6 +1088,41 @@ export type QueryGetTrustDraftAccountArgs = {
 export type QueryReadBankAccountArgs = {
   accountId: Scalars['String'];
 };
+
+export type RecurringInvestment = {
+  __typename?: 'RecurringInvestment';
+  amount: Usd;
+  id: Scalars['ID'];
+  nextInvestmentDate: Scalars['ISODate'];
+  schedule: RecurringInvestmentSchedule;
+  status: RecurringInvestmentStatus;
+  subscriptionAgreementId?: Maybe<Scalars['ID']>;
+};
+
+export enum RecurringInvestmentFrequency {
+  BiWeekly = 'BI_WEEKLY',
+  Monthly = 'MONTHLY',
+  Quarterly = 'QUARTERLY',
+  Weekly = 'WEEKLY'
+}
+
+export type RecurringInvestmentSchedule = {
+  __typename?: 'RecurringInvestmentSchedule';
+  frequency: RecurringInvestmentFrequency;
+  startDate: Scalars['ISODate'];
+};
+
+export type RecurringInvestmentScheduleInput = {
+  frequency: RecurringInvestmentFrequency;
+  startDate: Scalars['ISODate'];
+};
+
+export enum RecurringInvestmentStatus {
+  Active = 'ACTIVE',
+  Cancelled = 'CANCELLED',
+  Draft = 'DRAFT',
+  WaitingForSigningSubscriptionAgreement = 'WAITING_FOR_SIGNING_SUBSCRIPTION_AGREEMENT'
+}
 
 export type SsnInput = {
   /** The valid SSN is 9 digits in format 'XXX-XX-XXXX' */
@@ -979,6 +1212,39 @@ export enum StatementType {
   TradingCompanyStakeholder = 'TradingCompanyStakeholder'
 }
 
+export type SubscriptionAgreement = {
+  __typename?: 'SubscriptionAgreement';
+  content: Array<SubscriptionAgreementSection>;
+  createdAt: Scalars['ISODateTime'];
+  id: Scalars['ID'];
+  signedAt?: Maybe<Scalars['ISODateTime']>;
+  status: SubscriptionAgreementStatus;
+  type: SubscriptionAgreementType;
+};
+
+export type SubscriptionAgreementParagraph = {
+  __typename?: 'SubscriptionAgreementParagraph';
+  bold?: Maybe<Scalars['Boolean']>;
+  isCheckedOption?: Maybe<Scalars['Boolean']>;
+  lines: Array<Scalars['String']>;
+};
+
+export type SubscriptionAgreementSection = {
+  __typename?: 'SubscriptionAgreementSection';
+  header?: Maybe<Scalars['String']>;
+  paragraphs: Array<SubscriptionAgreementParagraph>;
+};
+
+export enum SubscriptionAgreementStatus {
+  Signed = 'SIGNED',
+  WaitingForSignature = 'WAITING_FOR_SIGNATURE'
+}
+
+export enum SubscriptionAgreementType {
+  DirectDeposit = 'DIRECT_DEPOSIT',
+  RecurringInvestment = 'RECURRING_INVESTMENT'
+}
+
 export type Template = {
   __typename?: 'Template';
   content?: Maybe<Scalars['String']>;
@@ -1064,6 +1330,16 @@ export type TrustDraftAccountInput = {
   /** IMPORTANT: it removes previously uploaded id scan documents from s3 for this stakeholder */
   removeStakeholders?: InputMaybe<Array<InputMaybe<StakeholderIdInput>>>;
   stakeholders?: InputMaybe<Array<InputMaybe<StakeholderInput>>>;
+};
+
+export type Usd = {
+  __typename?: 'USD';
+  formatted?: Maybe<Scalars['String']>;
+  value: Scalars['Money'];
+};
+
+export type UsdInput = {
+  value: Scalars['Money'];
 };
 
 export type UpdateCompanyForVerificationInput = {

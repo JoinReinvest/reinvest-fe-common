@@ -3,7 +3,7 @@ import { Context } from 'react';
 import { useCurrentStep } from '../hooks/useCurrentStep';
 import { useFields } from '../hooks/useFields';
 import { useProgressPercentage } from '../hooks/useProgressPercentage';
-import { ContextProviderProps } from '../interfaces';
+import { ContextProviderProps, ContextProvider } from '../interfaces';
 import { ContextState, Steps } from '../interfaces';
 import { FlowStore } from '../processors/flow-store';
 
@@ -12,7 +12,7 @@ interface Parameters<FormFields> {
   steps: Steps<FormFields>;
 }
 
-export function generateProvider<FormFields>({ context, steps }: Parameters<FormFields>) {
+export function generateProvider<FormFields>({ context, steps }: Parameters<FormFields>): ContextProvider<FormFields> {
   const Provider = context.Provider;
 
   return ({ initialStoreFields, onStoreUpdate, isResumable = false, children }: ContextProviderProps<FormFields>) => {

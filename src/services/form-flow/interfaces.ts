@@ -54,4 +54,6 @@ export interface ContextProviderProps<FormFields> extends PropsWithChildren {
   onStoreUpdate?: (fields: FormFields) => Promise<void>;
 }
 
+export type ContextProvider<FormFields> = (props: ContextProviderProps<FormFields>) => JSX.Element;
+
 export type CurrentFormStep<FormFields> = FlowStep<FormFields> | null;
