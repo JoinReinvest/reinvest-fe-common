@@ -26,7 +26,7 @@ export const getBeneficiaryAccountQuery = gql`
 `;
 
 export const useGetBeneficiaryAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getBeneficiaryAccount"]>({
-  queryKey: ["getBeneficiaryAccount"],
+  queryKey: ["getBeneficiaryAccount", accountId],
   queryFn: async () => {
     const api = await getApiClient();
 
@@ -34,7 +34,7 @@ export const useGetBeneficiaryAccount: Hook = (getApiClient, { accountId, ...con
       return null;
     }
 
-    const { getBeneficiaryAccount } = await api.request<Query>(getBeneficiaryAccountQuery);
+    const { getBeneficiaryAccount } = await api.request<Query>(getBeneficiaryAccountQuery, { accountId});
 
     return getBeneficiaryAccount;
   },

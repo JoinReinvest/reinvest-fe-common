@@ -4,7 +4,7 @@ import { Query } from "../../types/graphql";
 import { UseApiQueryWithParams } from './interfaces';
 import { BankAccountFragment } from './fragments/bankAccount';
 
-type Hook = UseApiQueryWithParams<'readBankAccount', { accountId: string, config: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'readBankAccount', { accountId: string, config?: UseQueryOptions}>;
 
 export const readBankAccountQuery = gql`
   ${BankAccountFragment}
@@ -15,8 +15,8 @@ export const readBankAccountQuery = gql`
   }
 `;
 
-export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["readBankAccount"]>({
-  queryKey: ["readBankAccount"],
+export const useReadBankAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["readBankAccount"]>({
+  queryKey: ["readBankAccount", accountId],
   queryFn: async () => {
     const api = await getApiClient();
 
@@ -24,7 +24,7 @@ export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...confi
       return null;
     }
 
-    const { readBankAccount } = await api.request<Query>(readBankAccountQuery);
+    const { readBankAccount } = await api.request<Query>(readBankAccountQuery, { accountId });
 
     return readBankAccount;
   },
