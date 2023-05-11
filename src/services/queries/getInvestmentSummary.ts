@@ -25,13 +25,13 @@ const getInvestmentSummaryQuery = gql`
   }
 `;
 
-export const useGetInvestmentSummary: Hook = (getApiClient, {investmentId, ...config}) =>
+export const useGetInvestmentSummary: Hook = (getApiClient, { investmentId, ...config}) =>
   useQuery<Query['getInvestmentSummary']>({
     queryKey: ['getInvestmentSummary'],
     queryFn: async () => {
       const api = await getApiClient() as GraphQLClient;
 
-      const { getInvestmentSummary } = await api.request<Query>(getInvestmentSummaryQuery, {investmentId});
+      const { getInvestmentSummary } = await api.request<Query>(getInvestmentSummaryQuery, { investmentId });
 
       return getInvestmentSummary;
     },
