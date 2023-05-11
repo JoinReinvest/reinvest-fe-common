@@ -1,6 +1,6 @@
 import { FulfillBankAccountInput } from '../types/graphql';
 
-export interface DataFromPlaid {
+interface DataFromPlaid {
   accountId: string;
   account_name: string;
   account_number: string;
@@ -9,6 +9,10 @@ export interface DataFromPlaid {
   institution_name: string;
   refNum: string;
   routing_number: string;
+}
+
+export interface PlaidEvent {
+  data: string | DataFromPlaid
 }
 
 export const mapPlaidDataForApi = (plaidData: DataFromPlaid): FulfillBankAccountInput => ({
