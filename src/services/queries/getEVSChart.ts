@@ -10,7 +10,7 @@ type Hook = UseApiQueryWithParams<'getEVSChart', Parameters>;
 export const getEVSChartQuery = gql`
   ${EVSChartFragment}
 
-  query getEVSChart($accountId: String, $resolution: EVSChartResolution) {
+  query getEVSChart($accountId: String!, $resolution: EVSChartResolution!) {
     getEVSChart(accountId: $accountId, resolution: $resolution) {
       ...EVSChartFragment
     }
