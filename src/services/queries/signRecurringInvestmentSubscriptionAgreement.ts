@@ -18,8 +18,8 @@ export const useSignRecurringInvestmentSubscriptionAgreement: Hook = (getApiClie
     mutationFn: async (input) => {
       const api = await getApiClient() as GraphQLClient;
 
-      const { initiateRecurringInvestment } = await api.request<Mutation>(signRecurringInvestmentSubscriptionAgreementMutation, { ...input });
+      const { signRecurringInvestmentSubscriptionAgreement } = await api.request<Mutation>(signRecurringInvestmentSubscriptionAgreementMutation, { ...input });
 
-      return initiateRecurringInvestment;
+      return signRecurringInvestmentSubscriptionAgreement;
     },
   });
