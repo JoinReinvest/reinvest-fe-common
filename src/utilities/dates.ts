@@ -3,7 +3,7 @@ import pluginAdvancedFormat from 'dayjs/plugin/advancedFormat';
 import pluginIsToday from 'dayjs/plugin/isToday';
 import pluginWeekOfYear from 'dayjs/plugin/weekOfYear';
 
-import { DateFormats, DateFormatKeys } from '../constants/date-formats';
+import { DateFormats, DateFormatKeys, NotificationsDateFormats } from '../constants/date-formats';
 
 dayjs.extend(pluginIsToday);
 dayjs.extend(pluginAdvancedFormat);
@@ -28,9 +28,36 @@ export const isDateFromApi = (date: Date | string): boolean => {
   return dayjs(date, DateFormats.API, true).isValid();
 };
 
-export const isToday = (date: Date) => {
+export const isToday = (date: Date | Dayjs) => {
   return dayjs(date).isToday();
 };
+
+export function formatDateForNotification(dateFromApi: string) {
+  const today = dayjs();
+  const date = dayjs(dateFromApi, DateFormats.API);
+
+  const matchesToday = isToday(date);
+
+  if (matchesToday) {
+    return 'Today';
+  }
+
+  const matchessWeek = today.isSame(date, 'week');
+
+  if (matchessWeek) {
+    const daysAgo = today.diff(date, 'day');
+
+    return `${daysAgo}d`;
+  }
+
+  const matchesYear = today.isSame(date, 'year');
+
+  if (matchesYear) {
+    return date.format(NotificationsDateFormats.THIS_YEAR);
+  }
+
+  return date.format(NotificationsDateFormats.PREVIOUS_YEAR);
+}
 
 export function getWeekOfMonth(date: Dayjs) {
   const startOfMonth = date.startOf('month');
