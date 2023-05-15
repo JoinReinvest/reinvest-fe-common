@@ -11,7 +11,7 @@ export const getScheduleSimulationQuery = gql`
   }
 `;
 
-export const useGetBeneficiaryAccount: Hook = (getApiClient, { schedule, ...config }) => useQuery<Query["getScheduleSimulation"]>({
+export const useGetScheduleSimulation: Hook = (getApiClient, { schedule, ...config }) => useQuery<Query["getScheduleSimulation"]>({
   queryKey: ["getScheduleSimulation", schedule],
   queryFn: async () => {
     const api = await getApiClient() as GraphQLClient;

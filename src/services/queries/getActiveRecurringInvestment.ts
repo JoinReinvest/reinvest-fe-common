@@ -24,7 +24,7 @@ export const getActiveRecurringInvestmentQuery = gql`
   }
 `;
 
-export const useGetBeneficiaryAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getActiveRecurringInvestment"]>({
+export const useGetActiveRecurringInvestment: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getActiveRecurringInvestment"]>({
   queryKey: ["getActiveRecurringInvestment", accountId],
   queryFn: async () => {
     const api = await getApiClient() as GraphQLClient;
