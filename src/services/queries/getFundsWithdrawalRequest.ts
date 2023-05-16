@@ -17,7 +17,7 @@ export const getFundsWithdrawalRequestQuery = gql`
   }
 `;
 
-export const useGetEVSChart: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getFundsWithdrawalRequest"]>({
+export const useGetFundsWithdrawalRequest: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getFundsWithdrawalRequest"]>({
   queryKey: ["getFundsWithdrawalRequest", accountId],
   queryFn: async () => {
     const api = await getApiClient();
