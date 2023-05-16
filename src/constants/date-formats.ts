@@ -10,3 +10,8 @@ export enum DateFormats {
 	DATE_PICKER = 'MMMM YYYY',
 	CHART = 'ddd, MMM D'
 }
+
+export enum NotificationsDateFormats {
+  THIS_YEAR = 'D MMM',
+  PREVIOUS_YEAR = 'D MMM YYYY',
+}
