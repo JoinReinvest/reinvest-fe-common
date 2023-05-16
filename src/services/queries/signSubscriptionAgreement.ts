@@ -4,12 +4,12 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
-type Parameters = { subscriptionAgreementId: string };
+type Parameters = { investmentId: string };
 type Hook = UseApiMutationWithParams<'signSubscriptionAgreement', Parameters>;
 
 const signSubscriptionAgreementMutation = gql`
-  mutation signSubscriptionAgreement($subscriptionAgreementId: ID!) {
-    signSubscriptionAgreement(subscriptionAgreementId: $subscriptionAgreementId)
+  mutation signSubscriptionAgreement($investmentId: ID!) {
+    signSubscriptionAgreement(investmentId: $investmentId)
   }
 `;
 
