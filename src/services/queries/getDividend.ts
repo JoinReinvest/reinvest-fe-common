@@ -11,7 +11,7 @@ type Hook = UseApiQueryWithParams<'getDividend', Parameters>;
 const getDividendQuery = gql`
   ${DividendFragment}
 
-  query getDividend($dividendId: ID!) {
+  query getDividend($dividendId: String!) {
     getDividend(dividendId: $dividendId) {
       ...DividendFragment
     }
