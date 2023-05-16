@@ -32,7 +32,20 @@ export type AccountOverview = {
   id?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
   positionTotal?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  type?: Maybe<AccountType>;
+};
+
+export type AccountStats = {
+  __typename?: 'AccountStats';
+  EVS: Scalars['String'];
+  accountValue: Scalars['String'];
+  advisorFees: Scalars['String'];
+  appreciation: Scalars['String'];
+  costOfSharesOwned: Scalars['String'];
+  currentNAVPerShare: Scalars['String'];
+  dividends: Scalars['String'];
+  netReturns: Scalars['String'];
+  quantityOfShares: Scalars['String'];
 };
 
 export enum AccountType {
@@ -261,7 +274,7 @@ export type DocumentFileLinkId = {
 export type DocumentFileLinkInput = {
   /** File name should be in format: .pdf, .jpeg, .jpg, .png */
   fileName: Scalars['FileName'];
-  /** This is @PutFileLink.id */
+  /** This 'id' comes usually from @PutFileLink.id */
   id: Scalars['String'];
 };
 
@@ -406,6 +419,32 @@ export type FulfillBankAccountInput = {
   routingNumber: Scalars['String'];
 };
 
+export type FundsWithdrawalRequest = {
+  __typename?: 'FundsWithdrawalRequest';
+  accountValue: Usd;
+  date: Scalars['ISODateTime'];
+  eligibleForWithdrawal: Usd;
+  penaltiesFee: Usd;
+  rejectionMessage?: Maybe<Scalars['String']>;
+  status: FundsWithdrawalRequestStatus;
+};
+
+export enum FundsWithdrawalRequestStatus {
+  Approved = 'APPROVED',
+  AwaitingDecision = 'AWAITING_DECISION',
+  AwaitingSigningAgreement = 'AWAITING_SIGNING_AGREEMENT',
+  Rejected = 'REJECTED'
+}
+
+export type FundsWithdrawalSimulation = {
+  __typename?: 'FundsWithdrawalSimulation';
+  accountValue: Usd;
+  canWithdraw: Scalars['Boolean'];
+  eligibleForWithdrawal: Usd;
+  gracePeriodInvestments: Array<Maybe<GracePeriodInvestment>>;
+  penaltiesFee: Usd;
+};
+
 export type GenericFieldInput = {
   name: Scalars['String'];
   value: Scalars['String'];
@@ -424,6 +463,13 @@ export type GetDocumentLink = {
   __typename?: 'GetDocumentLink';
   id?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+export type GracePeriodInvestment = {
+  __typename?: 'GracePeriodInvestment';
+  amount: Usd;
+  gracePeriodEnd: Scalars['ISODate'];
+  investmentId: Scalars['String'];
 };
 
 export type GreenCardInput = {
@@ -510,6 +556,10 @@ export type LegalNameInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** [MOCK] It aborts the funds withdrawal request if it is not yet approved or rejected */
+  abortFundsWithdrawalRequest: Scalars['Boolean'];
+  /** [MOCK] It aborts the investment that haven't been started yet (by startInvestment mutation). */
+  abortInvestment: Scalars['Boolean'];
   /**
    * [MOCK] Approves the fees for the specific investment.
    * In case if extra fee is required for recurring investment and the investment was started automatically by the system, then
@@ -555,6 +605,13 @@ export type Mutation = {
    */
   createDraftAccount?: Maybe<DraftAccount>;
   /**
+   * [MOCK] It prepares the agreement for funds withdrawal file.
+   * The investor must download it, print it, sign it and upload it again.
+   */
+  createFundsWithdrawalAgreement: GetDocumentLink;
+  /** [MOCK] Create funds withdrawal request. It is just a DRAFT. You need to sign the agreement and then request the withdrawal. */
+  createFundsWithdrawalRequest: FundsWithdrawalRequest;
+  /**
    * [MOCK] It creates new investment and returns its ID.
    * It requires bank account to be linked to the account.
    * In other case it throws an error.
@@ -585,6 +642,8 @@ export type Mutation = {
   fulfillBankAccount?: Maybe<Scalars['Boolean']>;
   /** [MOCK] It STARTS the recurring investment, CANCEL previous recurring investment if exists and schedule the first investment. */
   initiateRecurringInvestment: Scalars['Boolean'];
+  /** [MOCK] Mark notification as read */
+  markNotificationAsRead: Scalars['Boolean'];
   /**
    * Open REINVEST Account based on draft.
    * Currently supported: Individual Account
@@ -592,11 +651,15 @@ export type Mutation = {
   openAccount?: Maybe<Scalars['Boolean']>;
   /** Open beneficiary account */
   openBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
+  /** [MOCK] Reinvest dividend - you can reinvest many dividends in the same time. If one of them is not reinvestable, then all of them will be rejected. */
+  reinvestDividend: Scalars['Boolean'];
   /**
    * Remove draft account
    * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
    */
   removeDraftAccount?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] It requests the funds withdrawal. The investor must sign the agreement first. To do that, use createFundsWithdrawalAgreement mutation and ask user to download, print, sign, scan and upload the agreement again. */
+  requestFundsWithdrawal: FundsWithdrawalRequest;
   /** [MOCK] Set automatic dividend reinvestment agreement */
   setAutomaticDividendReinvestmentAgreement: Scalars['Boolean'];
   /**
@@ -661,6 +724,18 @@ export type Mutation = {
    * This action will set the phone number in the user Cognito profile and allow to use 2FA with phone number
    */
   verifyPhoneNumber?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] Withdraw dividend - you can withdraw many dividends in the same time. If one of them is not withdrawable, then all of them will be rejected. */
+  withdrawDividend: Scalars['Boolean'];
+};
+
+
+export type MutationAbortFundsWithdrawalRequestArgs = {
+  accountId: Scalars['String'];
+};
+
+
+export type MutationAbortInvestmentArgs = {
+  investmentId: Scalars['ID'];
 };
 
 
@@ -707,6 +782,16 @@ export type MutationCreateDraftAccountArgs = {
 };
 
 
+export type MutationCreateFundsWithdrawalAgreementArgs = {
+  accountId: Scalars['String'];
+};
+
+
+export type MutationCreateFundsWithdrawalRequestArgs = {
+  accountId: Scalars['String'];
+};
+
+
 export type MutationCreateInvestmentArgs = {
   accountId: Scalars['ID'];
   amount?: InputMaybe<UsdInput>;
@@ -741,6 +826,11 @@ export type MutationInitiateRecurringInvestmentArgs = {
 };
 
 
+export type MutationMarkNotificationAsReadArgs = {
+  notificationId: Scalars['String'];
+};
+
+
 export type MutationOpenAccountArgs = {
   draftAccountId?: InputMaybe<Scalars['String']>;
 };
@@ -752,8 +842,19 @@ export type MutationOpenBeneficiaryAccountArgs = {
 };
 
 
+export type MutationReinvestDividendArgs = {
+  dividendIds?: InputMaybe<Array<Scalars['String']>>;
+};
+
+
 export type MutationRemoveDraftAccountArgs = {
   draftAccountId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type MutationRequestFundsWithdrawalArgs = {
+  accountId: Scalars['String'];
+  signedWithdrawalAgreementId?: InputMaybe<DocumentFileLinkInput>;
 };
 
 
@@ -783,7 +884,7 @@ export type MutationSignRecurringInvestmentSubscriptionAgreementArgs = {
 
 
 export type MutationSignSubscriptionAgreementArgs = {
-  subscriptionAgreementId: Scalars['ID'];
+  investmentId: Scalars['ID'];
 };
 
 
@@ -827,6 +928,11 @@ export type MutationVerifyPhoneNumberArgs = {
   phoneNumber?: InputMaybe<Scalars['String']>;
 };
 
+
+export type MutationWithdrawDividendArgs = {
+  dividendIds?: InputMaybe<Array<Scalars['String']>>;
+};
+
 export type NetRange = {
   __typename?: 'NetRange';
   range?: Maybe<Scalars['String']>;
@@ -836,6 +942,45 @@ export type NetRangeInput = {
   range: Scalars['String'];
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  accountId: Scalars['String'];
+  body: Scalars['String'];
+  date: Scalars['ISODateTime'];
+  header: Scalars['String'];
+  id: Scalars['ID'];
+  isDismissible: Scalars['Boolean'];
+  isRead: Scalars['Boolean'];
+  notificationType: NotificationType;
+  onObject?: Maybe<NotificationObject>;
+};
+
+export type NotificationObject = {
+  __typename?: 'NotificationObject';
+  id: Scalars['ID'];
+  type?: Maybe<NotificationObjectType>;
+};
+
+export enum NotificationObjectType {
+  Dividend = 'DIVIDEND',
+  Investment = 'INVESTMENT'
+}
+
+export enum NotificationType {
+  DividendPayoutInitiated = 'DIVIDEND_PAYOUT_INITIATED',
+  DividendReceived = 'DIVIDEND_RECEIVED',
+  DividendReinvested = 'DIVIDEND_REINVESTED',
+  DividendReinvestedAutomatically = 'DIVIDEND_REINVESTED_AUTOMATICALLY',
+  FundsWithdrawalAccepted = 'FUNDS_WITHDRAWAL_ACCEPTED',
+  FundsWithdrawalRejected = 'FUNDS_WITHDRAWAL_REJECTED',
+  GenericNotification = 'GENERIC_NOTIFICATION',
+  InvestmentFailed = 'INVESTMENT_FAILED',
+  InvestmentFundsReceived = 'INVESTMENT_FUNDS_RECEIVED',
+  RecurringInvestmentFailed = 'RECURRING_INVESTMENT_FAILED',
+  RewardDividendReceived = 'REWARD_DIVIDEND_RECEIVED',
+  VerificationFailed = 'VERIFICATION_FAILED'
+}
+
 export type NumberOfEmployees = {
   __typename?: 'NumberOfEmployees';
   range?: Maybe<Scalars['String']>;
@@ -843,6 +988,12 @@ export type NumberOfEmployees = {
 
 export type NumberOfEmployeesInput = {
   range: Scalars['String'];
+};
+
+/** If not provided, default pagination is page: 0, perPage: 10 */
+export type Pagination = {
+  page?: Scalars['Int'];
+  perPage?: Scalars['Int'];
 };
 
 export type PersonName = {
@@ -942,6 +1093,8 @@ export type Query = {
   __typename?: 'Query';
   /** [MOCK] Return account configuration */
   getAccountConfiguration: AccountConfiguration;
+  /** [MOCK] Get account stats */
+  getAccountStats?: Maybe<AccountStats>;
   /**
    * Return all accounts overview
    * [PARTIAL_MOCK] Position total is still mocked!!
@@ -967,6 +1120,8 @@ export type Query = {
   getDraftRecurringInvestment?: Maybe<RecurringInvestment>;
   /** [MOCK] Get EVS chart data for an account by resolution */
   getEVSChart?: Maybe<EvsChart>;
+  /** [MOCK] Get funds withdrawal request. It returns the current status of funds withdrawal request. */
+  getFundsWithdrawalRequest?: Maybe<FundsWithdrawalRequest>;
   /**
    * Returns individual account information
    * [PARTIAL_MOCK] Position total is still mocked!!
@@ -979,6 +1134,11 @@ export type Query = {
    * Use this method to get info about the investment fees.
    */
   getInvestmentSummary: InvestmentSummary;
+  /**
+   * [MOCK] Get all notifications for the given account id
+   * It sort notifications by date descending. Not dismissible (pinned) notifications are always first.
+   */
+  getNotDismissedNotifications: Array<Maybe<Notification>>;
   /** Get user profile */
   getProfile?: Maybe<Profile>;
   /** [MOCK] Returns the simulation of the recurring investment schedule. */
@@ -1004,6 +1164,8 @@ export type Query = {
   phoneCompleted?: Maybe<Scalars['Boolean']>;
   /** Returns basic bank account information. */
   readBankAccount?: Maybe<BankAccount>;
+  /** [MOCK] Simulate funds withdrawal. It returns the simulation of withdrawal without any changes in the system. */
+  simulateFundsWithdrawal: FundsWithdrawalSimulation;
   /** Returns invitation link with a valid referral code (incentive token) */
   userInvitationLink?: Maybe<UserInvitationLink>;
 };
@@ -1011,6 +1173,11 @@ export type Query = {
 
 export type QueryGetAccountConfigurationArgs = {
   accountId: Scalars['ID'];
+};
+
+
+export type QueryGetAccountStatsArgs = {
+  accountId: Scalars['String'];
 };
 
 
@@ -1050,6 +1217,11 @@ export type QueryGetEvsChartArgs = {
 };
 
 
+export type QueryGetFundsWithdrawalRequestArgs = {
+  accountId: Scalars['String'];
+};
+
+
 export type QueryGetIndividualDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
 };
@@ -1057,6 +1229,12 @@ export type QueryGetIndividualDraftAccountArgs = {
 
 export type QueryGetInvestmentSummaryArgs = {
   investmentId: Scalars['ID'];
+};
+
+
+export type QueryGetNotDismissedNotificationsArgs = {
+  accountId: Scalars['String'];
+  pagination?: InputMaybe<Pagination>;
 };
 
 
@@ -1086,6 +1264,11 @@ export type QueryGetTrustDraftAccountArgs = {
 
 
 export type QueryReadBankAccountArgs = {
+  accountId: Scalars['String'];
+};
+
+
+export type QuerySimulateFundsWithdrawalArgs = {
   accountId: Scalars['String'];
 };
 
