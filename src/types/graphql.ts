@@ -1326,8 +1326,9 @@ export type RecurringInvestmentScheduleInput = {
 
 export enum RecurringInvestmentStatus {
   Active = 'ACTIVE',
-  Cancelled = 'CANCELLED',
   Draft = 'DRAFT',
+  Inactive = 'INACTIVE',
+  Suspended = 'SUSPENDED',
   WaitingForSigningSubscriptionAgreement = 'WAITING_FOR_SIGNING_SUBSCRIPTION_AGREEMENT'
 }
 
