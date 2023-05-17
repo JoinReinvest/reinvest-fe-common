@@ -1,11 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { Mutation } from '../../types/graphql';
+import { Mutation, MutationReinvestDividendArgs } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
-type Parameters = { draftAccountId: string };
-type Hook = UseApiMutationWithParams<'reinvestDividend', Parameters>;
+type Hook = UseApiMutationWithParams<'reinvestDividend', MutationReinvestDividendArgs>;
 
 const reinvestDividendsMutation = gql`
   mutation reinvestDividends($dividendIds: [String!]) {
