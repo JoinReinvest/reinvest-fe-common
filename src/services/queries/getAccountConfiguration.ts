@@ -1,10 +1,10 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { AutomaticDividendReinvestmentAgreementFragment } from './fragments/automaticDividendReinvestmentAgreement';
 
-type Hook = UseApiQueryWithParams<'getAccountConfiguration', { accountId: string, config: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getAccountConfiguration', { accountId: string}>;
 
 const getAccountConfigurationQuery = gql`
   ${AutomaticDividendReinvestmentAgreementFragment}
@@ -17,7 +17,7 @@ const getAccountConfigurationQuery = gql`
   }
 `;
 
-export const useGetAccountConfiguration: Hook = (getApiClient, { accountId, ...config}) =>
+export const useGetAccountConfiguration: Hook = (getApiClient, { accountId, config }) =>
   useQuery<Query['getAccountConfiguration']>({
     queryKey: ['getAccountConfiguration'],
     queryFn: async () => {

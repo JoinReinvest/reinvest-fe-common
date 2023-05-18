@@ -1,10 +1,10 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { UsdFragment } from './fragments/usd';
 
-type Hook = UseApiQueryWithParams<'getInvestmentSummary', { investmentId: string, config: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getInvestmentSummary', { investmentId: string }>;
 
 const getInvestmentSummaryQuery = gql`
   ${UsdFragment}
@@ -25,7 +25,7 @@ const getInvestmentSummaryQuery = gql`
   }
 `;
 
-export const useGetInvestmentSummary: Hook = (getApiClient, { investmentId, ...config}) =>
+export const useGetInvestmentSummary: Hook = (getApiClient, { investmentId, config }) =>
   useQuery<Query['getInvestmentSummary']>({
     queryKey: ['getInvestmentSummary'],
     queryFn: async () => {

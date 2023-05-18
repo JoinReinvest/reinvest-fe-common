@@ -1,12 +1,12 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { Query } from '../../types/graphql';
 
 import { UseApiQueryWithParams } from './interfaces';
-import {AvatarFragment} from "./fragments/avatar";
-import {CompanyDraftAccountDetailsFragment} from "./fragments/companyDraftAccountDetails";
+import { AvatarFragment } from "./fragments/avatar";
+import { CompanyDraftAccountDetailsFragment } from "./fragments/companyDraftAccountDetails";
 
-type Parameters = { accountId: string, config: UseQueryOptions };
+type Parameters = { accountId: string };
 type Hook = UseApiQueryWithParams<'getCorporateDraftAccount', Parameters>;
 
 const getCorporateDraftAccountQuery = gql`
@@ -27,7 +27,7 @@ const getCorporateDraftAccountQuery = gql`
   }
 `;
 
-export const useGetCorporateDraftAccount: Hook = (getApiClient, { accountId, ...config }) =>
+export const useGetCorporateDraftAccount: Hook = (getApiClient, { accountId, config }) =>
   useQuery<Query['getCorporateDraftAccount']>({
     queryKey: ['getCorporateDraftAccount', accountId],
     queryFn: async () => {
