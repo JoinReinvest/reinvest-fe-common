@@ -263,6 +263,20 @@ export type DateOfBirthInput = {
   dateOfBirth: Scalars['ISODate'];
 };
 
+export type Dividend = {
+  __typename?: 'Dividend';
+  amount: Usd;
+  date: Scalars['ISODateTime'];
+  id: Scalars['ID'];
+  status: DividendState;
+};
+
+export enum DividendState {
+  PaidOut = 'PAID_OUT',
+  Pending = 'PENDING',
+  Reinvested = 'REINVESTED'
+}
+
 /** Link id */
 export type DocumentFileLinkId = {
   __typename?: 'DocumentFileLinkId';
@@ -688,11 +702,15 @@ export type Mutation = {
    * The bank account will not be activated until the investor fulfills the bank account.
    */
   updateBankAccount?: Maybe<BankAccountLink>;
-  /** [WIP] It does not work yet. */
+  /** It updates company for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition. */
   updateCompanyForVerification?: Maybe<Scalars['Boolean']>;
-  /** [WIP] It does not work yet. */
+  /**
+   * It updates profile for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition.
+   * For example if investor changed only 'firstName' then provide only field 'name'.
+   * The name field expects PersonName type, so it must contain all required data (so 'firstName' and 'lastName' must be provided, even that only firstName changed).
+   */
   updateProfileForVerification?: Maybe<Scalars['Boolean']>;
-  /** [WIP] It does not work yet. */
+  /** It updates stakeholder for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition. */
   updateStakeholderForVerification?: Maybe<Scalars['Boolean']>;
   /**
    * It returns 'VerificationDecisions':
@@ -1114,6 +1132,7 @@ export type Query = {
   getCorporateAccount?: Maybe<CorporateAccount>;
   /** Get draft corporate account details */
   getCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
+  getDividend: Dividend;
   /** Returns document link by id */
   getDocument?: Maybe<GetDocumentLink>;
   /** [MOCK] It returns the created draft recurring investment summary. */
@@ -1198,6 +1217,11 @@ export type QueryGetCorporateAccountArgs = {
 
 export type QueryGetCorporateDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryGetDividendArgs = {
+  dividendId: Scalars['String'];
 };
 
 
@@ -1302,8 +1326,9 @@ export type RecurringInvestmentScheduleInput = {
 
 export enum RecurringInvestmentStatus {
   Active = 'ACTIVE',
-  Cancelled = 'CANCELLED',
   Draft = 'DRAFT',
+  Inactive = 'INACTIVE',
+  Suspended = 'SUSPENDED',
   WaitingForSigningSubscriptionAgreement = 'WAITING_FOR_SIGNING_SUBSCRIPTION_AGREEMENT'
 }
 
@@ -1407,7 +1432,6 @@ export type SubscriptionAgreement = {
 
 export type SubscriptionAgreementParagraph = {
   __typename?: 'SubscriptionAgreementParagraph';
-  bold?: Maybe<Scalars['Boolean']>;
   isCheckedOption?: Maybe<Scalars['Boolean']>;
   lines: Array<Scalars['String']>;
 };

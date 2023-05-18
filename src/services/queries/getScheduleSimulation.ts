@@ -1,9 +1,9 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Query, RecurringInvestmentScheduleInput } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 
-type Hook = UseApiQueryWithParams<'getScheduleSimulation', { schedule: RecurringInvestmentScheduleInput, config?: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getScheduleSimulation', { schedule: RecurringInvestmentScheduleInput }>;
 
 export const getScheduleSimulationQuery = gql`
   query getScheduleSimulation($schedule: RecurringInvestmentScheduleInput!) {
@@ -11,7 +11,7 @@ export const getScheduleSimulationQuery = gql`
   }
 `;
 
-export const useGetScheduleSimulation: Hook = (getApiClient, { schedule, ...config }) => useQuery<Query["getScheduleSimulation"]>({
+export const useGetScheduleSimulation: Hook = (getApiClient, { schedule,config }) => useQuery<Query["getScheduleSimulation"]>({
   queryKey: ["getScheduleSimulation", schedule],
   queryFn: async () => {
     const api = await getApiClient() as GraphQLClient;
