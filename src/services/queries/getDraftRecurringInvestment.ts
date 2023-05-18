@@ -1,11 +1,11 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { UsdFragment } from './fragments/usd';
 import { RecurringInvestmentScheduleFragment } from './fragments/recurringInvestmentSchedule';
 
-type Hook = UseApiQueryWithParams<'getDraftRecurringInvestment', { accountId: string, config?: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getDraftRecurringInvestment', { accountId: string }>;
 
 export const getDraftRecurringInvestmentQuery = gql`
   ${UsdFragment}
@@ -26,7 +26,7 @@ export const getDraftRecurringInvestmentQuery = gql`
   }
 `;
 
-export const useGetDraftRecurringInvestment: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getDraftRecurringInvestment"]>({
+export const useGetDraftRecurringInvestment: Hook = (getApiClient, { accountId, config }) => useQuery<Query["getDraftRecurringInvestment"]>({
   queryKey: ["getDraftRecurringInvestment", accountId],
   queryFn: async () => {
     const api = await getApiClient() as GraphQLClient;

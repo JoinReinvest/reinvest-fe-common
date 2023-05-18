@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql } from "graphql-request";
 import { Query } from "../../types/graphql";
 import { UseApiQueryWithParams } from './interfaces';
@@ -7,7 +7,7 @@ import { EmployerFragment } from './fragments/employer';
 import { NetRangeFragment } from './fragments/netRange';
 import { CorporateAccountDetailsFragment } from './fragments/corporateAccountDetails';
 
-type Hook = UseApiQueryWithParams<'getCorporateAccount', { accountId: string, config: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getCorporateAccount', { accountId: string }>;
 
 export const getCorporateAccountQuery = gql`
   ${AvatarFragment}
@@ -29,7 +29,7 @@ export const getCorporateAccountQuery = gql`
   }
 `;
 
-export const useGetCorporateAccount: Hook = (getApiClient, { accountId, ...config }) => useQuery<Query["getCorporateAccount"]>({
+export const useGetCorporateAccount: Hook = (getApiClient, { accountId, config }) => useQuery<Query["getCorporateAccount"]>({
   queryKey: ["getCorporateAccount", accountId],
   queryFn: async () => {
     const api = await getApiClient();

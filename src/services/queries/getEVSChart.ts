@@ -1,10 +1,10 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql } from "graphql-request";
 import { Query, EvsChartResolution } from "../../types/graphql";
 import { UseApiQueryWithParams } from './interfaces';
 import { EVSChartFragment } from './fragments/evs-chart';
 
-type Parameters = { accountId: string, resolution: EvsChartResolution, config: UseQueryOptions }
+type Parameters = { accountId: string, resolution: EvsChartResolution, }
 type Hook = UseApiQueryWithParams<'getEVSChart', Parameters>;
 
 export const getEVSChartQuery = gql`
@@ -17,7 +17,7 @@ export const getEVSChartQuery = gql`
   }
 `;
 
-export const useGetEVSChart: Hook = (getApiClient, { accountId, resolution, ...config }) => useQuery<Query["getEVSChart"]>({
+export const useGetEVSChart: Hook = (getApiClient, { accountId, resolution, config }) => useQuery<Query["getEVSChart"]>({
   queryKey: ["getEVSChart", accountId, resolution],
   queryFn: async () => {
     const api = await getApiClient();

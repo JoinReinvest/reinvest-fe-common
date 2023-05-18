@@ -1,10 +1,10 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { SubscriptionAgreementSectionFragment } from './fragments/subscriptionAgreementSection';
 
-type Hook = UseApiQueryWithParams<'getSubscriptionAgreement', { subscriptionAgreementId: string, config: UseQueryOptions}>;
+type Hook = UseApiQueryWithParams<'getSubscriptionAgreement', { subscriptionAgreementId: string }>;
 
 const getSubscriptionAgreementQuery = gql`
   ${SubscriptionAgreementSectionFragment}
@@ -22,7 +22,7 @@ const getSubscriptionAgreementQuery = gql`
   }
 `;
 
-export const useGetInvestmentSummary: Hook = (getApiClient, { subscriptionAgreementId, ...config}) =>
+export const useGetInvestmentSummary: Hook = (getApiClient, { subscriptionAgreementId, config }) =>
   useQuery<Query['getSubscriptionAgreement']>({
     queryKey: ['getSubscriptionAgreement'],
     queryFn: async () => {

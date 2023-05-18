@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query';
+import { QueryObserverOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
 import { Mutation, Query } from '../../types/graphql';
 
 export interface ErrorDetail {
@@ -27,9 +27,11 @@ export interface ErrorResponse {
 
 export type GetApiClient = () => Promise<GraphQLClient | undefined>;
 
+type QueryConfig = Partial<{ config: Pick<QueryObserverOptions, 'enabled' | 'staleTime'> }>
+
 export type UseApiQueryWithParams<QueryKey extends keyof Query, QueryParameters> = (
   getClient: GetApiClient,
-  parameters: QueryParameters,
+  parameters: QueryParameters & QueryConfig,
 ) => UseQueryResult<Query[QueryKey]>;
 export type UseApiQuery<QueryKey extends keyof Query> = (getClient: GetApiClient) => UseQueryResult<Query[QueryKey]>;
 
