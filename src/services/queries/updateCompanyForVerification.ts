@@ -4,7 +4,7 @@ import { gql } from 'graphql-request';
 import { Mutation, UpdateCompanyForVerificationInput } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
-type Parameters = { input: UpdateCompanyForVerificationInput };
+type Parameters = { input: UpdateCompanyForVerificationInput, accountId: string };
 type Hook = UseApiMutationWithParams<'updateCompanyForVerification', Parameters>;
 
 const updateCompanyForVerificationMutation = gql`
