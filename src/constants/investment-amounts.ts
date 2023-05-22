@@ -1,7 +1,7 @@
-import { AccountType } from 'types/graphql';
+import { AccountType } from '../types/graphql';
 
-type AmountsOption = { value: string; label: string };
-type InvestmentsAmounts = { [key in AccountType]: { oneTime: AmountsOption[]; recurring: AmountsOption[] } };
+export type AmountsOption = { value: string; label: string };
+export type InvestmentsAmounts = { [key in AccountType]: { oneTime: AmountsOption[]; recurring: AmountsOption[] } };
 
 const SMALL_AMOUNTS = [
   { value: '100', label: '$100' },
