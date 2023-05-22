@@ -4,7 +4,7 @@ import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { AutomaticDividendReinvestmentAgreementFragment } from './fragments/automaticDividendReinvestmentAgreement';
 
-type Hook = UseApiQueryWithParams<'getAccountConfiguration', { accountId: string}>;
+type Hook = UseApiQueryWithParams<'getAccountConfiguration', { accountId: string }>;
 
 const getAccountConfigurationQuery = gql`
   ${AutomaticDividendReinvestmentAgreementFragment}
@@ -19,7 +19,7 @@ const getAccountConfigurationQuery = gql`
 
 export const useGetAccountConfiguration: Hook = (getApiClient, { accountId, config }) =>
   useQuery<Query['getAccountConfiguration']>({
-    queryKey: ['getAccountConfiguration'],
+    queryKey: ['getAccountConfiguration', accountId],
     queryFn: async () => {
       const api = await getApiClient() as GraphQLClient;
 
