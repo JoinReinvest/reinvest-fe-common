@@ -1,5 +1,8 @@
 import { AccountType } from 'types/graphql';
 
+type AmountsOption = { value: string; label: string };
+type InvestmentsAmounts = { [key in AccountType]: { oneTime: AmountsOption[]; recurring: AmountsOption[] } };
+
 const SMALL_AMOUNTS = [
   { value: '100', label: '$100' },
   { value: '500', label: '$500' },
@@ -19,7 +22,7 @@ const LARGE_AMOUNTS = [
   { value: '20000', label: '$20k' },
 ];
 
-export const INVESTMENT_PRESET_AMOUNTS = {
+export const INVESTMENT_PRESET_AMOUNTS: InvestmentsAmounts = {
   [AccountType.Individual]: {
     oneTime: MEDIUM_AMOUNTS,
     recurring: MEDIUM_AMOUNTS,
