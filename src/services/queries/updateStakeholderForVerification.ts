@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
-import { Mutation, UpdateProfileForVerificationInput } from '../../types/graphql';
+import { Mutation, UpdateStakeholderForVerificationInput } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
-type Parameters = { accountId: string, stakeholderId: string, input: UpdateProfileForVerificationInput };
+type Parameters = { accountId: string; stakeholderId: string; input: UpdateStakeholderForVerificationInput };
 type Hook = UseApiMutationWithParams<'updateStakeholderForVerification', Parameters>;
 
 const updateStakeholderForVerificationMutation = gql`
@@ -13,9 +13,9 @@ const updateStakeholderForVerificationMutation = gql`
   }
 `;
 
-export const useUpdateStakeholderForVerification: Hook = (getApiClient) =>
+export const useUpdateStakeholderForVerification: Hook = getApiClient =>
   useMutation({
-    mutationFn: async (input) => {
+    mutationFn: async input => {
       const api = await getApiClient();
 
       if (!api) {
