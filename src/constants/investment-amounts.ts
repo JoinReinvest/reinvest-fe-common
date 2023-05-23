@@ -1,21 +1,22 @@
 import { AccountType } from '../types/graphql';
 
 export type AmountsOption = { value: string; label: string };
-export type InvestmentsAmounts = { [key in AccountType]: { oneTime: AmountsOption[]; recurring: AmountsOption[] } };
+export type InvestmentsAmounts = { [key in AccountType]: AmountsOption[] };
 
-const SMALL_AMOUNTS = [
+const BENEFICIARY_AMOUNTS = [
   { value: '100', label: '$100' },
   { value: '500', label: '$500' },
   { value: '1000', label: '$1000' },
   { value: '5000', label: '$5,000' },
 ];
-const MEDIUM_AMOUNTS = [
+const INDIVIDUAL_AMOUNTS = [
   { value: '500', label: '$500' },
   { value: '1000', label: '$1,000' },
   { value: '5000', label: '$5,000' },
   { value: '10000', label: '$10k' },
 ];
-const LARGE_AMOUNTS = [
+
+const CORPORATE_AND_TRUST_AMOUNTS = [
   { value: '1000', label: '$1,000' },
   { value: '5000', label: '$5,000' },
   { value: '10000', label: '$10k' },
@@ -23,20 +24,8 @@ const LARGE_AMOUNTS = [
 ];
 
 export const INVESTMENT_PRESET_AMOUNTS: InvestmentsAmounts = {
-  [AccountType.Individual]: {
-    oneTime: MEDIUM_AMOUNTS,
-    recurring: MEDIUM_AMOUNTS,
-  },
-  [AccountType.Beneficiary]: {
-    oneTime: SMALL_AMOUNTS,
-    recurring: SMALL_AMOUNTS,
-  },
-  [AccountType.Corporate]: {
-    oneTime: MEDIUM_AMOUNTS,
-    recurring: LARGE_AMOUNTS,
-  },
-  [AccountType.Trust]: {
-    oneTime: MEDIUM_AMOUNTS,
-    recurring: LARGE_AMOUNTS,
-  },
+  [AccountType.Individual]: INDIVIDUAL_AMOUNTS,
+  [AccountType.Beneficiary]: BENEFICIARY_AMOUNTS,
+  [AccountType.Corporate]: CORPORATE_AND_TRUST_AMOUNTS,
+  [AccountType.Trust]: CORPORATE_AND_TRUST_AMOUNTS,
 };
