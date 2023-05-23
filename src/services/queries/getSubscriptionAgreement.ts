@@ -22,7 +22,7 @@ const getSubscriptionAgreementQuery = gql`
   }
 `;
 
-export const useGetInvestmentSummary: Hook = (getApiClient, { subscriptionAgreementId, config }) =>
+export const useGetSubscriptionAgreement: Hook = (getApiClient, { subscriptionAgreementId, config }) =>
   useQuery<Query['getSubscriptionAgreement']>({
     queryKey: ['getSubscriptionAgreement'],
     queryFn: async () => {
