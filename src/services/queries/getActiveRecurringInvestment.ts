@@ -3,11 +3,13 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { RecurringInvestmentScheduleFragment } from './fragments/recurringInvestmentSchedule';
+import { UsdFragment } from './fragments/usd'
 
 type Hook = UseApiQueryWithParams<'getActiveRecurringInvestment', { accountId: string }>;
 
 export const getActiveRecurringInvestmentQuery = gql`
   ${RecurringInvestmentScheduleFragment}
+  ${UsdFragment}
   query getActiveRecurringInvestment($accountId: ID!) {
     getActiveRecurringInvestment(accountId: $accountId) {
       id
