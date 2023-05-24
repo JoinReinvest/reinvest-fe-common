@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { QueryObserverOptions, UseMutationResult, UseQueryResult } from '@tanstack/react-query';
+import { QueryObserverOptions, UseMutationResult, UseQueryResult, UseInfiniteQueryResult } from '@tanstack/react-query';
 import { Mutation, Query } from '../../types/graphql';
 
 export interface ErrorDetail {
@@ -39,3 +39,10 @@ export type UseApiMutationWithParams<MutationKey extends keyof Mutation, Mutatio
   getClient: GetApiClient,
 ) => UseMutationResult<Mutation[MutationKey], ErrorResponse, MutationParameters>;
 export type UseApiMutation<MutationKey extends keyof Mutation> = (getClient: GetApiClient) => UseMutationResult<Mutation[MutationKey]>;
+
+
+export type UseInfiniteApiQueryWithParams<QueryKey extends keyof Query, QueryParameters> = (
+  getClient: GetApiClient,
+  parameters: QueryParameters & QueryConfig,
+) => UseInfiniteQueryResult<Query[QueryKey]>;
+export type UseInfiniteApiQuery<QueryKey extends keyof Query> = (getClient: GetApiClient) => UseInfiniteQueryResult<Query[QueryKey]>;
