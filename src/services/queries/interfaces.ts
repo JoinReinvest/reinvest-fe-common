@@ -45,4 +45,5 @@ export type UseInfiniteApiQueryWithParams<QueryKey extends keyof Query, QueryPar
   getClient: GetApiClient,
   parameters: QueryParameters & QueryConfig,
 ) => UseInfiniteQueryResult<Query[QueryKey]>;
+
 export type UseInfiniteApiQuery<QueryKey extends keyof Query> = (getClient: GetApiClient) => UseInfiniteQueryResult<Query[QueryKey]>;

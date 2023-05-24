@@ -22,7 +22,7 @@ export const getNotifications = gql`
 `;
 
 export const useGetNotifications: Hook = (getApiClient, { accountId, filter, pagination, ...config }) => useInfiniteQuery({
-  queryKey: ["getNotDismissedNotifications", accountId, pagination, filter],
+  queryKey: ["getNotifications", accountId, pagination, filter],
   queryFn: async ({ pageParam = 0 }) => {
     const api = await getApiClient();
 
