@@ -24,3 +24,11 @@ export const NotificationFragment = gql`
     }
   }
 `;
+
+export const NotificationStatsFragment = gql`
+  fragment NotificationStatsFragment on NotificationsStats {
+    unreadCount
+    totalCount
+    accountId
+  }
+`

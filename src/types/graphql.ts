@@ -23,7 +23,7 @@ export type Scalars = {
 
 export type AccountConfiguration = {
   __typename?: 'AccountConfiguration';
-  automaticDividendReinvestmentAgreement: AutomaticDividendReinvestmentAgreement;
+  automaticDividendReinvestmentAgreement?: Maybe<AutomaticDividendReinvestmentAgreement>;
 };
 
 export type AccountOverview = {
@@ -118,6 +118,8 @@ export type BankAccount = {
   __typename?: 'BankAccount';
   accountNumber?: Maybe<Scalars['String']>;
   accountType?: Maybe<Scalars['String']>;
+  /**  [MOCK]  */
+  bankName?: Maybe<Scalars['String']>;
 };
 
 export type BankAccountLink = {
@@ -973,6 +975,11 @@ export type Notification = {
   onObject?: Maybe<NotificationObject>;
 };
 
+export enum NotificationFilter {
+  All = 'ALL',
+  Unread = 'UNREAD'
+}
+
 export type NotificationObject = {
   __typename?: 'NotificationObject';
   id: Scalars['ID'];
@@ -998,6 +1005,20 @@ export enum NotificationType {
   RewardDividendReceived = 'REWARD_DIVIDEND_RECEIVED',
   VerificationFailed = 'VERIFICATION_FAILED'
 }
+
+export type NotificationsStats = {
+  __typename?: 'NotificationsStats';
+  accountId: Scalars['String'];
+  getNotifications: Array<Maybe<Notification>>;
+  totalCount: Scalars['Int'];
+  unreadCount: Scalars['Int'];
+};
+
+
+export type NotificationsStatsGetNotificationsArgs = {
+  filter?: InputMaybe<NotificationFilter>;
+  pagination?: InputMaybe<Pagination>;
+};
 
 export type NumberOfEmployees = {
   __typename?: 'NumberOfEmployees';
@@ -1110,7 +1131,7 @@ export type PutFileLink = {
 export type Query = {
   __typename?: 'Query';
   /** [MOCK] Return account configuration */
-  getAccountConfiguration: AccountConfiguration;
+  getAccountConfiguration?: Maybe<AccountConfiguration>;
   /** [MOCK] Get account stats */
   getAccountStats?: Maybe<AccountStats>;
   /**
@@ -1157,7 +1178,12 @@ export type Query = {
    * [MOCK] Get all notifications for the given account id
    * It sort notifications by date descending. Not dismissible (pinned) notifications are always first.
    */
-  getNotDismissedNotifications: Array<Maybe<Notification>>;
+  getNotificationStats: NotificationsStats;
+  /**
+   * [MOCK] Get all notifications for the given account id
+   * It sort notifications by date descending. Not dismissible (pinned) notifications are always first.
+   */
+  getNotifications: Array<Maybe<Notification>>;
   /** Get user profile */
   getProfile?: Maybe<Profile>;
   /** [MOCK] Returns the simulation of the recurring investment schedule. */
@@ -1256,8 +1282,14 @@ export type QueryGetInvestmentSummaryArgs = {
 };
 
 
-export type QueryGetNotDismissedNotificationsArgs = {
+export type QueryGetNotificationStatsArgs = {
   accountId: Scalars['String'];
+};
+
+
+export type QueryGetNotificationsArgs = {
+  accountId: Scalars['String'];
+  filter?: InputMaybe<NotificationFilter>;
   pagination?: InputMaybe<Pagination>;
 };
 
