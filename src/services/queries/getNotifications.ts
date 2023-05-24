@@ -7,7 +7,7 @@ import { NotificationFragment, NotificationStatsFragment } from './fragments/not
 type Parameters = QueryGetNotificationsArgs & { config?: UseQueryOptions };
 type Hook = UseInfiniteApiQueryWithParams<'getNotificationStats', Parameters>;
 
-const defaultPerPage = 10
+const DEFAULT_NOTIFICATIONS_PER_PAGE = 10
 
 export const getNotifications = gql`
   ${NotificationFragment}
@@ -32,16 +32,16 @@ export const useGetNotifications: Hook = (getApiClient, { accountId, filter, pag
       return null;
     }
 
-    const { getNotificationStats } = await api.request<Query>(getNotifications, { accountId, pagination: { page: pageParam, perPage: pagination?.perPage || defaultPerPage }, filter });
+    const { getNotificationStats } = await api.request<Query>(getNotifications, { accountId, pagination: { page: pageParam, perPage: pagination?.perPage || DEFAULT_NOTIFICATIONS_PER_PAGE }, filter });
 
     return getNotificationStats;
   },
-  ...config,
   getNextPageParam: (lastPage, allPages) => {
     let isNextPage;
     if (lastPage) {
-      isNextPage = Math.ceil(lastPage.totalCount / (pagination?.perPage || defaultPerPage)) > allPages.length
+      isNextPage = Math.ceil(lastPage.totalCount / (pagination?.perPage || DEFAULT_NOTIFICATIONS_PER_PAGE)) > allPages.length
     }
     return isNextPage ? allPages.length : undefined
-  }
+  },
+  ...config,
 })
