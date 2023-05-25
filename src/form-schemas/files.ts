@@ -3,15 +3,16 @@ import { BYTES_IN_MEGABYTE } from '../constants/conversions';
 import { mapToMimeType, PartialMimeTypeKeys } from '../constants/mime-types';
 import zod from 'zod';
 
-export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number) => {
+export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number, isOptional = false) => {
   const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
   const unsupportedFileTypeMessage = FileValidations.acceptedTypesMessage(accepts);
 
-  return zod
+  const basicSchema = zod
     .custom<DocumentFile>()
-    .refine(FileValidations.requiredValidation, 'The field is required')
     .refine(file => FileValidations.sizeValidation(file, sizeLimitInBytes), FileValidations.sizeMessage(sizeLimitInMegaBytes))
     .refine(file => FileValidations.acceptedTypesValidation(file, accepts), unsupportedFileTypeMessage);
+
+  return isOptional ? basicSchema : basicSchema.refine(FileValidations.requiredValidation, 'The field is required');
 };
 
 export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number, minNumberOfFiles = 2, maxNumberOfFiles = 2) => {
