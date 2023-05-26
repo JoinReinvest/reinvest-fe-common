@@ -7,12 +7,12 @@ export const generateFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMega
   const sizeLimitInBytes = sizeLimitInMegaBytes * BYTES_IN_MEGABYTE;
   const unsupportedFileTypeMessage = FileValidations.acceptedTypesMessage(accepts);
 
-  const basicSchema = zod
+  const schema = zod
     .custom<DocumentFile>()
     .refine(file => FileValidations.sizeValidation(file, sizeLimitInBytes), FileValidations.sizeMessage(sizeLimitInMegaBytes))
     .refine(file => FileValidations.acceptedTypesValidation(file, accepts), unsupportedFileTypeMessage);
 
-  return isOptional ? basicSchema : basicSchema.refine(FileValidations.requiredValidation, 'The field is required');
+  return isOptional ? schema : schema.refine(FileValidations.requiredValidation, 'The field is required');
 };
 
 export const generateMultiFileSchema = (accepts: PartialMimeTypeKeys, sizeLimitInMegaBytes: number, minNumberOfFiles = 2, maxNumberOfFiles = 2) => {
