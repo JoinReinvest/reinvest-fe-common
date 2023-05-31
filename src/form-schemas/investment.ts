@@ -1,4 +1,4 @@
-import { MAXIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE, ONE_TIME_INVESTMENT_MIN_AMOUNT } from './../constants/investment-limits';
+import { MAXIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE, ONE_TIME_INVESTMENT_MIN_AMOUNT } from '../constants/investment-limits';
 import { z } from 'zod';
 
 import {
