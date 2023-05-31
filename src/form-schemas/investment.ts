@@ -1,3 +1,4 @@
+import { MINIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE } from './../constants/investment-limits';
 import { MAXIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE, ONE_TIME_INVESTMENT_MIN_AMOUNT } from '../constants/investment-limits';
 import { z } from 'zod';
 
@@ -27,12 +28,13 @@ export function generateInvestmentSchema({ accountType = AccountType.Individual 
 
 export function generateRecurringInvestmentSchema({ accountType = AccountType.Individual }: Params) {
   const maximum = MAXIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE.get(accountType) || RECURRING_INVESTMENT_MAX_AMOUNT;
+  const minimum = MINIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE.get(accountType) || RECURRING_INVESTMENT_MIN_AMOUNT;
 
-  const minimumMessage = InvestmentMessages.getMinimumMessage(RECURRING_INVESTMENT_MIN_AMOUNT);
+  const minimumMessage = InvestmentMessages.getMinimumMessage(minimum);
   const maximumMessage = InvestmentMessages.getMaximumMessage(maximum);
 
   return z.object({
-    amount: z.number().min(RECURRING_INVESTMENT_MIN_AMOUNT, minimumMessage).max(maximum, maximumMessage),
+    amount: z.number().min(minimum, minimumMessage).max(maximum, maximumMessage),
   });
 }
 
