@@ -7,14 +7,14 @@ import { UseApiMutationWithParams } from './interfaces';
 type Hook = UseApiMutationWithParams<'reinvestDividend', MutationReinvestDividendArgs>;
 
 const reinvestDividendsMutation = gql`
-  mutation reinvestDividends($dividendIds: [String!]) {
+  mutation reinvestDividends($accountId: String!, $dividendIds: [String!]) {
     reinvestDividend(dividendIds: $dividendIds)
   }
 `;
 
-export const useReinvestDividends: Hook = (getApiClient) =>
+export const useReinvestDividends: Hook = getApiClient =>
   useMutation({
-    mutationFn: async (input) => {
+    mutationFn: async input => {
       const api = await getApiClient();
 
       if (!api) {

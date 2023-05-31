@@ -52,7 +52,7 @@ export enum AccountType {
   Beneficiary = 'BENEFICIARY',
   Corporate = 'CORPORATE',
   Individual = 'INDIVIDUAL',
-  Trust = 'TRUST'
+  Trust = 'TRUST',
 }
 
 /** Only one of these statements can be valid */
@@ -62,7 +62,7 @@ export type AccreditedInvestorInput = {
 
 export enum AccreditedInvestorStatement {
   IAmAnAccreditedInvestor = 'I_AM_AN_ACCREDITED_INVESTOR',
-  IAmNotExceeding_10PercentOfMyNetWorthOrAnnualIncome = 'I_AM_NOT_EXCEEDING_10_PERCENT_OF_MY_NET_WORTH_OR_ANNUAL_INCOME'
+  IAmNotExceeding_10PercentOfMyNetWorthOrAnnualIncome = 'I_AM_NOT_EXCEEDING_10_PERCENT_OF_MY_NET_WORTH_OR_ANNUAL_INCOME',
 }
 
 export enum ActionName {
@@ -71,7 +71,7 @@ export enum ActionName {
   RequireAdminSupport = 'REQUIRE_ADMIN_SUPPORT',
   RequireManualReview = 'REQUIRE_MANUAL_REVIEW',
   UpdateMember = 'UPDATE_MEMBER',
-  UpdateMemberAgain = 'UPDATE_MEMBER_AGAIN'
+  UpdateMemberAgain = 'UPDATE_MEMBER_AGAIN',
 }
 
 export type Address = {
@@ -184,7 +184,7 @@ export enum CompanyTypeEnum {
   Irrevocable = 'IRREVOCABLE',
   Llc = 'LLC',
   Partnership = 'PARTNERSHIP',
-  Revocable = 'REVOCABLE'
+  Revocable = 'REVOCABLE',
 }
 
 export type CorporateAccount = {
@@ -217,7 +217,7 @@ export type CorporateCompanyType = {
 export enum CorporateCompanyTypeEnum {
   Corporation = 'CORPORATION',
   Llc = 'LLC',
-  Partnership = 'PARTNERSHIP'
+  Partnership = 'PARTNERSHIP',
 }
 
 export type CorporateCompanyTypeInput = {
@@ -276,7 +276,7 @@ export type Dividend = {
 export enum DividendState {
   PaidOut = 'PAID_OUT',
   Pending = 'PENDING',
-  Reinvested = 'REINVESTED'
+  Reinvested = 'REINVESTED',
 }
 
 /** Link id */
@@ -315,7 +315,7 @@ export type DomicileInput = {
 export enum DomicileType {
   Citizen = 'CITIZEN',
   GreenCard = 'GREEN_CARD',
-  Visa = 'VISA'
+  Visa = 'VISA',
 }
 
 export type DraftAccount = {
@@ -327,13 +327,13 @@ export type DraftAccount = {
 export enum DraftAccountState {
   Active = 'ACTIVE',
   Canceled = 'CANCELED',
-  Opened = 'OPENED'
+  Opened = 'OPENED',
 }
 
 export enum DraftAccountType {
   Corporate = 'CORPORATE',
   Individual = 'INDIVIDUAL',
-  Trust = 'TRUST'
+  Trust = 'TRUST',
 }
 
 export type Ein = {
@@ -366,7 +366,7 @@ export enum EvsChartResolution {
   Max = 'MAX',
   Month = 'MONTH',
   Week = 'WEEK',
-  Year = 'YEAR'
+  Year = 'YEAR',
 }
 
 export type EmailInput = {
@@ -390,7 +390,7 @@ export enum EmploymentStatus {
   Employed = 'EMPLOYED',
   Retired = 'RETIRED',
   Student = 'STUDENT',
-  Unemployed = 'UNEMPLOYED'
+  Unemployed = 'UNEMPLOYED',
 }
 
 export type EmploymentStatusInput = {
@@ -406,7 +406,7 @@ export enum Experience {
   Expert = 'EXPERT',
   NoExperience = 'NO_EXPERIENCE',
   SomeExperience = 'SOME_EXPERIENCE',
-  VeryExperienced = 'VERY_EXPERIENCED'
+  VeryExperienced = 'VERY_EXPERIENCED',
 }
 
 export type ExperienceInput = {
@@ -449,7 +449,7 @@ export enum FundsWithdrawalRequestStatus {
   Approved = 'APPROVED',
   AwaitingDecision = 'AWAITING_DECISION',
   AwaitingSigningAgreement = 'AWAITING_SIGNING_AGREEMENT',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 
 export type FundsWithdrawalSimulation = {
@@ -552,7 +552,7 @@ export enum InvestmentStatus {
   InProgress = 'IN_PROGRESS',
   WaitingForFeesApproval = 'WAITING_FOR_FEES_APPROVAL',
   WaitingForInvestmentStart = 'WAITING_FOR_INVESTMENT_START',
-  WaitingForSubscriptionAgreement = 'WAITING_FOR_SUBSCRIPTION_AGREEMENT'
+  WaitingForSubscriptionAgreement = 'WAITING_FOR_SUBSCRIPTION_AGREEMENT',
 }
 
 export type InvestmentSummary = {
@@ -748,75 +748,61 @@ export type Mutation = {
   withdrawDividend: Scalars['Boolean'];
 };
 
-
 export type MutationAbortFundsWithdrawalRequestArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type MutationAbortInvestmentArgs = {
   investmentId: Scalars['ID'];
 };
 
-
 export type MutationApproveFeesArgs = {
   investmentId: Scalars['ID'];
 };
-
 
 export type MutationCompleteCorporateDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
   input?: InputMaybe<CorporateDraftAccountInput>;
 };
 
-
 export type MutationCompleteIndividualDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
   input?: InputMaybe<IndividualAccountInput>;
 };
 
-
 export type MutationCompleteProfileDetailsArgs = {
   input?: InputMaybe<ProfileDetailsInput>;
 };
-
 
 export type MutationCompleteTrustDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
   input?: InputMaybe<TrustDraftAccountInput>;
 };
 
-
 export type MutationCreateBankAccountArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type MutationCreateDocumentsFileLinksArgs = {
   numberOfLinks: Scalars['numberOfLinks_Int_NotNull_min_1_max_10'];
 };
 
-
 export type MutationCreateDraftAccountArgs = {
   type?: InputMaybe<DraftAccountType>;
 };
-
 
 export type MutationCreateFundsWithdrawalAgreementArgs = {
   accountId: Scalars['String'];
 };
 
-
 export type MutationCreateFundsWithdrawalRequestArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type MutationCreateInvestmentArgs = {
   accountId: Scalars['ID'];
   amount?: InputMaybe<UsdInput>;
 };
-
 
 export type MutationCreateRecurringInvestmentArgs = {
   accountId: Scalars['ID'];
@@ -824,65 +810,54 @@ export type MutationCreateRecurringInvestmentArgs = {
   schedule: RecurringInvestmentScheduleInput;
 };
 
-
 export type MutationCreateRecurringSubscriptionAgreementArgs = {
   accountId: Scalars['ID'];
 };
 
-
 export type MutationCreateSubscriptionAgreementArgs = {
   investmentId: Scalars['ID'];
 };
-
 
 export type MutationFulfillBankAccountArgs = {
   accountId: Scalars['String'];
   input: FulfillBankAccountInput;
 };
 
-
 export type MutationInitiateRecurringInvestmentArgs = {
   accountId: Scalars['ID'];
 };
-
 
 export type MutationMarkNotificationAsReadArgs = {
   notificationId: Scalars['String'];
 };
 
-
 export type MutationOpenAccountArgs = {
   draftAccountId?: InputMaybe<Scalars['String']>;
 };
-
 
 export type MutationOpenBeneficiaryAccountArgs = {
   individualAccountId: Scalars['String'];
   input: CreateBeneficiaryInput;
 };
 
-
 export type MutationReinvestDividendArgs = {
+  accountId: Scalars['String'];
   dividendIds?: InputMaybe<Array<Scalars['String']>>;
 };
-
 
 export type MutationRemoveDraftAccountArgs = {
   draftAccountId?: InputMaybe<Scalars['ID']>;
 };
-
 
 export type MutationRequestFundsWithdrawalArgs = {
   accountId: Scalars['String'];
   signedWithdrawalAgreementId?: InputMaybe<DocumentFileLinkInput>;
 };
 
-
 export type MutationSetAutomaticDividendReinvestmentAgreementArgs = {
   accountId: Scalars['ID'];
   automaticDividendReinvestmentAgreement: Scalars['Boolean'];
 };
-
 
 export type MutationSetPhoneNumberArgs = {
   countryCode?: InputMaybe<Scalars['String']>;
@@ -890,45 +865,37 @@ export type MutationSetPhoneNumberArgs = {
   phoneNumber?: InputMaybe<Scalars['String']>;
 };
 
-
 export type MutationSignDocumentFromTemplateArgs = {
   fields: Array<InputMaybe<GenericFieldInput>>;
   signature: Scalars['String'];
   templateId: TemplateName;
 };
 
-
 export type MutationSignRecurringInvestmentSubscriptionAgreementArgs = {
   accountId: Scalars['ID'];
 };
 
-
 export type MutationSignSubscriptionAgreementArgs = {
   investmentId: Scalars['ID'];
 };
-
 
 export type MutationStartInvestmentArgs = {
   approveFees?: InputMaybe<Scalars['Boolean']>;
   investmentId: Scalars['ID'];
 };
 
-
 export type MutationUpdateBankAccountArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type MutationUpdateCompanyForVerificationArgs = {
   accountId?: InputMaybe<Scalars['String']>;
   input: UpdateCompanyForVerificationInput;
 };
 
-
 export type MutationUpdateProfileForVerificationArgs = {
   input: UpdateProfileForVerificationInput;
 };
-
 
 export type MutationUpdateStakeholderForVerificationArgs = {
   accountId?: InputMaybe<Scalars['String']>;
@@ -936,11 +903,9 @@ export type MutationUpdateStakeholderForVerificationArgs = {
   stakeholderId?: InputMaybe<Scalars['String']>;
 };
 
-
 export type MutationVerifyAccountArgs = {
   accountId?: InputMaybe<Scalars['String']>;
 };
-
 
 export type MutationVerifyPhoneNumberArgs = {
   authCode?: InputMaybe<Scalars['String']>;
@@ -948,8 +913,8 @@ export type MutationVerifyPhoneNumberArgs = {
   phoneNumber?: InputMaybe<Scalars['String']>;
 };
 
-
 export type MutationWithdrawDividendArgs = {
+  accountId: Scalars['String'];
   dividendIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
@@ -977,7 +942,7 @@ export type Notification = {
 
 export enum NotificationFilter {
   All = 'ALL',
-  Unread = 'UNREAD'
+  Unread = 'UNREAD',
 }
 
 export type NotificationObject = {
@@ -988,7 +953,7 @@ export type NotificationObject = {
 
 export enum NotificationObjectType {
   Dividend = 'DIVIDEND',
-  Investment = 'INVESTMENT'
+  Investment = 'INVESTMENT',
 }
 
 export enum NotificationType {
@@ -1003,7 +968,7 @@ export enum NotificationType {
   InvestmentFundsReceived = 'INVESTMENT_FUNDS_RECEIVED',
   RecurringInvestmentFailed = 'RECURRING_INVESTMENT_FAILED',
   RewardDividendReceived = 'REWARD_DIVIDEND_RECEIVED',
-  VerificationFailed = 'VERIFICATION_FAILED'
+  VerificationFailed = 'VERIFICATION_FAILED',
 }
 
 export type NotificationsStats = {
@@ -1013,7 +978,6 @@ export type NotificationsStats = {
   totalCount: Scalars['Int'];
   unreadCount: Scalars['Int'];
 };
-
 
 export type NotificationsStatsGetNotificationsArgs = {
   filter?: InputMaybe<NotificationFilter>;
@@ -1057,7 +1021,7 @@ export type PrivacyPolicyInput = {
 };
 
 export enum PrivacyPolicyStatement {
-  IHaveReadAndAgreeToTheReinvestPrivacyPolicy = 'I_HAVE_READ_AND_AGREE_TO_THE_REINVEST_PRIVACY_POLICY'
+  IHaveReadAndAgreeToTheReinvestPrivacyPolicy = 'I_HAVE_READ_AND_AGREE_TO_THE_REINVEST_PRIVACY_POLICY',
 }
 
 /**
@@ -1215,77 +1179,62 @@ export type Query = {
   userInvitationLink?: Maybe<UserInvitationLink>;
 };
 
-
 export type QueryGetAccountConfigurationArgs = {
   accountId: Scalars['ID'];
 };
-
 
 export type QueryGetAccountStatsArgs = {
   accountId: Scalars['String'];
 };
 
-
 export type QueryGetActiveRecurringInvestmentArgs = {
   accountId: Scalars['ID'];
 };
-
 
 export type QueryGetBeneficiaryAccountArgs = {
   accountId?: InputMaybe<Scalars['String']>;
 };
 
-
 export type QueryGetCorporateAccountArgs = {
   accountId?: InputMaybe<Scalars['String']>;
 };
-
 
 export type QueryGetCorporateDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
 };
 
-
 export type QueryGetDividendArgs = {
   dividendId: Scalars['String'];
 };
-
 
 export type QueryGetDocumentArgs = {
   documentId: Scalars['String'];
 };
 
-
 export type QueryGetDraftRecurringInvestmentArgs = {
   accountId: Scalars['ID'];
 };
-
 
 export type QueryGetEvsChartArgs = {
   accountId: Scalars['String'];
   resolution: EvsChartResolution;
 };
 
-
 export type QueryGetFundsWithdrawalRequestArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type QueryGetIndividualDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
 };
 
-
 export type QueryGetInvestmentSummaryArgs = {
   investmentId: Scalars['ID'];
 };
 
-
 export type QueryGetNotificationStatsArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type QueryGetNotificationsArgs = {
   accountId: Scalars['String'];
@@ -1293,36 +1242,29 @@ export type QueryGetNotificationsArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
-
 export type QueryGetScheduleSimulationArgs = {
   schedule: RecurringInvestmentScheduleInput;
 };
-
 
 export type QueryGetSubscriptionAgreementArgs = {
   subscriptionAgreementId: Scalars['ID'];
 };
 
-
 export type QueryGetTemplateArgs = {
   templateName?: InputMaybe<TemplateName>;
 };
-
 
 export type QueryGetTrustAccountArgs = {
   accountId?: InputMaybe<Scalars['String']>;
 };
 
-
 export type QueryGetTrustDraftAccountArgs = {
   accountId?: InputMaybe<Scalars['ID']>;
 };
 
-
 export type QueryReadBankAccountArgs = {
   accountId: Scalars['String'];
 };
-
 
 export type QuerySimulateFundsWithdrawalArgs = {
   accountId: Scalars['String'];
@@ -1342,7 +1284,7 @@ export enum RecurringInvestmentFrequency {
   BiWeekly = 'BI_WEEKLY',
   Monthly = 'MONTHLY',
   Quarterly = 'QUARTERLY',
-  Weekly = 'WEEKLY'
+  Weekly = 'WEEKLY',
 }
 
 export type RecurringInvestmentSchedule = {
@@ -1361,7 +1303,7 @@ export enum RecurringInvestmentStatus {
   Draft = 'DRAFT',
   Inactive = 'INACTIVE',
   Suspended = 'SUSPENDED',
-  WaitingForSigningSubscriptionAgreement = 'WAITING_FOR_SIGNING_SUBSCRIPTION_AGREEMENT'
+  WaitingForSigningSubscriptionAgreement = 'WAITING_FOR_SIGNING_SUBSCRIPTION_AGREEMENT',
 }
 
 export type SsnInput = {
@@ -1385,7 +1327,7 @@ export type SimplifiedDomicileInput = {
 
 export enum SimplifiedDomicileType {
   Citizen = 'CITIZEN',
-  Resident = 'RESIDENT'
+  Resident = 'RESIDENT',
 }
 
 export type Stakeholder = {
@@ -1449,7 +1391,7 @@ export enum StatementType {
   Politician = 'Politician',
   PrivacyPolicy = 'PrivacyPolicy',
   TermsAndConditions = 'TermsAndConditions',
-  TradingCompanyStakeholder = 'TradingCompanyStakeholder'
+  TradingCompanyStakeholder = 'TradingCompanyStakeholder',
 }
 
 export type SubscriptionAgreement = {
@@ -1476,12 +1418,12 @@ export type SubscriptionAgreementSection = {
 
 export enum SubscriptionAgreementStatus {
   Signed = 'SIGNED',
-  WaitingForSignature = 'WAITING_FOR_SIGNATURE'
+  WaitingForSignature = 'WAITING_FOR_SIGNATURE',
 }
 
 export enum SubscriptionAgreementType {
   DirectDeposit = 'DIRECT_DEPOSIT',
-  RecurringInvestment = 'RECURRING_INVESTMENT'
+  RecurringInvestment = 'RECURRING_INVESTMENT',
 }
 
 export type Template = {
@@ -1493,7 +1435,7 @@ export type Template = {
 
 export enum TemplateName {
   AutoReinvestmentAgreement = 'AUTO_REINVESTMENT_AGREEMENT',
-  SubscriptionAgreement = 'SUBSCRIPTION_AGREEMENT'
+  SubscriptionAgreement = 'SUBSCRIPTION_AGREEMENT',
 }
 
 export type TermsAndConditionsInput = {
@@ -1501,7 +1443,7 @@ export type TermsAndConditionsInput = {
 };
 
 export enum TermsAndConditionsStatement {
-  IHaveReadAndAgreeToTheReinvestTermsAndConditions = 'I_HAVE_READ_AND_AGREE_TO_THE_REINVEST_TERMS_AND_CONDITIONS'
+  IHaveReadAndAgreeToTheReinvestTermsAndConditions = 'I_HAVE_READ_AND_AGREE_TO_THE_REINVEST_TERMS_AND_CONDITIONS',
 }
 
 export type TradingCompanyStakeholderInput = {
@@ -1537,7 +1479,7 @@ export type TrustCompanyType = {
 
 export enum TrustCompanyTypeEnum {
   Irrevocable = 'IRREVOCABLE',
-  Revocable = 'REVOCABLE'
+  Revocable = 'REVOCABLE',
 }
 
 export type TrustCompanyTypeInput = {
@@ -1649,7 +1591,7 @@ export type VerificationObject = {
 export enum VerificationObjectType {
   Company = 'COMPANY',
   Profile = 'PROFILE',
-  Stakeholder = 'STAKEHOLDER'
+  Stakeholder = 'STAKEHOLDER',
 }
 
 export type VisaInput = {
