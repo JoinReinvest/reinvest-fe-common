@@ -7,14 +7,14 @@ import { UseApiMutationWithParams } from './interfaces';
 type Hook = UseApiMutationWithParams<'withdrawDividend', MutationWithdrawDividendArgs>;
 
 const withdrawDividendsMutation = gql`
-  mutation withdrawDividends($dividendIds: [String!]) {
+  mutation withdrawDividends($accountId: String!, $dividendIds: [String!]) {
     withdrawDividend(dividendIds: $dividendIds)
   }
 `;
 
-export const useWithdrawDividends: Hook = (getApiClient) =>
+export const useWithdrawDividends: Hook = getApiClient =>
   useMutation({
-    mutationFn: async (input) => {
+    mutationFn: async input => {
       const api = await getApiClient();
 
       if (!api) {
