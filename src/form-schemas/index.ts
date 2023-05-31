@@ -49,6 +49,9 @@ export const formValidationRules = {
     // eslint-disable-next-line security/detect-unsafe-regex
     zip: zod.string().regex(/^\d{5}(?:-\d{4})?$/, { message: 'Invalid zip code' }),
   }),
+  symbolTicker: standardRequiredString.trim().nonempty('Please enter a ticker symbol'),
+  finraInstitutionName: standardRequiredString.trim().nonempty('Please enter your institution name'),
+  seniorPoliticalFigure: standardRequiredString.trim().nonempty('Please enter a political figure'),
 };
 
 export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRefine((value, context) => {
