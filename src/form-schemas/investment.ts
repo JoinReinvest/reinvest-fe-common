@@ -29,7 +29,7 @@ export function generateRecurringInvestmentSchema({ accountType = AccountType.In
   const maximum = MAXIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE.get(accountType) || RECURRING_INVESTMENT_MAX_AMOUNT;
 
   const minimumMessage = InvestmentMessages.getMinimumMessage(RECURRING_INVESTMENT_MIN_AMOUNT);
-  const maximumMessage = InvestmentMessages.getMaximumMessage(RECURRING_INVESTMENT_MAX_AMOUNT);
+  const maximumMessage = InvestmentMessages.getMaximumMessage(maximum);
 
   return z.object({
     amount: z.number().min(RECURRING_INVESTMENT_MIN_AMOUNT, minimumMessage).max(maximum, maximumMessage),
