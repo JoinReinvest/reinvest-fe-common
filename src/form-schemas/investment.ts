@@ -26,7 +26,7 @@ export function generateInvestmentSchema({ accountType = AccountType.Individual 
   const maximumMessage = InvestmentMessages.getMaximumMessage(maximum);
 
   return z.object({
-    amount: z.number().min(minimum, minimumMessage).max(ONE_TIME_INVESTMENT_MAX_AMOUNT, maximumMessage),
+    amount: z.number().min(minimum, minimumMessage).max(ONE_TIME_INVESTMENT_MAX_AMOUNT, maximumMessage).optional(),
   });
 }
 
@@ -38,7 +38,7 @@ export function generateRecurringInvestmentSchema({ accountType = AccountType.In
   const maximumMessage = InvestmentMessages.getMaximumMessage(maximum);
 
   return z.object({
-    amount: z.number().min(minimum, minimumMessage).max(maximum, maximumMessage),
+    amount: z.number().min(minimum, minimumMessage).max(maximum, maximumMessage).optional(),
   });
 }
 
