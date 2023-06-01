@@ -1,23 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 import { UseApiQuery } from './interfaces'
-import { Query } from 'types/graphql';
+import { Query } from '../../types/graphql';
 
-import { AvatarFragment } from './fragments/avatar';
+import { AccountsFragment } from './fragments/accounts';
 
 type Hook = UseApiQuery<'getAccountsOverview'>;
 
 const getAccountOverviewQuery = gql`
-  ${AvatarFragment}
+  ${AccountsFragment}
+
   query getAccountsOverview {
     getAccountsOverview {
-      id
-      type
-      label
-      avatar {
-        ...AvatarFragment
-      }
-      positionTotal
+      ...AccountsFragment
     }
   }
 `;
