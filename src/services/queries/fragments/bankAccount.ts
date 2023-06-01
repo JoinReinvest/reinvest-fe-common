@@ -4,5 +4,6 @@ export const BankAccountFragment = gql`
   fragment BankAccountFragment on BankAccount {
     accountNumber
     accountType
+    bankName
   }
 `;
