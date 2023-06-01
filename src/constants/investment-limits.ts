@@ -13,10 +13,17 @@ export const MINIMUM_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE = new Map<AccountType, nu
   [AccountType.Beneficiary, 100],
 ]);
 
-export const MINIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE = new Map<AccountType, number>([
+export const MAXIMUM_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE = new Map<AccountType, number>([
   [AccountType.Individual, 500],
   [AccountType.Corporate, 1000],
   [AccountType.Trust, 1000],
+  [AccountType.Beneficiary, 100],
+]);
+
+export const MINIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE = new Map<AccountType, number>([
+  [AccountType.Individual, 100],
+  [AccountType.Corporate, 100],
+  [AccountType.Trust, 100],
   [AccountType.Beneficiary, 100],
 ]);
 
@@ -26,3 +33,4 @@ export const MAXIMUM_RECURRING_INVESTMENT_AMOUNT_BY_ACCOUNT_TYPE = new Map<Accou
   [AccountType.Trust, 20000],
   [AccountType.Beneficiary, 5000],
 ]);
+
