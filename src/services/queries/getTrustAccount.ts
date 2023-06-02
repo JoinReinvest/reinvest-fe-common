@@ -1,18 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { gql } from "graphql-request";
-import { Query } from "../../types/graphql";
+import { gql } from 'graphql-request';
+import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { AvatarFragment } from './fragments/avatar';
-import { EmployerFragment } from './fragments/employer';
-import { NetRangeFragment } from './fragments/netRange';
 import { TrustAccountDetailsFragment } from './fragments/trustAccountDetails';
 
 type Hook = UseApiQueryWithParams<'getTrustAccount', { accountId: string }>;
 
 export const getTrustAccountQuery = gql`
   ${AvatarFragment}
-  ${EmployerFragment}
-  ${NetRangeFragment}
   ${TrustAccountDetailsFragment}
   query getTrustAccount($accountId: String) {
     getTrustAccount(accountId: $accountId) {
@@ -29,18 +25,19 @@ export const getTrustAccountQuery = gql`
   }
 `;
 
-export const useGetTrustAccount: Hook = (getApiClient, { accountId, config }) => useQuery<Query["getTrustAccount"]>({
-  queryKey: ["getTrustAccount", accountId],
-  queryFn: async () => {
-    const api = await getApiClient();
+export const useGetTrustAccount: Hook = (getApiClient, { accountId, config }) =>
+  useQuery<Query['getTrustAccount']>({
+    queryKey: ['getTrustAccount', accountId],
+    queryFn: async () => {
+      const api = await getApiClient();
 
-    if (!api) {
-      return null;
-    }
+      if (!api) {
+        return null;
+      }
 
-    const { getTrustAccount } = await api.request<Query>(getTrustAccountQuery, { accountId });
+      const { getTrustAccount } = await api.request<Query>(getTrustAccountQuery, { accountId });
 
-    return getTrustAccount;
-  },
-  ...config
-});
+      return getTrustAccount;
+    },
+    ...config,
+  });
