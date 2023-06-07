@@ -2,15 +2,17 @@ import { UsdInput } from '../types/graphql';
 
 interface MaskCurrencyOptions {
   addDecimalPoints?: boolean;
+  addDollarSign?: boolean;
 }
 
 export const maskCurrency = (value: number | string, options?: MaskCurrencyOptions) => {
-  const addDecimalPoints = !!options?.addDecimalPoints;
-  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
+  const addDecimalPoints = options?.addDecimalPoints ?? false;
+  const addDollarSign = options?.addDollarSign ?? false;
 
+  const numericValue = typeof value === 'string' ? parseFloat(value) : value;
   const maybeValueWithDecimalPoints = addDecimalPoints ? numericValue.toFixed(2) : numericValue.toString();
 
-  return `${maybeValueWithDecimalPoints}`
+  return addDollarSign ? ['$', maybeValueWithDecimalPoints].join('') : maybeValueWithDecimalPoints;
 };
 
 /**
