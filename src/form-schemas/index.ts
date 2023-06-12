@@ -61,6 +61,12 @@ export const formValidationRules = {
   symbolTicker: standardRequiredString.nonempty('Please enter a ticker symbol'),
   finraInstitutionName: standardRequiredString.nonempty('Please enter your institution name'),
   seniorPoliticalFigure: standardRequiredString.nonempty('Please enter a political figure'),
+  confirmationPassword: zod
+    .object({
+      password: passwordSchema,
+      passwordConfirmation: passwordSchema,
+    })
+    .refine(data => data.password === data.passwordConfirmation, { message: 'Passwords do not match', path: ['confirmNewPassword'] })
 };
 
 export const dateOlderThanEighteenYearsSchema = formValidationRules.date.superRefine((value, context) => {
