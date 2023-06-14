@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
-import { SubscriptionAgreementSectionFragment } from './subscriptionAgreementSection';
+import { AgreementSectionFragment } from './agreement-section';
 
 export const SubscriptionAgreementFragment = gql`
-  ${SubscriptionAgreementSectionFragment}
+  ${AgreementSectionFragment}
   fragment SubscriptionAgreementFragment on SubscriptionAgreement {
     id
     type
@@ -10,7 +10,7 @@ export const SubscriptionAgreementFragment = gql`
     createdAt
     signedAt
     content {
-      ...SubscriptionAgreementSectionFragment
+      ...AgreementSectionFragment
     }
   }
 `;

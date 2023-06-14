@@ -10,13 +10,12 @@ type Hook = UseApiQueryWithParams<'getTrustAccount', { accountId: string }>;
 export const getTrustAccountQuery = gql`
   ${AvatarFragment}
   ${TrustAccountDetailsFragment}
-  query getTrustAccount($accountId: String) {
+  query getTrustAccount($accountId: ID!) {
     getTrustAccount(accountId: $accountId) {
       id
       avatar {
         ...AvatarFragment
       }
-      positionTotal
       label
       details {
         ...TrustAccountDetailsFragment

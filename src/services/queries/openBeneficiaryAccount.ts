@@ -12,14 +12,13 @@ type Hook = UseApiMutationWithParams<'openBeneficiaryAccount', Parameters>;
 const openBeneficiaryAccountMutation = gql`
   ${AvatarFragment}
   ${BeneficiaryDetailsFragment}
-  mutation openBeneficiaryAccount($individualAccountId: String!, $input: CreateBeneficiaryInput!) {
+  mutation openBeneficiaryAccount($individualAccountId: ID!, $input: CreateBeneficiaryInput!) {
     openBeneficiaryAccount(individualAccountId: $individualAccountId, input: $input) {
       id
       label
       avatar {
         ...AvatarFragment
       }
-      positionTotal
       details {
         ...BeneficiaryDetailsFragment
       }

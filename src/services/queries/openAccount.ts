@@ -8,7 +8,7 @@ type Parameters = { draftAccountId: string };
 type Hook = UseApiMutationWithParams<'openAccount', Parameters>;
 
 const openAccountMutation = gql`
-  mutation openAccount($draftAccountId: String) {
+  mutation openAccount($draftAccountId: ID!) {
     openAccount(draftAccountId: $draftAccountId)
   }
 `;

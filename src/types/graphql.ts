@@ -21,6 +21,12 @@ export type Scalars = {
   ssn_String_NotNull_pattern_093092094: any;
 };
 
+export type AccountActivity = {
+  __typename?: 'AccountActivity';
+  activityName: Scalars['String'];
+  date: Scalars['ISODate'];
+};
+
 export type AccountConfiguration = {
   __typename?: 'AccountConfiguration';
   automaticDividendReinvestmentAgreement?: Maybe<AutomaticDividendReinvestmentAgreement>;
@@ -29,9 +35,8 @@ export type AccountConfiguration = {
 export type AccountOverview = {
   __typename?: 'AccountOverview';
   avatar?: Maybe<GetAvatarLink>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   label?: Maybe<Scalars['String']>;
-  positionTotal?: Maybe<Scalars['String']>;
   type?: Maybe<AccountType>;
 };
 
@@ -93,6 +98,23 @@ export type AddressInput = {
   zip: Scalars['String'];
 };
 
+export type AgreementParagraph = {
+  __typename?: 'AgreementParagraph';
+  isCheckedOption?: Maybe<Scalars['Boolean']>;
+  lines: Array<Scalars['String']>;
+};
+
+export type AgreementSection = {
+  __typename?: 'AgreementSection';
+  header?: Maybe<Scalars['String']>;
+  paragraphs: Array<AgreementParagraph>;
+};
+
+export enum AgreementStatus {
+  Signed = 'SIGNED',
+  WaitingForSignature = 'WAITING_FOR_SIGNATURE'
+}
+
 export type AnnualRevenue = {
   __typename?: 'AnnualRevenue';
   range?: Maybe<Scalars['String']>;
@@ -111,13 +133,14 @@ export type AutomaticDividendReinvestmentAgreement = {
 /** Avatar link id input */
 export type AvatarFileLinkInput = {
   /** This is @PutFileLink.id */
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type BankAccount = {
   __typename?: 'BankAccount';
   accountNumber?: Maybe<Scalars['String']>;
   accountType?: Maybe<Scalars['String']>;
+  bankAccountStatus?: Maybe<BankAccountStatus>;
   bankName?: Maybe<Scalars['String']>;
 };
 
@@ -126,13 +149,18 @@ export type BankAccountLink = {
   link?: Maybe<Scalars['String']>;
 };
 
+export enum BankAccountStatus {
+  Active = 'ACTIVE',
+  Draft = 'DRAFT',
+  Inactive = 'INACTIVE'
+}
+
 export type BeneficiaryAccount = {
   __typename?: 'BeneficiaryAccount';
   avatar?: Maybe<GetAvatarLink>;
   details?: Maybe<BeneficiaryDetails>;
   id?: Maybe<Scalars['ID']>;
   label?: Maybe<Scalars['String']>;
-  positionTotal?: Maybe<Scalars['String']>;
 };
 
 export type BeneficiaryDetails = {
@@ -190,9 +218,8 @@ export type CorporateAccount = {
   __typename?: 'CorporateAccount';
   avatar?: Maybe<GetAvatarLink>;
   details?: Maybe<CorporateAccountDetails>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   label?: Maybe<Scalars['String']>;
-  positionTotal?: Maybe<Scalars['String']>;
 };
 
 export type CorporateAccountDetails = {
@@ -272,6 +299,14 @@ export type Dividend = {
   status: DividendState;
 };
 
+export type DividendOverview = {
+  __typename?: 'DividendOverview';
+  amount: Usd;
+  date: Scalars['ISODateTime'];
+  id: Scalars['ID'];
+  status: DividendState;
+};
+
 export enum DividendState {
   PaidOut = 'PAID_OUT',
   Pending = 'PENDING',
@@ -279,11 +314,16 @@ export enum DividendState {
   Withdrawing = 'WITHDRAWING'
 }
 
+export type DividendsList = {
+  __typename?: 'DividendsList';
+  dividendsList: Array<Maybe<DividendOverview>>;
+};
+
 /** Link id */
 export type DocumentFileLinkId = {
   __typename?: 'DocumentFileLinkId';
   fileName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
 };
 
 /** Avatar link id input */
@@ -291,7 +331,7 @@ export type DocumentFileLinkInput = {
   /** File name should be in format: .pdf, .jpeg, .jpg, .png */
   fileName: Scalars['FileName'];
   /** This 'id' comes usually from @PutFileLink.id */
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type Domicile = {
@@ -435,13 +475,23 @@ export type FulfillBankAccountInput = {
   routingNumber: Scalars['String'];
 };
 
+export type FundsWithdrawalAgreement = {
+  __typename?: 'FundsWithdrawalAgreement';
+  content: Array<AgreementSection>;
+  createdAt: Scalars['ISODateTime'];
+  id: Scalars['ID'];
+  signedAt?: Maybe<Scalars['ISODateTime']>;
+  status: AgreementStatus;
+};
+
 export type FundsWithdrawalRequest = {
   __typename?: 'FundsWithdrawalRequest';
   accountValue: Usd;
-  date: Scalars['ISODateTime'];
+  createdDate: Scalars['ISODateTime'];
+  decisionDate?: Maybe<Scalars['ISODateTime']>;
+  decisionMessage?: Maybe<Scalars['String']>;
   eligibleForWithdrawal: Usd;
   penaltiesFee: Usd;
-  rejectionMessage?: Maybe<Scalars['String']>;
   status: FundsWithdrawalRequestStatus;
 };
 
@@ -449,6 +499,7 @@ export enum FundsWithdrawalRequestStatus {
   Approved = 'APPROVED',
   AwaitingDecision = 'AWAITING_DECISION',
   AwaitingSigningAgreement = 'AWAITING_SIGNING_AGREEMENT',
+  Draft = 'DRAFT',
   Rejected = 'REJECTED'
 }
 
@@ -461,15 +512,10 @@ export type FundsWithdrawalSimulation = {
   penaltiesFee: Usd;
 };
 
-export type GenericFieldInput = {
-  name: Scalars['String'];
-  value: Scalars['String'];
-};
-
 /** Link id + url to read the avatar */
 export type GetAvatarLink = {
   __typename?: 'GetAvatarLink';
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   initials?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
@@ -477,7 +523,7 @@ export type GetAvatarLink = {
 /** Link id + url to read the document */
 export type GetDocumentLink = {
   __typename?: 'GetDocumentLink';
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
 };
 
@@ -485,7 +531,7 @@ export type GracePeriodInvestment = {
   __typename?: 'GracePeriodInvestment';
   amount: Usd;
   gracePeriodEnd: Scalars['ISODate'];
-  investmentId: Scalars['String'];
+  investmentId: Scalars['ID'];
 };
 
 export type GreenCardInput = {
@@ -497,9 +543,8 @@ export type IndividualAccount = {
   __typename?: 'IndividualAccount';
   avatar?: Maybe<GetAvatarLink>;
   details?: Maybe<IndividualAccountDetails>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   label?: Maybe<Scalars['String']>;
-  positionTotal?: Maybe<Scalars['String']>;
 };
 
 export type IndividualAccountDetails = {
@@ -545,6 +590,14 @@ export type IndustryInput = {
   value: Scalars['String'];
 };
 
+export type InvestmentOverview = {
+  __typename?: 'InvestmentOverview';
+  amount: Usd;
+  createdAt: Scalars['ISODateTime'];
+  id: Scalars['ID'];
+  tradeId: Scalars['String'];
+};
+
 export enum InvestmentStatus {
   Failed = 'FAILED',
   Finished = 'FINISHED',
@@ -558,12 +611,13 @@ export enum InvestmentStatus {
 export type InvestmentSummary = {
   __typename?: 'InvestmentSummary';
   amount: Usd;
+  bankAccount?: Maybe<BankAccount>;
   createdAt: Scalars['ISODateTime'];
   id: Scalars['ID'];
   investmentFees?: Maybe<Usd>;
   status: InvestmentStatus;
   subscriptionAgreementId?: Maybe<Scalars['ID']>;
-  tradeId: Scalars['ID'];
+  tradeId: Scalars['String'];
 };
 
 export type LegalNameInput = {
@@ -582,6 +636,10 @@ export type Mutation = {
    * use this method to approve the fees (it will ask for that on verification step triggered from the notification).
    */
   approveFees: Scalars['Boolean'];
+  /** [MOCK] Archive beneficiary account - it moves investments from a beneficiary to the individual account */
+  archiveBeneficiaryAccount: Scalars['Boolean'];
+  /** [MOCK] It cancels the investment that is in Funding or Funded state, but the Grace period has not been passed away yet */
+  cancelInvestment: Scalars['Boolean'];
   /** Complete corporate draft account */
   completeCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
   /** Complete individual draft account */
@@ -620,11 +678,8 @@ export type Mutation = {
    * You can have only one draft account created of a specific type in the same time.
    */
   createDraftAccount?: Maybe<DraftAccount>;
-  /**
-   * [MOCK] It prepares the agreement for funds withdrawal file.
-   * The investor must download it, print it, sign it and upload it again.
-   */
-  createFundsWithdrawalAgreement: GetDocumentLink;
+  /** [MOCK] It creates the funds withdrawal agreement. */
+  createFundsWithdrawalAgreement: FundsWithdrawalAgreement;
   /** [MOCK] Create funds withdrawal request. It is just a DRAFT. You need to sign the agreement and then request the withdrawal. */
   createFundsWithdrawalRequest: FundsWithdrawalRequest;
   /**
@@ -651,6 +706,10 @@ export type Mutation = {
    * Client must sign the agreement and call signSubscriptionAgreement mutation.
    */
   createSubscriptionAgreement: SubscriptionAgreement;
+  /** [MOCK] It deactivates bank account, so no active bank account is available */
+  deactivateBankAccount?: Maybe<BankAccount>;
+  /** [MOCK] It DEACTIVATE the recurring investment. */
+  deactivateRecurringInvestment: Scalars['Boolean'];
   /**
    * Provide the response from Plaid here.
    * The bank account will not be activated until the investor fulfills the bank account.
@@ -674,7 +733,7 @@ export type Mutation = {
    * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
    */
   removeDraftAccount?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] It requests the funds withdrawal. The investor must sign the agreement first. To do that, use createFundsWithdrawalAgreement mutation and ask user to download, print, sign, scan and upload the agreement again. */
+  /** [MOCK] It requests the funds withdrawal. The investor must sign the agreement first. */
   requestFundsWithdrawal: FundsWithdrawalRequest;
   /** [MOCK] Set automatic dividend reinvestment agreement */
   setAutomaticDividendReinvestmentAgreement: Scalars['Boolean'];
@@ -686,8 +745,8 @@ export type Mutation = {
    * On default isSmsAllowed is true.
    */
   setPhoneNumber?: Maybe<Scalars['Boolean']>;
-  /** [WIP] */
-  signDocumentFromTemplate?: Maybe<SignatureId>;
+  /** [MOCK] It signs the agreement of funds withdrawal. */
+  signFundsWithdrawalAgreement: FundsWithdrawalAgreement;
   /** [MOCK] It signs the recurring investment subscription agreement. */
   signRecurringInvestmentSubscriptionAgreement: Scalars['Boolean'];
   /** [MOCK] It signs the subscription agreement. */
@@ -698,14 +757,29 @@ export type Mutation = {
    * The fees can be approved also by this method (if approveFees is true).
    */
   startInvestment: Scalars['Boolean'];
+  /** [MOCK] It UNSUSPEND the recurring investment. */
+  unsuspendRecurringInvestment: Scalars['Boolean'];
   /**
    * It updates the link to the investor bank account. It works only if the account has bank account linked already.
    * Every time when the system create new link it cost $1.80 (on prod). Do not call it if it is not necessary.
    * The bank account will not be activated until the investor fulfills the bank account.
    */
   updateBankAccount?: Maybe<BankAccountLink>;
+  /** [MOCK] Update beneficiary account */
+  updateBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
   /** It updates company for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition. */
   updateCompanyForVerification?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] Update corporate account */
+  updateCorporateAccount?: Maybe<CorporateAccount>;
+  /** [MOCK] It updates email address in the Cognito and in the REINVEST system */
+  updateEmailAddress?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] Update individual account */
+  updateIndividualAccount?: Maybe<IndividualAccount>;
+  /**
+   * [MOCK] Update profile fields
+   * Important Note: Some fields can trigger KYC/AML reverification
+   */
+  updateProfile?: Maybe<Profile>;
   /**
    * It updates profile for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition.
    * For example if investor changed only 'firstName' then provide only field 'name'.
@@ -714,6 +788,8 @@ export type Mutation = {
   updateProfileForVerification?: Maybe<Scalars['Boolean']>;
   /** It updates stakeholder for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition. */
   updateStakeholderForVerification?: Maybe<Scalars['Boolean']>;
+  /** [MOCK] Update trust account */
+  updateTrustAccount?: Maybe<TrustAccount>;
   /**
    * It returns 'VerificationDecisions':
    * * 'isAccountVerified: Boolean': it tells if all account's parties are verified or not
@@ -750,7 +826,7 @@ export type Mutation = {
 
 
 export type MutationAbortFundsWithdrawalRequestArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
@@ -760,6 +836,17 @@ export type MutationAbortInvestmentArgs = {
 
 
 export type MutationApproveFeesArgs = {
+  investmentId: Scalars['ID'];
+};
+
+
+export type MutationArchiveBeneficiaryAccountArgs = {
+  accountId: Scalars['ID'];
+  input?: InputMaybe<UpdateBeneficiaryAccountInput>;
+};
+
+
+export type MutationCancelInvestmentArgs = {
   investmentId: Scalars['ID'];
 };
 
@@ -788,7 +875,7 @@ export type MutationCompleteTrustDraftAccountArgs = {
 
 
 export type MutationCreateBankAccountArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
@@ -803,12 +890,12 @@ export type MutationCreateDraftAccountArgs = {
 
 
 export type MutationCreateFundsWithdrawalAgreementArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
 export type MutationCreateFundsWithdrawalRequestArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
@@ -835,8 +922,18 @@ export type MutationCreateSubscriptionAgreementArgs = {
 };
 
 
+export type MutationDeactivateBankAccountArgs = {
+  accountId: Scalars['ID'];
+};
+
+
+export type MutationDeactivateRecurringInvestmentArgs = {
+  accountId: Scalars['ID'];
+};
+
+
 export type MutationFulfillBankAccountArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
   input: FulfillBankAccountInput;
 };
 
@@ -847,24 +944,24 @@ export type MutationInitiateRecurringInvestmentArgs = {
 
 
 export type MutationMarkNotificationAsReadArgs = {
-  notificationId: Scalars['String'];
+  notificationId: Scalars['ID'];
 };
 
 
 export type MutationOpenAccountArgs = {
-  draftAccountId?: InputMaybe<Scalars['String']>;
+  draftAccountId: Scalars['ID'];
 };
 
 
 export type MutationOpenBeneficiaryAccountArgs = {
-  individualAccountId: Scalars['String'];
+  individualAccountId: Scalars['ID'];
   input: CreateBeneficiaryInput;
 };
 
 
 export type MutationReinvestDividendArgs = {
-  accountId: Scalars['String'];
-  dividendIds?: InputMaybe<Array<Scalars['String']>>;
+  accountId: Scalars['ID'];
+  dividendIds?: InputMaybe<Array<Scalars['ID']>>;
 };
 
 
@@ -874,8 +971,7 @@ export type MutationRemoveDraftAccountArgs = {
 
 
 export type MutationRequestFundsWithdrawalArgs = {
-  accountId: Scalars['String'];
-  signedWithdrawalAgreementId?: InputMaybe<DocumentFileLinkInput>;
+  accountId: Scalars['ID'];
 };
 
 
@@ -892,10 +988,8 @@ export type MutationSetPhoneNumberArgs = {
 };
 
 
-export type MutationSignDocumentFromTemplateArgs = {
-  fields: Array<InputMaybe<GenericFieldInput>>;
-  signature: Scalars['String'];
-  templateId: TemplateName;
+export type MutationSignFundsWithdrawalAgreementArgs = {
+  accountId: Scalars['ID'];
 };
 
 
@@ -915,14 +1009,47 @@ export type MutationStartInvestmentArgs = {
 };
 
 
+export type MutationUnsuspendRecurringInvestmentArgs = {
+  accountId: Scalars['ID'];
+};
+
+
 export type MutationUpdateBankAccountArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
+};
+
+
+export type MutationUpdateBeneficiaryAccountArgs = {
+  accountId: Scalars['ID'];
+  input?: InputMaybe<UpdateBeneficiaryAccountInput>;
 };
 
 
 export type MutationUpdateCompanyForVerificationArgs = {
-  accountId?: InputMaybe<Scalars['String']>;
+  accountId: Scalars['ID'];
   input: UpdateCompanyForVerificationInput;
+};
+
+
+export type MutationUpdateCorporateAccountArgs = {
+  accountId: Scalars['ID'];
+  input?: InputMaybe<UpdateCompanyAccountInput>;
+};
+
+
+export type MutationUpdateEmailAddressArgs = {
+  email?: InputMaybe<Scalars['EmailAddress']>;
+};
+
+
+export type MutationUpdateIndividualAccountArgs = {
+  accountId: Scalars['ID'];
+  input?: InputMaybe<IndividualAccountInput>;
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input?: InputMaybe<UpdateProfileInput>;
 };
 
 
@@ -932,14 +1059,20 @@ export type MutationUpdateProfileForVerificationArgs = {
 
 
 export type MutationUpdateStakeholderForVerificationArgs = {
-  accountId?: InputMaybe<Scalars['String']>;
+  accountId: Scalars['ID'];
   input: UpdateStakeholderForVerificationInput;
-  stakeholderId?: InputMaybe<Scalars['String']>;
+  stakeholderId: Scalars['ID'];
+};
+
+
+export type MutationUpdateTrustAccountArgs = {
+  accountId: Scalars['ID'];
+  input?: InputMaybe<UpdateCompanyAccountInput>;
 };
 
 
 export type MutationVerifyAccountArgs = {
-  accountId?: InputMaybe<Scalars['String']>;
+  accountId: Scalars['ID'];
 };
 
 
@@ -951,8 +1084,8 @@ export type MutationVerifyPhoneNumberArgs = {
 
 
 export type MutationWithdrawDividendArgs = {
-  accountId: Scalars['String'];
-  dividendIds?: InputMaybe<Array<Scalars['String']>>;
+  accountId: Scalars['ID'];
+  dividendIds?: InputMaybe<Array<Scalars['ID']>>;
 };
 
 export type NetRange = {
@@ -1010,7 +1143,7 @@ export enum NotificationType {
 
 export type NotificationsStats = {
   __typename?: 'NotificationsStats';
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
   getNotifications: Array<Maybe<Notification>>;
   totalCount: Scalars['Int'];
   unreadCount: Scalars['Int'];
@@ -1126,32 +1259,54 @@ export type ProfileDetailsInput = {
 /** Link id + PUT url to store resource in the storage */
 export type PutFileLink = {
   __typename?: 'PutFileLink';
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
+  /**
+   * [MOCK] Get account activities
+   * Activities Types:
+   * - PROFILE_CREATED
+   * - INDIVIDUAL/CORPORATE/TRUST/BENEFICIARY_ACCOUNT_CREATED
+   * - INDIVIDUAL/CORPORATE/TRUST/BENEFICIARY_ACCOUNT_UPDATED
+   * - INVESTMENT_CREATED
+   * - INVESTMENT_FAILED
+   * - INVESTMENT_CANCELED
+   * - INVESTMENT_FINISHED
+   * - FUNDS_WITHDRAWAL_CREATED
+   * - FUNDS_WITHDREW
+   * - BENEFICIARY_ACCOUNT_ARCHIVED
+   * - SHARES_ISSUED
+   * - DIVIDEND_RECEIVED
+   * - REFERRAL_REWARD_RECEIVED
+   * - EMAIL_UPDATED
+   * - DIVIDEND_REINVESTED
+   * - DIVIDEND_WITHDREW
+   * - ACCOUNT_BANNED
+   * - PROFILE_BANNED
+   * - ACCOUNT_UNBANNED
+   * - PROFILE_UNBANNED
+   * - RECURRING_INVESTMENT_CREATED
+   * - RECURRING_INVESTMENT_SUSPENDED
+   * - RECURRING_INVESTMENT_ARCHIVED
+   * - VERIFICATION_FAILED
+   *
+   * DB: Type, uniqueKey, contentFields, dateCreated, profileId, accountId (can be null)
+   */
+  getAccountActivity: Array<Maybe<AccountActivity>>;
   /** [MOCK] Return account configuration */
   getAccountConfiguration?: Maybe<AccountConfiguration>;
   /** [MOCK] Get account stats */
   getAccountStats?: Maybe<AccountStats>;
-  /**
-   * Return all accounts overview
-   * [PARTIAL_MOCK] Position total is still mocked!!
-   */
+  /** Return all accounts overview */
   getAccountsOverview?: Maybe<Array<Maybe<AccountOverview>>>;
   /** [MOCK] It returns the current recurring investment summary. */
   getActiveRecurringInvestment?: Maybe<RecurringInvestment>;
-  /**
-   * Returns beneficiary account information
-   * [PARTIAL_MOCK] Position total is still mocked!!
-   */
+  /** Returns beneficiary account information */
   getBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
-  /**
-   * Returns corporate account information
-   * [PARTIAL_MOCK] Position total is still mocked!!
-   */
+  /** Returns corporate account information */
   getCorporateAccount?: Maybe<CorporateAccount>;
   /** Get draft corporate account details */
   getCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
@@ -1162,12 +1317,11 @@ export type Query = {
   getDraftRecurringInvestment?: Maybe<RecurringInvestment>;
   /** [MOCK] Get EVS chart data for an account by resolution */
   getEVSChart?: Maybe<EvsChart>;
+  /** [MOCK] Get funds withdrawal agreement */
+  getFundsWithdrawalAgreement?: Maybe<FundsWithdrawalAgreement>;
   /** [MOCK] Get funds withdrawal request. It returns the current status of funds withdrawal request. */
   getFundsWithdrawalRequest?: Maybe<FundsWithdrawalRequest>;
-  /**
-   * Returns individual account information
-   * [PARTIAL_MOCK] Position total is still mocked!!
-   */
+  /** Returns individual account information */
   getIndividualAccount?: Maybe<IndividualAccount>;
   /** Get details of individual draft account */
   getIndividualDraftAccount?: Maybe<IndividualDraftAccount>;
@@ -1192,12 +1346,7 @@ export type Query = {
   getScheduleSimulation: Array<Scalars['ISODate']>;
   /** [MOCK] It returns the subscription agreement. */
   getSubscriptionAgreement: SubscriptionAgreement;
-  /** [WIP] */
-  getTemplate?: Maybe<Template>;
-  /**
-   * Returns trust account information
-   * [PARTIAL_MOCK] Position total is still mocked!!
-   */
+  /** Returns trust account information */
   getTrustAccount?: Maybe<TrustAccount>;
   /** Get draft trust account details */
   getTrustDraftAccount?: Maybe<TrustDraftAccount>;
@@ -1207,6 +1356,12 @@ export type Query = {
   listAccountDrafts?: Maybe<Array<Maybe<DraftAccount>>>;
   /** Returns list of account types that user can open */
   listAccountTypesUserCanOpen?: Maybe<Array<Maybe<AccountType>>>;
+  /** [MOCK] Return all beneficiaries accounts list */
+  listBeneficiaries?: Maybe<Array<Maybe<BeneficiaryAccount>>>;
+  /** [MOCK] List all dividends */
+  listDividends: DividendsList;
+  /** [MOCK] List of all investments history */
+  listInvestments: Array<Maybe<InvestmentOverview>>;
   /** [MOCK] Returns information if user already assigned and verified phone number */
   phoneCompleted?: Maybe<Scalars['Boolean']>;
   /** Returns basic bank account information. */
@@ -1218,13 +1373,19 @@ export type Query = {
 };
 
 
+export type QueryGetAccountActivityArgs = {
+  accountId: Scalars['ID'];
+  pagination?: InputMaybe<Pagination>;
+};
+
+
 export type QueryGetAccountConfigurationArgs = {
   accountId: Scalars['ID'];
 };
 
 
 export type QueryGetAccountStatsArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
@@ -1234,12 +1395,12 @@ export type QueryGetActiveRecurringInvestmentArgs = {
 
 
 export type QueryGetBeneficiaryAccountArgs = {
-  accountId?: InputMaybe<Scalars['String']>;
+  accountId: Scalars['ID'];
 };
 
 
 export type QueryGetCorporateAccountArgs = {
-  accountId?: InputMaybe<Scalars['String']>;
+  accountId: Scalars['ID'];
 };
 
 
@@ -1249,12 +1410,12 @@ export type QueryGetCorporateDraftAccountArgs = {
 
 
 export type QueryGetDividendArgs = {
-  dividendId: Scalars['String'];
+  dividendId: Scalars['ID'];
 };
 
 
 export type QueryGetDocumentArgs = {
-  documentId: Scalars['String'];
+  documentId: Scalars['ID'];
 };
 
 
@@ -1264,13 +1425,18 @@ export type QueryGetDraftRecurringInvestmentArgs = {
 
 
 export type QueryGetEvsChartArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
   resolution: EvsChartResolution;
 };
 
 
+export type QueryGetFundsWithdrawalAgreementArgs = {
+  accountId: Scalars['ID'];
+};
+
+
 export type QueryGetFundsWithdrawalRequestArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
@@ -1285,12 +1451,12 @@ export type QueryGetInvestmentSummaryArgs = {
 
 
 export type QueryGetNotificationStatsArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
 export type QueryGetNotificationsArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
   filter?: InputMaybe<NotificationFilter>;
   pagination?: InputMaybe<Pagination>;
 };
@@ -1306,13 +1472,8 @@ export type QueryGetSubscriptionAgreementArgs = {
 };
 
 
-export type QueryGetTemplateArgs = {
-  templateName?: InputMaybe<TemplateName>;
-};
-
-
 export type QueryGetTrustAccountArgs = {
-  accountId?: InputMaybe<Scalars['String']>;
+  accountId: Scalars['ID'];
 };
 
 
@@ -1321,13 +1482,24 @@ export type QueryGetTrustDraftAccountArgs = {
 };
 
 
+export type QueryListDividendsArgs = {
+  accountId: Scalars['ID'];
+};
+
+
+export type QueryListInvestmentsArgs = {
+  accountId: Scalars['ID'];
+  pagination?: InputMaybe<Pagination>;
+};
+
+
 export type QueryReadBankAccountArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 
 export type QuerySimulateFundsWithdrawalArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['ID'];
 };
 
 export type RecurringInvestment = {
@@ -1369,11 +1541,6 @@ export enum RecurringInvestmentStatus {
 export type SsnInput = {
   /** The valid SSN is 9 digits in format 'XXX-XX-XXXX' */
   ssn: Scalars['ssn_String_NotNull_pattern_093092094'];
-};
-
-export type SignatureId = {
-  __typename?: 'SignatureId';
-  signatureId?: Maybe<Scalars['String']>;
 };
 
 export type SimplifiedDomicile = {
@@ -1456,46 +1623,17 @@ export enum StatementType {
 
 export type SubscriptionAgreement = {
   __typename?: 'SubscriptionAgreement';
-  content: Array<SubscriptionAgreementSection>;
+  content: Array<AgreementSection>;
   createdAt: Scalars['ISODateTime'];
   id: Scalars['ID'];
   signedAt?: Maybe<Scalars['ISODateTime']>;
-  status: SubscriptionAgreementStatus;
+  status: AgreementStatus;
   type: SubscriptionAgreementType;
 };
-
-export type SubscriptionAgreementParagraph = {
-  __typename?: 'SubscriptionAgreementParagraph';
-  isCheckedOption?: Maybe<Scalars['Boolean']>;
-  lines: Array<Scalars['String']>;
-};
-
-export type SubscriptionAgreementSection = {
-  __typename?: 'SubscriptionAgreementSection';
-  header?: Maybe<Scalars['String']>;
-  paragraphs: Array<SubscriptionAgreementParagraph>;
-};
-
-export enum SubscriptionAgreementStatus {
-  Signed = 'SIGNED',
-  WaitingForSignature = 'WAITING_FOR_SIGNATURE'
-}
 
 export enum SubscriptionAgreementType {
   DirectDeposit = 'DIRECT_DEPOSIT',
   RecurringInvestment = 'RECURRING_INVESTMENT'
-}
-
-export type Template = {
-  __typename?: 'Template';
-  content?: Maybe<Scalars['String']>;
-  fields?: Maybe<Array<Maybe<Scalars['String']>>>;
-  templateName?: Maybe<TemplateName>;
-};
-
-export enum TemplateName {
-  AutoReinvestmentAgreement = 'AUTO_REINVESTMENT_AGREEMENT',
-  SubscriptionAgreement = 'SUBSCRIPTION_AGREEMENT'
 }
 
 export type TermsAndConditionsInput = {
@@ -1514,9 +1652,8 @@ export type TrustAccount = {
   __typename?: 'TrustAccount';
   avatar?: Maybe<GetAvatarLink>;
   details?: Maybe<TrustAccountDetails>;
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
   label?: Maybe<Scalars['String']>;
-  positionTotal?: Maybe<Scalars['String']>;
 };
 
 export type TrustAccountDetails = {
@@ -1583,11 +1720,30 @@ export type UsdInput = {
   value: Scalars['Money'];
 };
 
+export type UpdateBeneficiaryAccountInput = {
+  avatar?: InputMaybe<AvatarFileLinkInput>;
+  name?: InputMaybe<BeneficiaryNameInput>;
+};
+
+export type UpdateCompanyAccountInput = {
+  address?: InputMaybe<AddressInput>;
+  annualRevenue?: InputMaybe<AnnualRevenueInput>;
+  /** IMPORTANT: it removes previously uploaded avatar from s3 for this account */
+  avatar?: InputMaybe<AvatarFileLinkInput>;
+  companyDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
+  industry?: InputMaybe<IndustryInput>;
+  numberOfEmployees?: InputMaybe<NumberOfEmployeesInput>;
+  /** IMPORTANT: it removes these documents from s3 */
+  removeDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
+  /** IMPORTANT: it removes previously uploaded id scan documents from s3 for this stakeholder */
+  removeStakeholders?: InputMaybe<Array<InputMaybe<StakeholderIdInput>>>;
+  stakeholders?: InputMaybe<Array<InputMaybe<StakeholderInput>>>;
+};
+
 export type UpdateCompanyForVerificationInput = {
   address?: InputMaybe<AddressInput>;
   companyDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
   companyName?: InputMaybe<CompanyNameInput>;
-  companyType?: InputMaybe<CorporateCompanyTypeInput>;
   /** IMPORTANT: it removes these documents from s3 */
   removeDocuments?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
   /** IMPORTANT: it removes previously uploaded id scan documents from s3 for this stakeholder */
@@ -1610,6 +1766,36 @@ export type UpdateProfileForVerificationInput = {
   idScan?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
   /** An investor name */
   name?: InputMaybe<PersonName>;
+};
+
+export type UpdateProfileInput = {
+  /** Permanent address of an investor */
+  address?: InputMaybe<AddressInput>;
+  /** Is the investor US. Citizen or US. Resident with Green Card or Visa */
+  domicile?: InputMaybe<DomicileInput>;
+  /**
+   * Important Note: KYC/AML reverification will be triggered
+   * ID scan can be provided in more then one document, ie. 2 scans of both sides of the ID.
+   * Required "id" provided in the @FileLink type from the @createDocumentsFileLinks mutation
+   * IMPORTANT: it removes previously uploaded id scan documents from s3 if the previous document ids are not listed in the request
+   */
+  idScan?: InputMaybe<Array<InputMaybe<DocumentFileLinkInput>>>;
+  investingExperience?: InputMaybe<ExperienceInput>;
+  /**
+   * Important Note: KYC/AML reverification will be triggered
+   * An investor name
+   */
+  name?: InputMaybe<PersonName>;
+  /** If an investor decided to remove one of the statements during onboarding */
+  removeStatements?: InputMaybe<Array<InputMaybe<StatementInput>>>;
+  /**
+   * FINRA, Politician, Trading company stakeholder, accredited investor, terms and conditions, privacy policy statements
+   * REQUIRED statements to complete the profile:
+   * - accredited investor
+   * - terms and conditions
+   * - privacy policy
+   */
+  statements?: InputMaybe<Array<InputMaybe<StatementInput>>>;
 };
 
 export type UpdateStakeholderForVerificationInput = {
@@ -1643,8 +1829,8 @@ export type VerificationDecision = {
 
 export type VerificationObject = {
   __typename?: 'VerificationObject';
-  accountId?: Maybe<Scalars['String']>;
-  stakeholderId?: Maybe<Scalars['String']>;
+  accountId?: Maybe<Scalars['ID']>;
+  stakeholderId?: Maybe<Scalars['ID']>;
   type: VerificationObjectType;
 };
 

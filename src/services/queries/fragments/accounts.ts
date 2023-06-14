@@ -10,6 +10,5 @@ export const AccountsFragment = gql`
     avatar {
       ...AvatarFragment
     }
-    positionTotal
   }
 `;

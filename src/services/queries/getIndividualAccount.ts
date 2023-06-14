@@ -18,7 +18,6 @@ export const getIndividualAccountQuery = gql`
       avatar {
         ...AvatarFragment
       }
-      positionTotal
       label
       details {
         employmentStatus {

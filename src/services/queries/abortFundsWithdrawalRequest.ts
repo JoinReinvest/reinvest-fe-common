@@ -8,7 +8,7 @@ type Parameters = { accountId: string };
 type Hook = UseApiMutationWithParams<'abortFundsWithdrawalRequest', Parameters>;
 
 const abortFundsWithdrawalRequestMutation = gql`
-  mutation abortFundsWithdrawalRequest($accountId: String!) {
+  mutation abortFundsWithdrawalRequest($accountId: ID!) {
     abortFundsWithdrawalRequest(accountId: $accountId)
   }
 `;

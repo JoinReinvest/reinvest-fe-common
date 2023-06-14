@@ -6,7 +6,7 @@ export const RECURRING_INVESTMENT_INTERVAL_LABELS = new Map<RecurringInvestmentF
   [RecurringInvestmentFrequency.Weekly, 'Weekly'],
   [RecurringInvestmentFrequency.BiWeekly, 'Bi-Weekly'],
   [RecurringInvestmentFrequency.Monthly, 'Monthly'],
-  [RecurringInvestmentFrequency.Quarterly, 'Quaterly'],
+  [RecurringInvestmentFrequency.Quarterly, 'Quarterly'],
 ]);
 
 export const RECURRING_INVESTMENT_INTERVALS = [

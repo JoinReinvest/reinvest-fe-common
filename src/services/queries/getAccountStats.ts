@@ -11,7 +11,7 @@ type Hook = UseApiQueryWithParams<'getAccountStats', Parameters>;
 export const getAccountStatsQuery = gql`
   ${AccountStatsFragment}
 
-  query getAccountStats($accountId: String!) {
+  query getAccountStats($accountId: ID!) {
     getAccountStats(accountId: $accountId) {
       ...AccountStatsFragment
     }

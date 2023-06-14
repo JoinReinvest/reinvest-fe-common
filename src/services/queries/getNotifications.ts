@@ -13,7 +13,7 @@ export const getNotifications = gql`
   ${NotificationFragment}
   ${NotificationStatsFragment}
 
-  query getNotificationStats($accountId: String!, $pagination: Pagination, $filter: NotificationFilter) {
+  query getNotificationStats($accountId: ID!, $pagination: Pagination, $filter: NotificationFilter) {
     getNotificationStats(accountId: $accountId) {
       ...NotificationStatsFragment
       getNotifications(filter: $filter , pagination : $pagination) {
