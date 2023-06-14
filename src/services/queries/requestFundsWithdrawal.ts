@@ -10,8 +10,8 @@ type Hook = UseApiMutationWithParams<'requestFundsWithdrawal', Parameters>;
 
 const requestFundsWithdrawalMutation = gql`
   ${FundsWithdrawalRequestFragment}
-  mutation requestFundsWithdrawal($accountId: String!, $signedWithdrawalAgreementId: DocumentFileLinkInput) {
-    requestFundsWithdrawal(accountId: $accountId, signedWithdrawalAgreementId: $signedWithdrawalAgreementId) {
+  mutation requestFundsWithdrawal($accountId: ID!) {
+    requestFundsWithdrawal(accountId: $accountId) {
       ...FundsWithdrawalRequestFragment
     }
   }

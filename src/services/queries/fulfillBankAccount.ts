@@ -8,7 +8,7 @@ type Parameters = { accountId: string, input: FulfillBankAccountInput};
 type Hook = UseApiMutationWithParams<'fulfillBankAccount', Parameters>;
 
 const fulfillBankAccountMutation = gql`
-  mutation fulfillBankAccount($accountId: String!, $input: FulfillBankAccountInput!) {
+  mutation fulfillBankAccount($accountId: ID!, $input: FulfillBankAccountInput!) {
     fulfillBankAccount(accountId: $accountId, input: $input)
   }
 `;

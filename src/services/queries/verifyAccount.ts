@@ -10,7 +10,7 @@ type Hook = UseApiMutationWithParams<'verifyAccount', Parameters>;
 
 const verifyAccountMutation = gql`
   ${VerificationActionFragment}
-  mutation verifyAccount($accountId: String) {
+  mutation verifyAccount($accountId: ID!) {
     verifyAccount(accountId: $accountId) {
       isAccountVerified
       canUserContinueTheInvestment

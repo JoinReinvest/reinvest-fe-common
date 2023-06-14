@@ -10,7 +10,7 @@ type Hook = UseApiQueryWithParams<'simulateFundsWithdrawal', Parameters>;
 export const simulateFundsWithdrawalQuery = gql`
   ${FundsWithdrawalSimulationFragment}
 
-  query simulateFundsWithdrawal($accountId: String!) {
+  query simulateFundsWithdrawal($accountId: ID!) {
     simulateFundsWithdrawal(accountId: $accountId) {
       ...FundsWithdrawalSimulationFragment
     }

@@ -7,7 +7,7 @@ import { UseApiMutationWithParams } from './interfaces';
 type Hook = UseApiMutationWithParams<'markNotificationAsRead', MutationMarkNotificationAsReadArgs>;
 
 const markNotificationAsReadMutation = gql`
-  mutation markNotificationAsRead($notificationId: String!) {
+  mutation markNotificationAsRead($notificationId: ID!) {
     markNotificationAsRead(notificationId: $notificationId)
   }
 `;

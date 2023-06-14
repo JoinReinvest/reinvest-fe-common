@@ -10,7 +10,7 @@ type Hook = UseApiMutationWithParams<'createBankAccount', Parameters>;
 
 const createBankAccountMutation = gql`
   ${BankAccountLinkFragment}
-  mutation createBankAccount($accountId: String!) {
+  mutation createBankAccount($accountId: ID!) {
     createBankAccount(accountId: $accountId) {
       ...BankAccountLinkFragment
     }

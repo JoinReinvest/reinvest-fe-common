@@ -14,7 +14,8 @@ export const FundsWithdrawalRequestFragment = gql`
     penaltiesFee {
       ...UsdFragment
     }
-    rejectionMessage
-    date
+    decisionMessage
+    createdDate
+    decisionDate
   }
 `;

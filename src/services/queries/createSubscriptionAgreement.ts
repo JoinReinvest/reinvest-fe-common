@@ -3,13 +3,13 @@ import { gql, GraphQLClient } from 'graphql-request';
 
 import { Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
-import { SubscriptionAgreementSectionFragment } from './fragments/subscriptionAgreementSection';
+import { AgreementSectionFragment } from './fragments/agreement-section';
 
 type Parameters = { investmentId: string };
 type Hook = UseApiMutationWithParams<'createSubscriptionAgreement', Parameters>;
 
 const createSubscriptionAgreementMutation = gql`
-  ${SubscriptionAgreementSectionFragment}
+  ${AgreementSectionFragment}
   mutation createSubscriptionAgreement($investmentId: ID!) {
     createSubscriptionAgreement(investmentId: $investmentId) {
       id
@@ -18,7 +18,7 @@ const createSubscriptionAgreementMutation = gql`
       createdAt
       signedAt
       content {
-        ...SubscriptionAgreementSectionFragment
+        ...AgreementSectionFragment
       }
     }
   }

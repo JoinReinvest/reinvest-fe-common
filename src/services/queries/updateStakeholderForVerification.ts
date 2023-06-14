@@ -8,7 +8,7 @@ type Parameters = { accountId: string; stakeholderId: string; input: UpdateStake
 type Hook = UseApiMutationWithParams<'updateStakeholderForVerification', Parameters>;
 
 const updateStakeholderForVerificationMutation = gql`
-  mutation updateStakeholderForVerification($accountId: String, $stakeholderId: String, $input: UpdateStakeholderForVerificationInput!) {
+  mutation updateStakeholderForVerification($accountId: ID!, $stakeholderId: ID!, $input: UpdateStakeholderForVerificationInput!) {
     updateStakeholderForVerification(accountId: $accountId, stakeholderId: $stakeholderId, input: $input)
   }
 `;

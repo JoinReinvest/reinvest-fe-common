@@ -7,7 +7,7 @@ import { UseApiMutationWithParams } from './interfaces';
 type Hook = UseApiMutationWithParams<'withdrawDividend', MutationWithdrawDividendArgs>;
 
 const withdrawDividendsMutation = gql`
-  mutation withdrawDividends($accountId: String!, $dividendIds: [String!]) {
+  mutation withdrawDividends($accountId: ID!, $dividendIds: [ID!]) {
     withdrawDividend(accountId: $accountId, dividendIds: $dividendIds)
   }
 `;

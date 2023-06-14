@@ -8,7 +8,7 @@ type Parameters = { input: UpdateCompanyForVerificationInput, accountId: string 
 type Hook = UseApiMutationWithParams<'updateCompanyForVerification', Parameters>;
 
 const updateCompanyForVerificationMutation = gql`
-  mutation updateCompanyForVerification($accountId: String, $input: UpdateCompanyForVerificationInput!) {
+  mutation updateCompanyForVerification($accountId: ID!, $input: UpdateCompanyForVerificationInput!) {
     updateCompanyForVerification(accountId: $accountId, input: $input)
   }
 `;

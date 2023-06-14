@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 import { Query } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
-import { SubscriptionAgreementSectionFragment } from './fragments/subscriptionAgreementSection';
+import { AgreementSectionFragment } from './fragments/agreement-section';
 
 type Hook = UseApiQueryWithParams<'getSubscriptionAgreement', { subscriptionAgreementId: string }>;
 
 const getSubscriptionAgreementQuery = gql`
-  ${SubscriptionAgreementSectionFragment}
+  ${AgreementSectionFragment}
   query getSubscriptionAgreement($subscriptionAgreementId: ID!) {
     getSubscriptionAgreement(subscriptionAgreementId: $subscriptionAgreementId) {
       id
@@ -16,7 +16,7 @@ const getSubscriptionAgreementQuery = gql`
       createdAt
       signedAt
       content {
-        ...SubscriptionAgreementSectionFragment
+        ...AgreementSectionFragment
       }
     }
   }
