@@ -539,6 +539,13 @@ export type GreenCardInput = {
   citizenshipCountry: Scalars['String'];
 };
 
+export type ImpactMetrics = {
+  __typename?: 'ImpactMetrics';
+  jobsCreated?: Maybe<Scalars['String']>;
+  totalProjectSize?: Maybe<Scalars['String']>;
+  units?: Maybe<Scalars['String']>;
+};
+
 export type IndividualAccount = {
   __typename?: 'IndividualAccount';
   avatar?: Maybe<GetAvatarLink>;
@@ -620,15 +627,28 @@ export type InvestmentSummary = {
   tradeId: Scalars['String'];
 };
 
+export type KeyMetrics = {
+  __typename?: 'KeyMetrics';
+  projectReturn?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['String']>;
+  structure?: Maybe<Scalars['String']>;
+};
+
 export type LegalNameInput = {
   name: Scalars['String'];
+};
+
+export type Location = {
+  __typename?: 'Location';
+  lat?: Maybe<Scalars['String']>;
+  lng?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   /** [MOCK] It aborts the funds withdrawal request if it is not yet approved or rejected */
   abortFundsWithdrawalRequest: Scalars['Boolean'];
-  /** [MOCK] It aborts the investment that haven't been started yet (by startInvestment mutation). */
+  /** It aborts the investment that haven't been started yet (by startInvestment mutation). */
   abortInvestment: Scalars['Boolean'];
   /**
    * [MOCK] Approves the fees for the specific investment.
@@ -683,41 +703,39 @@ export type Mutation = {
   /** [MOCK] Create funds withdrawal request. It is just a DRAFT. You need to sign the agreement and then request the withdrawal. */
   createFundsWithdrawalRequest: FundsWithdrawalRequest;
   /**
-   * [MOCK] It creates new investment and returns its ID.
+   * It creates new investment and returns its ID.
    * It requires bank account to be linked to the account.
    * In other case it throws an error.
    */
   createInvestment: Scalars['ID'];
   /**
-   * [MOCK] It creates new investment and returns its ID.
+   * It creates new investment and returns its ID.
    * It requires bank account to be linked to the account.
    * In other case it throws an error.
    */
   createRecurringInvestment: RecurringInvestment;
   /**
-   * [MOCK] It creates new subscription agreement for the specific recurring investment
+   * It creates new subscription agreement for the specific recurring investment
    * It returns the content of the agreement that must be rendered on the client side.
    * Client must sign the agreement and call signRecurringInvestmentSubscriptionAgreement mutation.
    */
   createRecurringSubscriptionAgreement: SubscriptionAgreement;
   /**
-   * [MOCK] It creates new subscription agreement for the specific investment
+   * It creates new subscription agreement for the specific investment
    * It returns the content of the agreement that must be rendered on the client side.
    * Client must sign the agreement and call signSubscriptionAgreement mutation.
    */
   createSubscriptionAgreement: SubscriptionAgreement;
-  /** [MOCK] It deactivates bank account, so no active bank account is available */
-  deactivateBankAccount?: Maybe<BankAccount>;
-  /** [MOCK] It DEACTIVATE the recurring investment. */
+  /** It DEACTIVATE the recurring investment. */
   deactivateRecurringInvestment: Scalars['Boolean'];
   /**
    * Provide the response from Plaid here.
    * The bank account will not be activated until the investor fulfills the bank account.
    */
   fulfillBankAccount?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] It STARTS the recurring investment, CANCEL previous recurring investment if exists and schedule the first investment. */
+  /** It STARTS the recurring investment, CANCEL previous recurring investment if exists and schedule the first investment. */
   initiateRecurringInvestment: Scalars['Boolean'];
-  /** [MOCK] Mark notification as read */
+  /** Mark notification as read */
   markNotificationAsRead: Scalars['Boolean'];
   /**
    * Open REINVEST Account based on draft.
@@ -747,17 +765,17 @@ export type Mutation = {
   setPhoneNumber?: Maybe<Scalars['Boolean']>;
   /** [MOCK] It signs the agreement of funds withdrawal. */
   signFundsWithdrawalAgreement: FundsWithdrawalAgreement;
-  /** [MOCK] It signs the recurring investment subscription agreement. */
+  /** It signs the recurring investment subscription agreement. */
   signRecurringInvestmentSubscriptionAgreement: Scalars['Boolean'];
-  /** [MOCK] It signs the subscription agreement. */
+  /** It signs the subscription agreement. */
   signSubscriptionAgreement: Scalars['Boolean'];
   /**
-   * [MOCK] It starts the investment.
+   * It starts the investment.
    * It requires subscription agreement to be signed and fees to be approved.
    * The fees can be approved also by this method (if approveFees is true).
    */
   startInvestment: Scalars['Boolean'];
-  /** [MOCK] It UNSUSPEND the recurring investment. */
+  /** It UNSUSPEND the recurring investment. */
   unsuspendRecurringInvestment: Scalars['Boolean'];
   /**
    * It updates the link to the investor bank account. It works only if the account has bank account linked already.
@@ -773,10 +791,10 @@ export type Mutation = {
   updateCorporateAccount?: Maybe<CorporateAccount>;
   /** [MOCK] It updates email address in the Cognito and in the REINVEST system */
   updateEmailAddress?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] Update individual account */
+  /** Update individual account */
   updateIndividualAccount?: Maybe<IndividualAccount>;
   /**
-   * [MOCK] Update profile fields
+   * Update profile fields
    * Important Note: Some fields can trigger KYC/AML reverification
    */
   updateProfile?: Maybe<Profile>;
@@ -919,11 +937,6 @@ export type MutationCreateRecurringSubscriptionAgreementArgs = {
 
 export type MutationCreateSubscriptionAgreementArgs = {
   investmentId: Scalars['ID'];
-};
-
-
-export type MutationDeactivateBankAccountArgs = {
-  accountId: Scalars['ID'];
 };
 
 
@@ -1164,6 +1177,13 @@ export type NumberOfEmployeesInput = {
   range: Scalars['String'];
 };
 
+export type Poi = {
+  __typename?: 'POI';
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 /** If not provided, default pagination is page: 0, perPage: 10 */
 export type Pagination = {
   page?: Scalars['Int'];
@@ -1185,6 +1205,13 @@ export type PersonNameType = {
 
 export type PoliticianStatementInput = {
   description: Scalars['String'];
+};
+
+export type PortfolioDetails = {
+  __typename?: 'PortfolioDetails';
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  properties?: Maybe<Array<Maybe<Property>>>;
 };
 
 export type PrivacyPolicyInput = {
@@ -1256,6 +1283,25 @@ export type ProfileDetailsInput = {
   verifyAndFinish?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type Property = {
+  __typename?: 'Property';
+  POIs?: Maybe<Array<Maybe<Poi>>>;
+  address?: Maybe<PropertyAddress>;
+  gallery?: Maybe<Array<Maybe<Scalars['String']>>>;
+  image?: Maybe<Scalars['String']>;
+  impactMetrics?: Maybe<ImpactMetrics>;
+  keyMetrics?: Maybe<KeyMetrics>;
+  location?: Maybe<Location>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type PropertyAddress = {
+  __typename?: 'PropertyAddress';
+  addressLine?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  zip?: Maybe<Scalars['String']>;
+};
+
 /** Link id + PUT url to store resource in the storage */
 export type PutFileLink = {
   __typename?: 'PutFileLink';
@@ -1302,7 +1348,7 @@ export type Query = {
   getAccountStats?: Maybe<AccountStats>;
   /** Return all accounts overview */
   getAccountsOverview?: Maybe<Array<Maybe<AccountOverview>>>;
-  /** [MOCK] It returns the current recurring investment summary. */
+  /** It returns the current recurring investment summary. */
   getActiveRecurringInvestment?: Maybe<RecurringInvestment>;
   /** Returns beneficiary account information */
   getBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
@@ -1313,7 +1359,7 @@ export type Query = {
   getDividend: Dividend;
   /** Returns document link by id */
   getDocument?: Maybe<GetDocumentLink>;
-  /** [MOCK] It returns the created draft recurring investment summary. */
+  /** It returns the created draft recurring investment summary. */
   getDraftRecurringInvestment?: Maybe<RecurringInvestment>;
   /** [MOCK] Get EVS chart data for an account by resolution */
   getEVSChart?: Maybe<EvsChart>;
@@ -1326,25 +1372,27 @@ export type Query = {
   /** Get details of individual draft account */
   getIndividualDraftAccount?: Maybe<IndividualDraftAccount>;
   /**
-   * [MOCK] It returns the investment summary.
+   * It returns the investment summary.
    * Use this method to get info about the investment fees.
    */
   getInvestmentSummary: InvestmentSummary;
   /**
-   * [MOCK] Get all notifications for the given account id
-   * It sort notifications by date descending. Not dismissible (pinned) notifications are always first.
+   * Provides info about the number of unread/total notifications for the given account id
+   * It allows to retrieve notifications directly in the same query
    */
   getNotificationStats: NotificationsStats;
   /**
-   * [MOCK] Get all notifications for the given account id
+   * Get all notifications for the given account id
    * It sort notifications by date descending. Not dismissible (pinned) notifications are always first.
    */
   getNotifications: Array<Maybe<Notification>>;
+  /** [MOCK] returns all information about properties in the portfolio */
+  getPortfolioDetails?: Maybe<PortfolioDetails>;
   /** Get user profile */
   getProfile?: Maybe<Profile>;
-  /** [MOCK] Returns the simulation of the recurring investment schedule. */
+  /** Returns the simulation of the recurring investment schedule. */
   getScheduleSimulation: Array<Scalars['ISODate']>;
-  /** [MOCK] It returns the subscription agreement. */
+  /** It returns the subscription agreement. */
   getSubscriptionAgreement: SubscriptionAgreement;
   /** Returns trust account information */
   getTrustAccount?: Maybe<TrustAccount>;
@@ -1356,13 +1404,11 @@ export type Query = {
   listAccountDrafts?: Maybe<Array<Maybe<DraftAccount>>>;
   /** Returns list of account types that user can open */
   listAccountTypesUserCanOpen?: Maybe<Array<Maybe<AccountType>>>;
-  /** [MOCK] Return all beneficiaries accounts list */
-  listBeneficiaries?: Maybe<Array<Maybe<BeneficiaryAccount>>>;
   /** [MOCK] List all dividends */
   listDividends: DividendsList;
   /** [MOCK] List of all investments history */
   listInvestments: Array<Maybe<InvestmentOverview>>;
-  /** [MOCK] Returns information if user already assigned and verified phone number */
+  /** Returns information if user already assigned and verified phone number */
   phoneCompleted?: Maybe<Scalars['Boolean']>;
   /** Returns basic bank account information. */
   readBankAccount?: Maybe<BankAccount>;
