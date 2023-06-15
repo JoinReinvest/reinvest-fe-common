@@ -19,10 +19,10 @@ const signFundsWithdrawalAgreementMutation = gql`
 
 export const useSignFundsWithdrawalAgreement: Hook = getApiClient =>
   useMutation({
-    mutationFn: async accountId => {
+    mutationFn: async input => {
       const api = (await getApiClient()) as GraphQLClient;
 
-      const { signFundsWithdrawalAgreement } = await api.request<Mutation>(signFundsWithdrawalAgreementMutation, { accountId });
+      const { signFundsWithdrawalAgreement } = await api.request<Mutation>(signFundsWithdrawalAgreementMutation, { ...input });
 
       return signFundsWithdrawalAgreement;
     },
