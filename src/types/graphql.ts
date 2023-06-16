@@ -124,6 +124,12 @@ export type AnnualRevenueInput = {
   range: Scalars['String'];
 };
 
+export type ArchivedBeneficiaryStatus = {
+  __typename?: 'ArchivedBeneficiaryStatus';
+  archived: Scalars['Boolean'];
+  parentAccountUpdatedValue?: Maybe<Usd>;
+};
+
 export type AutomaticDividendReinvestmentAgreement = {
   __typename?: 'AutomaticDividendReinvestmentAgreement';
   date?: Maybe<Scalars['ISODateTime']>;
@@ -657,7 +663,7 @@ export type Mutation = {
    */
   approveFees: Scalars['Boolean'];
   /** [MOCK] Archive beneficiary account - it moves investments from a beneficiary to the individual account */
-  archiveBeneficiaryAccount: Scalars['Boolean'];
+  archiveBeneficiaryAccount: ArchivedBeneficiaryStatus;
   /** [MOCK] It cancels the investment that is in Funding or Funded state, but the Grace period has not been passed away yet */
   cancelInvestment: Scalars['Boolean'];
   /** Complete corporate draft account */
@@ -860,7 +866,6 @@ export type MutationApproveFeesArgs = {
 
 export type MutationArchiveBeneficiaryAccountArgs = {
   accountId: Scalars['ID'];
-  input?: InputMaybe<UpdateBeneficiaryAccountInput>;
 };
 
 

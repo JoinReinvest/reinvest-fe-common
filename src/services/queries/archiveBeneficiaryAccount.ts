@@ -1,16 +1,22 @@
-import { UpdateBeneficiaryAccountInput } from './../../types/graphql';
+import { UsdFragment } from './fragments/usd';
 import { useMutation } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 
 import { Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
-type Parameters = { accountId: string; input?: UpdateBeneficiaryAccountInput };
+type Parameters = { accountId: string };
 type Hook = UseApiMutationWithParams<'archiveBeneficiaryAccount', Parameters>;
 
 const archiveBeneficiaryAccountMutation = gql`
-  mutation archiveBeneficiaryAccount($accountId: ID!, $input: UpdateBeneficiaryAccountInput) {
-    archiveBeneficiaryAccount(accountId: $accountId, input: $input)
+  ${UsdFragment}
+  mutation archiveBeneficiaryAccount($accountId: ID!) {
+    archiveBeneficiaryAccount(accountId: $accountId) {
+      archived
+      parentAccountUpdatedValue {
+        ...UsdFragment
+      }
+    }
   }
 `;
 
