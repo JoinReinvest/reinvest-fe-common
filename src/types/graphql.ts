@@ -789,7 +789,7 @@ export type Mutation = {
   updateCompanyForVerification?: Maybe<Scalars['Boolean']>;
   /** [MOCK] Update corporate account */
   updateCorporateAccount?: Maybe<CorporateAccount>;
-  /** [MOCK] It updates email address in the Cognito and in the REINVEST system */
+  /** [MOCK] It reads new verified email from cognito and update it in the REINVEST database */
   updateEmailAddress?: Maybe<Scalars['Boolean']>;
   /** Update individual account */
   updateIndividualAccount?: Maybe<IndividualAccount>;
@@ -1047,11 +1047,6 @@ export type MutationUpdateCompanyForVerificationArgs = {
 export type MutationUpdateCorporateAccountArgs = {
   accountId: Scalars['ID'];
   input?: InputMaybe<UpdateCompanyAccountInput>;
-};
-
-
-export type MutationUpdateEmailAddressArgs = {
-  email?: InputMaybe<Scalars['EmailAddress']>;
 };
 
 
