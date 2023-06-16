@@ -2,7 +2,7 @@ import { gql } from "graphql-request";
 
 export const InvestmentOverviewFragment = gql`
   fragment InvestmentOverviewFragment on InvestmentOverview {
-    id,
+    id
   	tradeId
     createdAt
     amount {
