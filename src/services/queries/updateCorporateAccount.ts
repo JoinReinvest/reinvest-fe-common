@@ -1,4 +1,4 @@
-import { MutationUpdateCorporateAccountArgs } from './../../types/graphql';
+import { MutationUpdateCorporateAccountArgs } from '../../types/graphql';
 import { useMutation } from '@tanstack/react-query';
 import { gql } from 'graphql-request';
 
