@@ -1,14 +1,9 @@
 import { gql } from 'graphql-request';
 import { UsdFragment } from './usd';
-import { GracePeriodInvestmentFragment } from './gracePeriodInvestment';
 
 export const FundsWithdrawalSimulationFragment = gql`
-   ${UsdFragment}
-   ${GracePeriodInvestmentFragment}
+  ${UsdFragment}
   fragment FundsWithdrawalSimulationFragment on FundsWithdrawalSimulation {
-    gracePeriodInvestments {
-      ...GracePeriodInvestmentFragment
-    }
     canWithdraw
     eligibleForWithdrawal {
       ...UsdFragment

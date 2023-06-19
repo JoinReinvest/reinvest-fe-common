@@ -497,6 +497,7 @@ export type FundsWithdrawalRequest = {
   decisionDate?: Maybe<Scalars['ISODateTime']>;
   decisionMessage?: Maybe<Scalars['String']>;
   eligibleForWithdrawal: Usd;
+  investorWithdrawalReason?: Maybe<Scalars['String']>;
   penaltiesFee: Usd;
   status: FundsWithdrawalRequestStatus;
 };
@@ -514,7 +515,6 @@ export type FundsWithdrawalSimulation = {
   accountValue: Usd;
   canWithdraw: Scalars['Boolean'];
   eligibleForWithdrawal: Usd;
-  gracePeriodInvestments: Array<Maybe<GracePeriodInvestment>>;
   penaltiesFee: Usd;
 };
 
@@ -531,13 +531,6 @@ export type GetDocumentLink = {
   __typename?: 'GetDocumentLink';
   id?: Maybe<Scalars['ID']>;
   url?: Maybe<Scalars['String']>;
-};
-
-export type GracePeriodInvestment = {
-  __typename?: 'GracePeriodInvestment';
-  amount: Usd;
-  gracePeriodEnd: Scalars['ISODate'];
-  investmentId: Scalars['ID'];
 };
 
 export type GreenCardInput = {
@@ -657,7 +650,7 @@ export type Mutation = {
   /** It aborts the investment that haven't been started yet (by startInvestment mutation). */
   abortInvestment: Scalars['Boolean'];
   /**
-   * [MOCK] Approves the fees for the specific investment.
+   * Approves the fees for the specific investment.
    * In case if extra fee is required for recurring investment and the investment was started automatically by the system, then
    * use this method to approve the fees (it will ask for that on verification step triggered from the notification).
    */
@@ -789,13 +782,13 @@ export type Mutation = {
    * The bank account will not be activated until the investor fulfills the bank account.
    */
   updateBankAccount?: Maybe<BankAccountLink>;
-  /** [MOCK] Update beneficiary account */
+  /** Update beneficiary account */
   updateBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
   /** It updates company for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition. */
   updateCompanyForVerification?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] Update corporate account */
+  /** Update corporate account */
   updateCorporateAccount?: Maybe<CorporateAccount>;
-  /** [MOCK] It reads new verified email from cognito and update it in the REINVEST database */
+  /** It reads new verified email from cognito and update it in the REINVEST database */
   updateEmailAddress?: Maybe<Scalars['Boolean']>;
   /** Update individual account */
   updateIndividualAccount?: Maybe<IndividualAccount>;
@@ -812,7 +805,7 @@ export type Mutation = {
   updateProfileForVerification?: Maybe<Scalars['Boolean']>;
   /** It updates stakeholder for verification. Provide only fields that were changed by the investor, but all required to meet the schema definition. */
   updateStakeholderForVerification?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] Update trust account */
+  /** Update trust account */
   updateTrustAccount?: Maybe<TrustAccount>;
   /**
    * It returns 'VerificationDecisions':
@@ -919,6 +912,7 @@ export type MutationCreateFundsWithdrawalAgreementArgs = {
 
 export type MutationCreateFundsWithdrawalRequestArgs = {
   accountId: Scalars['ID'];
+  investorWithdrawalReason?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1404,7 +1398,7 @@ export type Query = {
   listAccountDrafts?: Maybe<Array<Maybe<DraftAccount>>>;
   /** Returns list of account types that user can open */
   listAccountTypesUserCanOpen?: Maybe<Array<Maybe<AccountType>>>;
-  /** [MOCK] List all dividends */
+  /** List all dividends */
   listDividends: DividendsList;
   /** [MOCK] List of all investments history */
   listInvestments: Array<Maybe<InvestmentOverview>>;
@@ -1412,7 +1406,7 @@ export type Query = {
   phoneCompleted?: Maybe<Scalars['Boolean']>;
   /** Returns basic bank account information. */
   readBankAccount?: Maybe<BankAccount>;
-  /** [MOCK] Simulate funds withdrawal. It returns the simulation of withdrawal without any changes in the system. */
+  /** Simulate funds withdrawal. It returns the simulation of withdrawal without any changes in the system. */
   simulateFundsWithdrawal: FundsWithdrawalSimulation;
   /** Returns invitation link with a valid referral code (incentive token) */
   userInvitationLink?: Maybe<UserInvitationLink>;
