@@ -16,8 +16,8 @@ export const getFundsWithdrawalAgreementQuery = gql`
   }
 `;
 
-export const useGetFundsWithdrawalAgreementQuery: Hook = (getApiClient, { accountId, config }) => useQuery<Query["getFundsWithdrawalAgreement"]>({
-  queryKey: ["getFundsWithdrawalRequest", accountId],
+export const useGetFundsWithdrawalAgreement: Hook = (getApiClient, { accountId, config }) => useQuery<Query["getFundsWithdrawalAgreement"]>({
+  queryKey: ["getFundsWithdrawalAgreement", accountId],
   queryFn: async () => {
     const api = await getApiClient();
 
