@@ -43,5 +43,6 @@ export const useGetNotifications: Hook = (getApiClient, { accountId, filter, pag
     }
     return isNextPage ? allPages.length : undefined
   },
+  enabled: !!accountId,
   ...config,
 })
