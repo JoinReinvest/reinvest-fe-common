@@ -5,7 +5,7 @@ import { Query, QueryGetAccountStatsArgs } from '../../types/graphql';
 import { UseApiQueryWithParams } from './interfaces';
 import { AccountStatsFragment } from './fragments/account-stats';
 
-type Parameters = QueryGetAccountStatsArgs & { config?: UseQueryOptions }
+type Parameters = QueryGetAccountStatsArgs & { config?: UseQueryOptions };
 type Hook = UseApiQueryWithParams<'getAccountStats', Parameters>;
 
 export const getAccountStatsQuery = gql`
@@ -18,19 +18,21 @@ export const getAccountStatsQuery = gql`
   }
 `;
 
-export const useGetAccountStats: Hook = (getApiClient, { accountId, ...config }) => useQuery({
-  queryKey: ["getAccountStats", accountId],
-  queryFn: async () => {
-    const api = await getApiClient();
+export const useGetAccountStats: Hook = (getApiClient, { accountId, ...config }) =>
+  useQuery({
+    queryKey: ['getAccountStats', accountId],
+    queryFn: async () => {
+      const api = await getApiClient();
 
-    if (!api) {
-      return null;
-    }
+      if (!api) {
+        return null;
+      }
 
-    const { getAccountStats } = await api.request<Query>(getAccountStatsQuery, { accountId });
+      const { getAccountStats } = await api.request<Query>(getAccountStatsQuery, { accountId });
 
-    return getAccountStats;
-  },
-  enabled: !!accountId,
-  ...config
-});
+      return getAccountStats;
+    },
+    enabled: !!accountId,
+    refetchInterval: 15000,
+    ...config,
+  });
