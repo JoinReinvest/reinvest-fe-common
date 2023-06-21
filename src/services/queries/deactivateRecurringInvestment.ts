@@ -1,8 +1,7 @@
-import { MutationDeactivateRecurringInvestmentArgs } from './../../types/graphql';
+import { MutationDeactivateRecurringInvestmentArgs, Mutation } from './../../types/graphql';
 import { useMutation } from '@tanstack/react-query';
 import { gql, GraphQLClient } from 'graphql-request';
 
-import { Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 
 type Hook = UseApiMutationWithParams<'deactivateRecurringInvestment', MutationDeactivateRecurringInvestmentArgs>;
