@@ -7,6 +7,7 @@ export const AccountsFragment = gql`
     id
     type
     label
+    isBanned
     avatar {
       ...AvatarFragment
     }

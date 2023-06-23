@@ -36,6 +36,7 @@ export type AccountOverview = {
   __typename?: 'AccountOverview';
   avatar?: Maybe<GetAvatarLink>;
   id?: Maybe<Scalars['ID']>;
+  isBanned?: Maybe<Scalars['Boolean']>;
   label?: Maybe<Scalars['String']>;
   type?: Maybe<AccountType>;
 };
@@ -645,7 +646,7 @@ export type Location = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  /** [MOCK] It aborts the funds withdrawal request if it is not yet approved or rejected */
+  /** It aborts the funds withdrawal request if it is not yet approved or rejected */
   abortFundsWithdrawalRequest: Scalars['Boolean'];
   /** It aborts the investment that haven't been started yet (by startInvestment mutation). */
   abortInvestment: Scalars['Boolean'];
@@ -697,9 +698,9 @@ export type Mutation = {
    * You can have only one draft account created of a specific type in the same time.
    */
   createDraftAccount?: Maybe<DraftAccount>;
-  /** [MOCK] It creates the funds withdrawal agreement. */
+  /** It creates the funds withdrawal agreement. */
   createFundsWithdrawalAgreement: FundsWithdrawalAgreement;
-  /** [MOCK] Create funds withdrawal request. It is just a DRAFT. You need to sign the agreement and then request the withdrawal. */
+  /** Create funds withdrawal request. It is just a DRAFT. You need to sign the agreement and then request the withdrawal. */
   createFundsWithdrawalRequest: FundsWithdrawalRequest;
   /**
    * It creates new investment and returns its ID.
@@ -750,9 +751,9 @@ export type Mutation = {
    * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
    */
   removeDraftAccount?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] It requests the funds withdrawal. The investor must sign the agreement first. */
+  /** It requests the funds withdrawal. The investor must sign the agreement first. */
   requestFundsWithdrawal: FundsWithdrawalRequest;
-  /** [MOCK] Set automatic dividend reinvestment agreement */
+  /** Set automatic dividend reinvestment agreement */
   setAutomaticDividendReinvestmentAgreement: Scalars['Boolean'];
   /**
    * Add phone number. The system will send the verification code to the provided phone number via sms.
@@ -762,7 +763,7 @@ export type Mutation = {
    * On default isSmsAllowed is true.
    */
   setPhoneNumber?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] It signs the agreement of funds withdrawal. */
+  /** It signs the agreement of funds withdrawal. */
   signFundsWithdrawalAgreement: FundsWithdrawalAgreement;
   /** It signs the recurring investment subscription agreement. */
   signRecurringInvestmentSubscriptionAgreement: Scalars['Boolean'];
@@ -837,7 +838,7 @@ export type Mutation = {
    * This action will set the phone number in the user Cognito profile and allow to use 2FA with phone number
    */
   verifyPhoneNumber?: Maybe<Scalars['Boolean']>;
-  /** [MOCK] Withdraw dividend - you can withdraw many dividends in the same time. If one of them is not withdrawable, then all of them will be rejected. */
+  /** Withdraw dividend - you can withdraw many dividends in the same time. If one of them is not withdrawable, then all of them will be rejected. */
   withdrawDividend: Scalars['Boolean'];
 };
 
@@ -1129,6 +1130,7 @@ export type NotificationObject = {
 };
 
 export enum NotificationObjectType {
+  Account = 'ACCOUNT',
   Dividend = 'DIVIDEND',
   Investment = 'INVESTMENT'
 }
@@ -1336,9 +1338,9 @@ export type Query = {
    * DB: Type, uniqueKey, contentFields, dateCreated, profileId, accountId (can be null)
    */
   getAccountActivity: Array<Maybe<AccountActivity>>;
-  /** [MOCK] Return account configuration */
+  /** Return account configuration */
   getAccountConfiguration?: Maybe<AccountConfiguration>;
-  /** [MOCK] Get account stats */
+  /** Get account stats */
   getAccountStats?: Maybe<AccountStats>;
   /** Return all accounts overview */
   getAccountsOverview?: Maybe<Array<Maybe<AccountOverview>>>;
@@ -1355,11 +1357,11 @@ export type Query = {
   getDocument?: Maybe<GetDocumentLink>;
   /** It returns the created draft recurring investment summary. */
   getDraftRecurringInvestment?: Maybe<RecurringInvestment>;
-  /** [MOCK] Get EVS chart data for an account by resolution */
+  /** Get EVS chart data for an account by resolution */
   getEVSChart?: Maybe<EvsChart>;
-  /** [MOCK] Get funds withdrawal agreement */
+  /** Get funds withdrawal agreement */
   getFundsWithdrawalAgreement?: Maybe<FundsWithdrawalAgreement>;
-  /** [MOCK] Get funds withdrawal request. It returns the current status of funds withdrawal request. */
+  /** Get funds withdrawal request. It returns the current status of funds withdrawal request. */
   getFundsWithdrawalRequest?: Maybe<FundsWithdrawalRequest>;
   /** Returns individual account information */
   getIndividualAccount?: Maybe<IndividualAccount>;
@@ -1400,7 +1402,7 @@ export type Query = {
   listAccountTypesUserCanOpen?: Maybe<Array<Maybe<AccountType>>>;
   /** List all dividends */
   listDividends: DividendsList;
-  /** [MOCK] List of all investments history */
+  /** List of all investments history */
   listInvestments: Array<Maybe<InvestmentOverview>>;
   /** Returns information if user already assigned and verified phone number */
   phoneCompleted?: Maybe<Scalars['Boolean']>;
