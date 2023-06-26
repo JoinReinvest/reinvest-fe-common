@@ -37,5 +37,6 @@ export const useGetBeneficiaryAccount: Hook = (getApiClient, { accountId, config
 
     return getBeneficiaryAccount;
   },
+  cacheTime: 0,
   ...config
 });
