@@ -658,7 +658,7 @@ export type Mutation = {
   approveFees: Scalars['Boolean'];
   /** [MOCK] Archive beneficiary account - it moves investments from a beneficiary to the individual account */
   archiveBeneficiaryAccount: ArchivedBeneficiaryStatus;
-  /** [MOCK] It cancels the investment that is in Funding or Funded state, but the Grace period has not been passed away yet */
+  /** It cancels the investment that is in Funding or Funded state, but the Grace period has not been passed away yet */
   cancelInvestment: Scalars['Boolean'];
   /** Complete corporate draft account */
   completeCorporateDraftAccount?: Maybe<CorporateDraftAccount>;
@@ -744,6 +744,8 @@ export type Mutation = {
   openAccount?: Maybe<Scalars['Boolean']>;
   /** Open beneficiary account */
   openBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
+  /** [MOCK] Register device for Firebase push notifications */
+  registerPushNotificationDevice: Scalars['Boolean'];
   /** Reinvest dividend - you can reinvest many dividends in the same time. If one of them is not reinvestable, then all of them will be rejected. */
   reinvestDividend: Scalars['Boolean'];
   /**
@@ -969,6 +971,13 @@ export type MutationOpenAccountArgs = {
 export type MutationOpenBeneficiaryAccountArgs = {
   individualAccountId: Scalars['ID'];
   input: CreateBeneficiaryInput;
+};
+
+
+export type MutationRegisterPushNotificationDeviceArgs = {
+  deviceId: Scalars['String'];
+  deviceToken: Scalars['String'];
+  expirationDate?: InputMaybe<Scalars['ISODateTime']>;
 };
 
 
