@@ -14,8 +14,8 @@ const updateIndividualAccountMutation = gql`
   ${AvatarFragment}
   ${EmployerFragment}
   ${NetRangeFragment}
-  updateIndividualAccount($accountId:ID!, $input:IndividualAccountInput) {
-    updateIndividualAccount(accountId:$accountId, input:$input) {
+  mutation updateIndividualAccount($accountId: ID!, $input: IndividualAccountInput) {
+    updateIndividualAccount(accountId: $accountId, input: $input) {
       id
       avatar {
         ...AvatarFragment
