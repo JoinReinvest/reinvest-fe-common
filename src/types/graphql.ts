@@ -976,8 +976,6 @@ export type MutationOpenBeneficiaryAccountArgs = {
 
 export type MutationRegisterPushNotificationDeviceArgs = {
   deviceId: Scalars['String'];
-  deviceToken: Scalars['String'];
-  expirationDate?: InputMaybe<Scalars['ISODateTime']>;
 };
 
 

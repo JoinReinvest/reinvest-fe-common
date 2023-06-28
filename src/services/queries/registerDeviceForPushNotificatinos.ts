@@ -7,8 +7,8 @@ import { UseApiMutationWithParams } from './interfaces';
 type Hook = UseApiMutationWithParams<'registerPushNotificationDevice', MutationRegisterPushNotificationDeviceArgs>;
 
 const registerPushNotificationDevicesMutation = gql`
-  mutation registerPushNotificationDevice($deviceId: String!, $deviceToken: String!, $expirationDate: ISODateTime) {
-    registerPushNotificationDevice(deviceId: $deviceId, deviceToken: $deviceToken, expirationDate: $expirationDate)
+  mutation registerPushNotificationDevice($deviceId: String!) {
+    registerPushNotificationDevice(deviceId: $deviceId)
   }
 `;
 
