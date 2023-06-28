@@ -5,13 +5,18 @@ import { gql } from 'graphql-request';
 import { Mutation } from '../../types/graphql';
 import { UseApiMutationWithParams } from './interfaces';
 import { CorporateAccountDetailsFragment } from './fragments/corporateAccountDetails';
+import { AvatarFragment } from './fragments/avatar';
 
 type Hook = UseApiMutationWithParams<'updateCorporateAccount', MutationUpdateCorporateAccountArgs>;
 
 const updateCorporateAccountMutation = gql`
+  ${AvatarFragment}
   ${CorporateAccountDetailsFragment}
   mutation updateCorporateAccount($accountId: ID!, $input: UpdateCompanyAccountInput) {
     updateCorporateAccount(accountId: $accountId, input: $input) {
+      avatar {
+        ...AvatarFragment
+      }
       details {
         ...CorporateAccountDetailsFragment
       }
