@@ -46,8 +46,9 @@ export function formatDateForNotification(dateFromApi: string) {
 
   if (matchessWeek) {
     const daysAgo = today.diff(date, 'day');
+    const isNoLessThanDay = daysAgo >= 1;
 
-    return `${daysAgo}d`;
+    return isNoLessThanDay ? `${daysAgo}d` : 'Today';
   }
 
   const matchesYear = today.isSame(date, 'year');
