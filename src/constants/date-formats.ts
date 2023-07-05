@@ -3,6 +3,7 @@ export type DateFormatKeys = keyof typeof DateFormats;
 export enum DateFormats {
   DEFAULT = 'MM/DD/YYYY',
   API = 'YYYY-MM-DD',
+  API_TZ = 'YYYY-MM-DDTHH:mm:ss',
   INVESTMENT = 'MMMM D, YYYY',
   INVESTMENT_SUMMARY = 'MMM D, YYYY',
   INVESTMENT_RECURRENT = 'dddd, MMM D',
