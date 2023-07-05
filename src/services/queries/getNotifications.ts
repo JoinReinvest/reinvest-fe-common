@@ -7,7 +7,8 @@ import { NotificationFragment, NotificationStatsFragment } from './fragments/not
 type Parameters = QueryGetNotificationsArgs & { config?: UseQueryOptions };
 type Hook = UseInfiniteApiQueryWithParams<'getNotificationStats', Parameters>;
 
-const DEFAULT_NOTIFICATIONS_PER_PAGE = 10
+const REFETCH_INTERVAL = 10000;
+const DEFAULT_NOTIFICATIONS_PER_PAGE = 10;
 
 export const getNotifications = gql`
   ${NotificationFragment}
@@ -44,5 +45,6 @@ export const useGetNotifications: Hook = (getApiClient, { accountId, filter, pag
     return isNextPage ? allPages.length : undefined
   },
   enabled: !!accountId,
+  refetchInterval: REFETCH_INTERVAL,
   ...config,
 })
