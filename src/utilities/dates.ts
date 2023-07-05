@@ -16,6 +16,12 @@ export function formatDate(date: Date | string, format: DateFormatKeys, options?
   const expectedFormat = DateFormats[format];
 
   if (typeof date === 'string' && options?.currentFormat) {
+    if (options?.currentFormat === 'API_TZ') {
+      const dateWithTimezone = addTimezoneSymbol(date);
+
+      return dayjs(dateWithTimezone).format(expectedFormat);
+    }
+
     const currentFormat = DateFormats[options.currentFormat];
 
     return dayjs(date, currentFormat).format(expectedFormat);
@@ -25,7 +31,7 @@ export function formatDate(date: Date | string, format: DateFormatKeys, options?
 };
 
 export const isDateFromApi = (date: Date | string): boolean => {
-  return dayjs(date, DateFormats.API, true).isValid();
+  return dayjs(date, [DateFormats.API, DateFormats.API_TZ], true).isValid();
 };
 
 export const isToday = (date: Date | Dayjs) => {
@@ -34,7 +40,7 @@ export const isToday = (date: Date | Dayjs) => {
 
 export function formatDateForNotification(dateFromApi: string) {
   const today = dayjs();
-  const date = dayjs(dateFromApi, DateFormats.API);
+  const date = dayjs(addTimezoneSymbol(dateFromApi));
 
   const matchesToday = isToday(date);
 
@@ -58,4 +64,8 @@ export function formatDateForNotification(dateFromApi: string) {
   }
 
   return date.format(NotificationsDateFormats.PREVIOUS_YEAR);
+}
+
+function addTimezoneSymbol(date: string) {
+  return date.endsWith('Z') ? date : [date, 'Z'].join('');
 }
