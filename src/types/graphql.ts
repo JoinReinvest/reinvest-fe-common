@@ -24,7 +24,15 @@ export type Scalars = {
 export type AccountActivity = {
   __typename?: 'AccountActivity';
   activityName: Scalars['String'];
+  /** Only some activities can have extra data. For most of them there is no extra data */
+  data?: Maybe<AccountActivityData>;
   date: Scalars['ISODate'];
+};
+
+export type AccountActivityData = {
+  __typename?: 'AccountActivityData';
+  origin?: Maybe<Scalars['String']>;
+  tradeId?: Maybe<Scalars['String']>;
 };
 
 export type AccountConfiguration = {
@@ -602,14 +610,18 @@ export type InvestmentOverview = {
   amount: Usd;
   createdAt: Scalars['ISODateTime'];
   id: Scalars['ID'];
+  status: InvestmentStatus;
   tradeId: Scalars['String'];
 };
 
 export enum InvestmentStatus {
+  Canceled = 'CANCELED',
+  Canceling = 'CANCELING',
   Failed = 'FAILED',
   Finished = 'FINISHED',
   Funded = 'FUNDED',
   InProgress = 'IN_PROGRESS',
+  Transferred = 'TRANSFERRED',
   WaitingForFeesApproval = 'WAITING_FOR_FEES_APPROVAL',
   WaitingForInvestmentStart = 'WAITING_FOR_INVESTMENT_START',
   WaitingForSubscriptionAgreement = 'WAITING_FOR_SUBSCRIPTION_AGREEMENT'
@@ -744,7 +756,7 @@ export type Mutation = {
   openAccount?: Maybe<Scalars['Boolean']>;
   /** Open beneficiary account */
   openBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
-  /** [MOCK] Register device for Firebase push notifications */
+  /** Register device for Firebase push notifications */
   registerPushNotificationDevice: Scalars['Boolean'];
   /** Reinvest dividend - you can reinvest many dividends in the same time. If one of them is not reinvestable, then all of them will be rejected. */
   reinvestDividend: Scalars['Boolean'];
@@ -753,6 +765,7 @@ export type Mutation = {
    * IMPORTANT: it removes all uploaded avatar and documents from s3 for this draft account
    */
   removeDraftAccount?: Maybe<Scalars['Boolean']>;
+  renderPageToPdf?: Maybe<Scalars['ID']>;
   /** It requests the funds withdrawal. The investor must sign the agreement first. */
   requestFundsWithdrawal: FundsWithdrawalRequest;
   /** Set automatic dividend reinvestment agreement */
@@ -987,6 +1000,12 @@ export type MutationReinvestDividendArgs = {
 
 export type MutationRemoveDraftAccountArgs = {
   draftAccountId?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type MutationRenderPageToPdfArgs = {
+  link?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1314,36 +1333,7 @@ export type PutFileLink = {
 
 export type Query = {
   __typename?: 'Query';
-  /**
-   * [MOCK] Get account activities
-   * Activities Types:
-   * - PROFILE_CREATED
-   * - INDIVIDUAL/CORPORATE/TRUST/BENEFICIARY_ACCOUNT_CREATED
-   * - INDIVIDUAL/CORPORATE/TRUST/BENEFICIARY_ACCOUNT_UPDATED
-   * - INVESTMENT_CREATED
-   * - INVESTMENT_FAILED
-   * - INVESTMENT_CANCELED
-   * - INVESTMENT_FINISHED
-   * - FUNDS_WITHDRAWAL_CREATED
-   * - FUNDS_WITHDREW
-   * - BENEFICIARY_ACCOUNT_ARCHIVED
-   * - SHARES_ISSUED
-   * - DIVIDEND_RECEIVED
-   * - REFERRAL_REWARD_RECEIVED
-   * - EMAIL_UPDATED
-   * - DIVIDEND_REINVESTED
-   * - DIVIDEND_WITHDREW
-   * - ACCOUNT_BANNED
-   * - PROFILE_BANNED
-   * - ACCOUNT_UNBANNED
-   * - PROFILE_UNBANNED
-   * - RECURRING_INVESTMENT_CREATED
-   * - RECURRING_INVESTMENT_SUSPENDED
-   * - RECURRING_INVESTMENT_ARCHIVED
-   * - VERIFICATION_FAILED
-   *
-   * DB: Type, uniqueKey, contentFields, dateCreated, profileId, accountId (can be null)
-   */
+  /** Get account activities */
   getAccountActivity: Array<Maybe<AccountActivity>>;
   /** Return account configuration */
   getAccountConfiguration?: Maybe<AccountConfiguration>;
@@ -1389,10 +1379,11 @@ export type Query = {
    * It sort notifications by date descending. Not dismissible (pinned) notifications are always first.
    */
   getNotifications: Array<Maybe<Notification>>;
-  /** [MOCK] returns all information about properties in the portfolio */
+  /** Returns all information about properties in the portfolio */
   getPortfolioDetails?: Maybe<PortfolioDetails>;
   /** Get user profile */
   getProfile?: Maybe<Profile>;
+  getRenderedPageLink?: Maybe<GetDocumentLink>;
   /** Returns the simulation of the recurring investment schedule. */
   getScheduleSimulation: Array<Scalars['ISODate']>;
   /** It returns the subscription agreement. */
@@ -1411,6 +1402,7 @@ export type Query = {
   listDividends: DividendsList;
   /** List of all investments history */
   listInvestments: Array<Maybe<InvestmentOverview>>;
+  listRenderedPages?: Maybe<Array<Maybe<RenderedPage>>>;
   /** Returns information if user already assigned and verified phone number */
   phoneCompleted?: Maybe<Scalars['Boolean']>;
   /** Returns basic bank account information. */
@@ -1511,6 +1503,11 @@ export type QueryGetNotificationsArgs = {
 };
 
 
+export type QueryGetRenderedPageLinkArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryGetScheduleSimulationArgs = {
   schedule: RecurringInvestmentScheduleInput;
 };
@@ -1538,6 +1535,11 @@ export type QueryListDividendsArgs = {
 
 export type QueryListInvestmentsArgs = {
   accountId: Scalars['ID'];
+  pagination?: InputMaybe<Pagination>;
+};
+
+
+export type QueryListRenderedPagesArgs = {
   pagination?: InputMaybe<Pagination>;
 };
 
@@ -1586,6 +1588,16 @@ export enum RecurringInvestmentStatus {
   Suspended = 'SUSPENDED',
   WaitingForSigningSubscriptionAgreement = 'WAITING_FOR_SIGNING_SUBSCRIPTION_AGREEMENT'
 }
+
+export type RenderedPage = {
+  __typename?: 'RenderedPage';
+  dateCreated?: Maybe<Scalars['String']>;
+  dateGenerated?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  /** source url */
+  url?: Maybe<Scalars['String']>;
+};
 
 export type SsnInput = {
   /** The valid SSN is 9 digits in format 'XXX-XX-XXXX' */
