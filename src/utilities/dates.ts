@@ -48,13 +48,14 @@ export function formatDateForNotification(dateFromApi: string) {
     return 'Today';
   }
 
-  const matchessWeek = today.isSame(date, 'week');
+  const matchesWeek = today.isSame(date, 'week');
 
-  if (matchessWeek) {
+  if (matchesWeek) {
+    const isSameDayThreshold = today.get('day') === date.get('day');
     const daysAgo = today.diff(date, 'day');
-    const isNoLessThanDay = daysAgo >= 1;
+    const daysDiff = !isSameDayThreshold && daysAgo === 0 ? 1 : daysAgo;
 
-    return isNoLessThanDay ? `${daysAgo}d` : 'Today';
+    return daysDiff !== 0 ? `${daysDiff}d` : 'Today';
   }
 
   const matchesYear = today.isSame(date, 'year');
