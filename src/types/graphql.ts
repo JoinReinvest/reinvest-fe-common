@@ -324,9 +324,9 @@ export type DividendOverview = {
 
 export enum DividendState {
   PaidOut = 'PAID_OUT',
+  PayingOut = 'PAYING_OUT',
   Pending = 'PENDING',
-  Reinvested = 'REINVESTED',
-  Withdrawing = 'WITHDRAWING'
+  Reinvested = 'REINVESTED'
 }
 
 export type DividendsList = {
@@ -621,6 +621,8 @@ export enum InvestmentStatus {
   Finished = 'FINISHED',
   Funded = 'FUNDED',
   InProgress = 'IN_PROGRESS',
+  Reverted = 'REVERTED',
+  Settling = 'SETTLING',
   Transferred = 'TRANSFERRED',
   WaitingForFeesApproval = 'WAITING_FOR_FEES_APPROVAL',
   WaitingForInvestmentStart = 'WAITING_FOR_INVESTMENT_START',
@@ -1158,7 +1160,8 @@ export type NotificationObject = {
 export enum NotificationObjectType {
   Account = 'ACCOUNT',
   Dividend = 'DIVIDEND',
-  Investment = 'INVESTMENT'
+  Investment = 'INVESTMENT',
+  RecurringInvestment = 'RECURRING_INVESTMENT'
 }
 
 export enum NotificationType {
@@ -1166,6 +1169,7 @@ export enum NotificationType {
   DividendReceived = 'DIVIDEND_RECEIVED',
   DividendReinvested = 'DIVIDEND_REINVESTED',
   DividendReinvestedAutomatically = 'DIVIDEND_REINVESTED_AUTOMATICALLY',
+  FeesApprovalRequired = 'FEES_APPROVAL_REQUIRED',
   FundsWithdrawalAccepted = 'FUNDS_WITHDRAWAL_ACCEPTED',
   FundsWithdrawalRejected = 'FUNDS_WITHDRAWAL_REJECTED',
   GenericNotification = 'GENERIC_NOTIFICATION',
