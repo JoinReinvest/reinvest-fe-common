@@ -1124,6 +1124,11 @@ export type MutationWithdrawDividendArgs = {
   dividendIds?: InputMaybe<Array<Scalars['ID']>>;
 };
 
+export type Nav = {
+  __typename?: 'Nav';
+  unitPrice?: Maybe<Usd>;
+};
+
 export type NetRange = {
   __typename?: 'NetRange';
   range?: Maybe<Scalars['String']>;
@@ -1233,11 +1238,28 @@ export type PoliticianStatementInput = {
   description: Scalars['String'];
 };
 
+export type PortfolioAuthor = {
+  __typename?: 'PortfolioAuthor';
+  avatar?: Maybe<GetDocumentLink>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
 export type PortfolioDetails = {
   __typename?: 'PortfolioDetails';
+  currentNav?: Maybe<Nav>;
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   properties?: Maybe<Array<Maybe<Property>>>;
+};
+
+export type PortfolioUpdate = {
+  __typename?: 'PortfolioUpdate';
+  author?: Maybe<PortfolioAuthor>;
+  body?: Maybe<Scalars['String']>;
+  createdAt: Scalars['ISODateTime'];
+  image?: Maybe<GetDocumentLink>;
+  title: Scalars['String'];
 };
 
 export type PrivacyPolicyInput = {
@@ -1347,6 +1369,8 @@ export type Query = {
   getAccountsOverview?: Maybe<Array<Maybe<AccountOverview>>>;
   /** It returns the current recurring investment summary. */
   getActiveRecurringInvestment?: Maybe<RecurringInvestment>;
+  /** Returns all portfolio updates */
+  getAllPortfolioUpdates?: Maybe<Array<Maybe<PortfolioUpdate>>>;
   /** Returns beneficiary account information */
   getBeneficiaryAccount?: Maybe<BeneficiaryAccount>;
   /** Returns corporate account information */
