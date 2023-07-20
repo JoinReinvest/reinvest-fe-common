@@ -1240,7 +1240,7 @@ export type PoliticianStatementInput = {
 
 export type PortfolioAuthor = {
   __typename?: 'PortfolioAuthor';
-  avatar?: Maybe<GetDocumentLink>;
+  avatar?: Maybe<GetAvatarLink>;
   id: Scalars['ID'];
   name: Scalars['String'];
 };
