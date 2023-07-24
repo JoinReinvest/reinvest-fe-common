@@ -331,7 +331,7 @@ export enum DividendState {
 
 export type DividendsList = {
   __typename?: 'DividendsList';
-  dividendsList: Array<Maybe<DividendOverview>>;
+  dividendsList?: Maybe<Array<Maybe<DividendOverview>>>;
 };
 
 /** Link id */
@@ -502,6 +502,7 @@ export type FundsWithdrawalAgreement = {
 export type FundsWithdrawalRequest = {
   __typename?: 'FundsWithdrawalRequest';
   accountValue: Usd;
+  agreementId?: Maybe<Scalars['ID']>;
   createdDate: Scalars['ISODateTime'];
   decisionDate?: Maybe<Scalars['ISODateTime']>;
   decisionMessage?: Maybe<Scalars['String']>;
@@ -1141,7 +1142,7 @@ export type NetRangeInput = {
 export type Notification = {
   __typename?: 'Notification';
   accountId?: Maybe<Scalars['String']>;
-  body: Scalars['String'];
+  body?: Maybe<Scalars['String']>;
   date: Scalars['ISODateTime'];
   header: Scalars['String'];
   id: Scalars['ID'];
@@ -1359,6 +1360,8 @@ export type PutFileLink = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Get encrypted profileId */
+  encrypt?: Maybe<Scalars['String']>;
   /** Get account activities */
   getAccountActivity: Array<Maybe<AccountActivity>>;
   /** Return account configuration */
@@ -1422,12 +1425,13 @@ export type Query = {
   getTrustDraftAccount?: Maybe<TrustDraftAccount>;
   /**  Just say hello  */
   hello?: Maybe<Scalars['Boolean']>;
+  ip?: Maybe<Scalars['String']>;
   /** List all existing draft accounts if you need come back to onboarding */
   listAccountDrafts?: Maybe<Array<Maybe<DraftAccount>>>;
   /** Returns list of account types that user can open */
   listAccountTypesUserCanOpen?: Maybe<Array<Maybe<AccountType>>>;
   /** List all dividends */
-  listDividends: DividendsList;
+  listDividends?: Maybe<DividendsList>;
   /** List of all investments history */
   listInvestments: Array<Maybe<InvestmentOverview>>;
   listRenderedPages?: Maybe<Array<Maybe<RenderedPage>>>;
