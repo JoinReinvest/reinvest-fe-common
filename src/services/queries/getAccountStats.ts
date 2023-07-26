@@ -33,6 +33,5 @@ export const useGetAccountStats: Hook = (getApiClient, { accountId, ...config })
       return getAccountStats;
     },
     enabled: !!accountId,
-    refetchInterval: 15000,
     ...config,
   });
