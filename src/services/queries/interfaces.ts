@@ -27,23 +27,24 @@ export interface ErrorResponse {
 
 export type GetApiClient = () => Promise<GraphQLClient | undefined>;
 
-type QueryConfig = Partial<{ config: Pick<QueryObserverOptions, 'enabled' | 'staleTime'> }>
+type QueryConfig<QueryKey extends keyof Query> = Partial<{ config: Pick<QueryObserverOptions<Query[QueryKey]>, 'enabled' | 'staleTime' | 'refetchInterval'> }>
 
 export type UseApiQueryWithParams<QueryKey extends keyof Query, QueryParameters> = (
   getClient: GetApiClient,
-  parameters: QueryParameters & QueryConfig,
+  parameters: QueryParameters & QueryConfig<QueryKey>,
 ) => UseQueryResult<Query[QueryKey]>;
+
 export type UseApiQuery<QueryKey extends keyof Query> = (getClient: GetApiClient) => UseQueryResult<Query[QueryKey]>;
 
 export type UseApiMutationWithParams<MutationKey extends keyof Mutation, MutationParameters> = (
   getClient: GetApiClient,
 ) => UseMutationResult<Mutation[MutationKey], ErrorResponse, MutationParameters>;
-export type UseApiMutation<MutationKey extends keyof Mutation> = (getClient: GetApiClient) => UseMutationResult<Mutation[MutationKey]>;
 
+export type UseApiMutation<MutationKey extends keyof Mutation> = (getClient: GetApiClient) => UseMutationResult<Mutation[MutationKey]>;
 
 export type UseInfiniteApiQueryWithParams<QueryKey extends keyof Query, QueryParameters> = (
   getClient: GetApiClient,
-  parameters: QueryParameters & QueryConfig,
+  parameters: QueryParameters & QueryConfig<QueryKey>,
 ) => UseInfiniteQueryResult<Query[QueryKey]>;
 
 export type UseInfiniteApiQuery<QueryKey extends keyof Query> = (getClient: GetApiClient) => UseInfiniteQueryResult<Query[QueryKey]>;

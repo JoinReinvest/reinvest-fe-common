@@ -31,6 +31,5 @@ export const useGetEVSChart: Hook = (getApiClient, { accountId, resolution, conf
 
       return getEVSChart;
     },
-    refetchInterval: 15000,
     ...config,
   });
